@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
  
 use lang\types\String;
 use xml\Tree;

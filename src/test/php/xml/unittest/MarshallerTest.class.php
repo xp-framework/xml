@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
  
 use unittest\TestCase;
 use xml\meta\Marshaller;

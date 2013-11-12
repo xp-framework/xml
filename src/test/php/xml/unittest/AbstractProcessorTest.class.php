@@ -1,11 +1,11 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
  
 /**
  * Test XSL processor
  *
  * @see    xp://xml.IXSLProcessor
  */
-class AbstractProcessorTest extends \unittest\TestCase {
+abstract class AbstractProcessorTest extends \unittest\TestCase {
   public $processor= null;
   public $xmlDeclaration= '';
     

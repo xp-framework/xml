@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
 
 use unittest\TestCase;
 use xml\parser\XMLParser;
@@ -67,16 +67,16 @@ abstract class AbstractXMLParserTest extends TestCase {
         if (empty($this->pointer)) {
           $this->tree= $e;
         } else {
-          $this->pointer[0][\net\xp_framework\unittest\xml\AbstractXMLParserTest::CHLD][]= $e;
+          $this->pointer[0][\xml\unittest\AbstractXMLParserTest::CHLD][]= $e;
         }
       }
 
       public function onCData($parser, $cdata) {
-        $this->pointer[0][\net\xp_framework\unittest\xml\AbstractXMLParserTest::CHLD][]= trim($cdata);
+        $this->pointer[0][\xml\unittest\AbstractXMLParserTest::CHLD][]= trim($cdata);
       }
 
       public function onDefault($parser, $data) {
-        $this->pointer[0][\net\xp_framework\unittest\xml\AbstractXMLParserTest::CHLD][]= trim($data);
+        $this->pointer[0][\xml\unittest\AbstractXMLParserTest::CHLD][]= trim($data);
       }
 
       public function onBegin($instance) {

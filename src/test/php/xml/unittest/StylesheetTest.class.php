@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
 
 use xml\Stylesheet;
 use util\collections\Vector;

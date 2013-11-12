@@ -1,30 +1,26 @@
-<?php
-/* This class is part of the XP framework
- *
- * $Id$ 
- */
+<?php namespace xml\parser;
 
-  uses('io.streams.InputStream');
+use io\streams\InputStream;
+
+
+/**
+ * Input source
+ *
+ * @see      xp://xml.parser.XMLParser#parse
+ */
+interface InputSource {
 
   /**
-   * Input source
+   * Get stream
    *
-   * @see      xp://xml.parser.XMLParser#parse
+   * @return  io.streams.InputStream
    */
-  interface InputSource {
+  public function getStream();
 
-    /**
-     * Get stream
-     *
-     * @return  io.streams.InputStream
-     */
-    public function getStream();
-
-    /**
-     * Get source
-     *
-     * @return  string
-     */
-    public function getSource();
-  }
-?>
+  /**
+   * Get source
+   *
+   * @return  string
+   */
+  public function getSource();
+}

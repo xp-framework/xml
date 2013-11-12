@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
  
 /**
  * ProcessorTest implementation that tests the DomXSL processor
@@ -262,7 +262,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
   
   #[@test]
   public function loadXSLFromStreamWrapper() {
-    $this->processor->setXSLFile('res://net/xp_framework/unittest/xml/include.xsl');
+    $this->processor->setXSLFile('res://xml/unittest/include.xsl');
   }
   
   #[@test, @expect('io.FileNotFoundException')]

@@ -1,16 +1,11 @@
-<?php
-/* This class is part of the XP framework
- *
- * $Id$ 
- */
+<?php namespace xml;
 
-  /**
-   * XPathExpressionException represents an error in an XPath expression.
-   *
-   * @see      xp://xml.XPath
-   * @purpose  Exception
-   */
-  class XPathException extends XPException {
-  
-  }
-?>
+/**
+ * XPathExpressionException represents an error in an XPath expression.
+ *
+ * @see      xp://xml.XPath
+ * @purpose  Exception
+ */
+class XPathException extends \lang\XPException {
+
+}

@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
  
 use unittest\TestCase;
 use xml\meta\Unmarshaller;
@@ -26,9 +26,9 @@ class UnmarshallerTest extends TestCase {
       <dialogtype id="file.open">
         <caption/>
       </dialogtype>')),
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'net.xp_framework.unittest.xml.DialogType');
+    $this->assertClass($dialog, 'xml.unittest.DialogType');
     $this->assertEquals('file.open', $dialog->getId());
   }
 
@@ -38,9 +38,9 @@ class UnmarshallerTest extends TestCase {
       <dialogtype id="">
         <caption>Open a file &gt; Choose</caption>
       </dialogtype>')),
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'net.xp_framework.unittest.xml.DialogType');
+    $this->assertClass($dialog, 'xml.unittest.DialogType');
     $this->assertEquals('Open a file > Choose', $dialog->getCaption());
   }
   
@@ -52,15 +52,15 @@ class UnmarshallerTest extends TestCase {
         <button id="ok">Yes, go ahead</button>
         <button id="cancel">No, please don\'t!</button>
       </dialogtype>')), 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'net.xp_framework.unittest.xml.DialogType');
+    $this->assertClass($dialog, 'xml.unittest.DialogType');
     $this->assertTrue($dialog->hasButtons());
     $this->assertEquals(2, $dialog->numButtons());
 
     with ($ok= $dialog->buttonAt(0), $cancel= $dialog->buttonAt(1)); {
-      $this->assertClass($ok, 'net.xp_framework.unittest.xml.ButtonType');
-      $this->assertClass($cancel, 'net.xp_framework.unittest.xml.ButtonType');
+      $this->assertClass($ok, 'xml.unittest.ButtonType');
+      $this->assertClass($cancel, 'xml.unittest.ButtonType');
       $this->assertEquals('ok', $ok->getId());
       $this->assertEquals('cancel', $cancel->getId());
       $this->assertEquals('Yes, go ahead', $ok->getCaption());
@@ -74,9 +74,9 @@ class UnmarshallerTest extends TestCase {
       <dialogtype id="">
         <flags>ON_TOP|MODAL</flags>
       </dialogtype>')), 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'net.xp_framework.unittest.xml.DialogType');
+    $this->assertClass($dialog, 'xml.unittest.DialogType');
     $this->assertEquals(array('ON_TOP', 'MODAL'), $dialog->getFlags());
   }
   
@@ -89,9 +89,9 @@ class UnmarshallerTest extends TestCase {
           <option name="height" value="100"/>
         </options>
       </dialogtype>')), 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'net.xp_framework.unittest.xml.DialogType');
+    $this->assertClass($dialog, 'xml.unittest.DialogType');
     $this->assertEquals(array(
       'width' => '100',
       'height' => '100'
@@ -102,9 +102,9 @@ class UnmarshallerTest extends TestCase {
   public function unmarshallingAnInputStream() {
     $dialog= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<dialogtype id="stream.select"/>'), 'memory'),
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'net.xp_framework.unittest.xml.DialogType');
+    $this->assertClass($dialog, 'xml.unittest.DialogType');
     $this->assertEquals('stream.select', $dialog->getId());
   }
 
@@ -112,7 +112,7 @@ class UnmarshallerTest extends TestCase {
   public function malformedStream() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<not-valid-xml'), 'memory'), 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
   }
 
@@ -120,14 +120,14 @@ class UnmarshallerTest extends TestCase {
   public function emptyStream() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream(''), 'memory'), 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
   }
 
   #[@test]
   public function deprecatedUsage() {
     $xml= '<dialogtype id="file.open"/>';
-    $type= 'net.xp_framework.unittest.xml.DialogType';
+    $type= 'xml.unittest.DialogType';
     $this->assertEquals(
       Unmarshaller::unmarshal($xml, $type),
       $this->fixture->unmarshalFrom(new StreamInputSource(new MemoryInputStream($xml)), $type)
@@ -138,7 +138,7 @@ class UnmarshallerTest extends TestCase {
   public function malformedString() {
     Unmarshaller::unmarshal(
       '<not-valid-xml', 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
   }
 
@@ -146,7 +146,7 @@ class UnmarshallerTest extends TestCase {
   public function emptyString() {
     Unmarshaller::unmarshal(
       '', 
-      'net.xp_framework.unittest.xml.DialogType'
+      'xml.unittest.DialogType'
     );
   }
 
@@ -154,25 +154,25 @@ class UnmarshallerTest extends TestCase {
   public function nameBasedFactoryToDialog() {
     $object= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<dialog/>')),
-      'net.xp_framework.unittest.xml.NameBasedTypeFactory'
+      'xml.unittest.NameBasedTypeFactory'
     );
-    $this->assertInstanceOf('net.xp_framework.unittest.xml.DialogType', $object);
+    $this->assertInstanceOf('xml.unittest.DialogType', $object);
   }
 
   #[@test]
   public function nameBasedFactoryToButton() {
     $object= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<button/>')),
-      'net.xp_framework.unittest.xml.NameBasedTypeFactory'
+      'xml.unittest.NameBasedTypeFactory'
     );
-    $this->assertInstanceOf('net.xp_framework.unittest.xml.ButtonType', $object);
+    $this->assertInstanceOf('xml.unittest.ButtonType', $object);
   }
 
   #[@test, @expect('lang.reflect.TargetInvocationException')]
   public function nameBasedFactoryToUnknown() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<unknown/>')),
-      'net.xp_framework.unittest.xml.NameBasedTypeFactory'
+      'xml.unittest.NameBasedTypeFactory'
     );
   }
 
@@ -180,25 +180,25 @@ class UnmarshallerTest extends TestCase {
   public function idBasedFactoryToDialog() {
     $object= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<object id="dialog"/>')),
-      'net.xp_framework.unittest.xml.IdBasedTypeFactory'
+      'xml.unittest.IdBasedTypeFactory'
     );
-    $this->assertInstanceOf('net.xp_framework.unittest.xml.DialogType', $object);
+    $this->assertInstanceOf('xml.unittest.DialogType', $object);
   }
 
   #[@test]
   public function idBasedFactoryToButton() {
     $object= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<object id="button"/>')),
-      'net.xp_framework.unittest.xml.IdBasedTypeFactory'
+      'xml.unittest.IdBasedTypeFactory'
     );
-    $this->assertInstanceOf('net.xp_framework.unittest.xml.ButtonType', $object);
+    $this->assertInstanceOf('xml.unittest.ButtonType', $object);
   }
 
   #[@test, @expect('lang.reflect.TargetInvocationException')]
   public function idBasedFactoryToUnknown() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<object id="unknown"/>')),
-      'net.xp_framework.unittest.xml.IdBasedTypeFactory'
+      'xml.unittest.IdBasedTypeFactory'
     );
   }
 
@@ -206,7 +206,7 @@ class UnmarshallerTest extends TestCase {
   public function inject() {
     $window= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<window owner-window="main"/>')),
-      'net.xp_framework.unittest.xml.WindowType',
+      'xml.unittest.WindowType',
       array('windows' => array(
         'main'     => 1,
         'desktop'  => 0
@@ -219,7 +219,7 @@ class UnmarshallerTest extends TestCase {
   public function injectionFails() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<window owner-window="main"/>')),
-      'net.xp_framework.unittest.xml.WindowType'
+      'xml.unittest.WindowType'
     );
   }
 
@@ -227,18 +227,18 @@ class UnmarshallerTest extends TestCase {
   public function namespaces() {
     $app= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<app:application xmlns:app="http://projects.xp-framework.net/xmlns/app"/>')),
-      'net.xp_framework.unittest.xml.ApplicationType'
+      'xml.unittest.ApplicationType'
     );
-    $this->assertInstanceOf('net.xp_framework.unittest.xml.ApplicationType', $app);
+    $this->assertInstanceOf('xml.unittest.ApplicationType', $app);
   }
 
   #[@test]
   public function casting() {
     $t= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<input id="name" disabled="true"/>')),
-      'net.xp_framework.unittest.xml.TextInputType'
+      'xml.unittest.TextInputType'
     );
-    $this->assertInstanceOf('net.xp_framework.unittest.xml.TextInputType', $t);
+    $this->assertInstanceOf('xml.unittest.TextInputType', $t);
     $this->assertTrue($t->getDisabled());
   }
 }

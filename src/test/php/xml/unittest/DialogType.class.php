@@ -1,10 +1,10 @@
-<?php namespace net\xp_framework\unittest\xml;
+<?php namespace xml\unittest;
 
 /**
  * Test class for Marshaller / Unmarshaller tests
  *
- * @see  xp://net.xp_framework.unittest.xml.UnmarshallerTest
- * @see  xp://net.xp_framework.unittest.xml.MarshallerTest
+ * @see  xp://xml.unittest.UnmarshallerTest
+ * @see  xp://xml.unittest.MarshallerTest
  * @see  rfc://0040
  */
 class DialogType extends \lang\Object {
@@ -19,7 +19,7 @@ class DialogType extends \lang\Object {
    * Constructor
    */
   public function __construct() {
-    $this->buttons= create('new util.collections.Vector<net.xp_framework.unittest.xml.ButtonType>()');
+    $this->buttons= create('new util.collections.Vector<xml.unittest.ButtonType>()');
   }
 
   /**
@@ -68,7 +68,7 @@ class DialogType extends \lang\Object {
    * @param   net.xp_framework.unittest.xml.ButtonType $button
    * @return  net.xp_framework.unittest.xml.ButtonType the added button
    */
-  #[@xmlmapping(element= 'button', class= 'net.xp_framework.unittest.xml.ButtonType')]
+  #[@xmlmapping(element= 'button', class= 'xml.unittest.ButtonType')]
   public function addButton($button) {
     $this->buttons->add($button);
     return $button;

@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\xml\io;
+<?php namespace xml\unittest\io;
 
 use xml\io\XmlStreamWriter;
 use io\streams\MemoryOutputStream;
