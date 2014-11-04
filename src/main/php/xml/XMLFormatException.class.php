@@ -29,8 +29,6 @@
  *   XML_ERROR_UNCLOSED_CDATA_SECTION       
  *   XML_ERROR_EXTERNAL_ENTITY_HANDLING        
  * </pre>
- *
- * @purpose  Exception
  */
 class XMLFormatException extends \lang\FormatException {
   public
@@ -124,7 +122,7 @@ class XMLFormatException extends \lang\FormatException {
       XML_ERROR_UNCLOSED_CDATA_SECTION         => 'UNCLOSED_CDATA_SECTION',
       XML_ERROR_EXTERNAL_ENTITY_HANDLING       => 'EXTERNAL_ENTITY_HANDLING',
     );
-    return $types[$this->type];
+    return isset($types[$this->type]) ? $types[$this->type] : 'UNKNOWN_ERROR';
   }
 
   /**
