@@ -3,6 +3,7 @@
 use unittest\TestCase;
 use xml\Tree;
 use xml\XPath;
+use xml\Node;
 use lang\types\String;
 
 /**
@@ -20,10 +21,10 @@ class XPathTest extends TestCase {
   protected function personTree() {
     $t= new Tree('person');
     $t->root()->setAttribute('id', '1549');
-    $t->addChild(new \xml\Node('firstName', 'Timm'));
-    $t->addChild(new \xml\Node('lastName', 'Friebe'));
-    $t->addChild(new \xml\Node('location', 'Karlsruhe'));
-    $t->addChild(new \xml\Node('location', 'Germany'));
+    $t->addChild(new Node('firstName', 'Timm'));
+    $t->addChild(new Node('lastName', 'Friebe'));
+    $t->addChild(new Node('location', 'Karlsruhe'));
+    $t->addChild(new Node('location', 'Germany'));
     return $t;
   }
 
