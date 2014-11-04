@@ -2,6 +2,7 @@
  
 use lang\types\String;
 use xml\Tree;
+use xml\Node;
 
 /**
  * Test XML Tree class
@@ -32,9 +33,9 @@ class TreeTest extends \unittest\TestCase {
   #[@test]
   public function rootMember() {
     with ($t= new Tree('formresult'), $r= $t->root()); {
-      $this->assertClass($r, 'xml.Node');
+      $this->assertInstanceOf('xml.Node', $r);
       $this->assertFalse($r->hasChildren());
-      $this->assertEmpty($r->getAttributes());
+      $this->assertEquals([], $r->getAttributes());
       $this->assertEquals('formresult', $r->getName());
     }
   }
@@ -42,7 +43,7 @@ class TreeTest extends \unittest\TestCase {
   #[@test]
   public function addChild() {
     $t= new Tree('tests');
-    $child= new \xml\Node('test', 'success', array('name' => 'TreeTest'));
+    $child= new Node('test', 'success', array('name' => 'TreeTest'));
     $this->assertEquals($child, $t->addChild($child));
   }
 
@@ -166,9 +167,9 @@ class TreeTest extends \unittest\TestCase {
     $s= microtime(true);
     $t= new Tree();
     for ($i= 0; $i < 100; $i++) {
-      $c= $t->addChild(new \xml\Node('child', null, array('id' => $i)));
+      $c= $t->addChild(new Node('child', null, array('id' => $i)));
       for ($j= 0; $j < 100; $j++) {
-        $c->addChild(new \xml\Node('elements', str_repeat('x', $j)));
+        $c->addChild(new Node('elements', str_repeat('x', $j)));
       }
     }
     $l= strlen($t->getSource(INDENT_NONE));
