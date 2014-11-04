@@ -324,7 +324,7 @@ abstract class AbstractXMLParserTest extends TestCase {
 
     $this->assertEquals(array(
       'doc', array(), array(
-        '�', '2001-2009 the XP team'
+        '©', '2001-2009 the XP team'
       )
     ), $callback->tree);
   }
@@ -335,13 +335,13 @@ abstract class AbstractXMLParserTest extends TestCase {
     $callback= $this->newCallback();
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('
-      <doc>The übercoder returns</doc>
+      <doc>The Ã¼bercoder returns</doc>
     '));
 
     $this->assertEquals('iso-8859-1', $callback->encoding);
     $this->assertEquals(array(
       'doc', array(), array(
-        'The', '�bercoder returns'
+        'The', 'übercoder returns'
       )
     ), $callback->tree);
   }
@@ -352,13 +352,13 @@ abstract class AbstractXMLParserTest extends TestCase {
     $callback= $this->newCallback();
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('
-      <doc>The übercoder returns</doc>
+      <doc>The Ã¼bercoder returns</doc>
     '));
     
     $this->assertEquals('utf-8', $callback->encoding);
     $this->assertEquals(array(
       'doc', array(), array(
-        'The', 'übercoder returns'
+        'The', 'Ã¼bercoder returns'
       )
     ), $callback->tree);
   }

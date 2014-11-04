@@ -155,8 +155,8 @@ class NodeTest extends TestCase {
   #[@test]
   public function getSourceWithDefaultEncoding() {
     $this->assertEquals(
-      "<n>\xdcbercoder</n>",
-      create(new Node('n', "Übercoder"))->getSource(INDENT_NONE)
+      "<n>\xc3\x9cbercoder</n>",
+      create(new Node('n', "Ãœbercoder"))->getSource(INDENT_NONE)
     );
   }
 
@@ -164,7 +164,7 @@ class NodeTest extends TestCase {
   public function getSourceWithIsoEncoding() {
     $this->assertEquals(
       "<n>\xdcbercoder</n>",
-      create(new Node('n', "Übercoder"))->getSource(INDENT_NONE, 'iso-8859-1')
+      create(new Node('n', "Ãœbercoder"))->getSource(INDENT_NONE, 'iso-8859-1')
     );
   }
 
@@ -172,7 +172,7 @@ class NodeTest extends TestCase {
   public function getSourceWithUtf8Encoding() {
     $this->assertEquals(
       "<n>\xc3\x9cbercoder</n>",
-      create(new Node('n', "Übercoder"))->getSource(INDENT_NONE, 'utf-8')
+      create(new Node('n', "Ãœbercoder"))->getSource(INDENT_NONE, 'utf-8')
     );
   }
 
