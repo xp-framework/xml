@@ -96,7 +96,7 @@ class MarshallerTest extends TestCase {
   #[@test]
   public function buttonsNodeSet() {
     $dialog= new DialogType();
-    $dialog->setCaption('Really delete the file "Ü"?');
+    $dialog->setCaption('Really delete the file "Ãœ"?');
 
     with ($ok= $dialog->addButton(new ButtonType())); {
       $ok->setId('ok');
@@ -109,7 +109,7 @@ class MarshallerTest extends TestCase {
 
     $this->assertMarshalled('
       <dialogtype id="">
-        <caption>Really delete the file &quot;Ü&quot;?</caption>
+        <caption>Really delete the file &quot;Ãœ&quot;?</caption>
         <button id="ok">Yes, go ahead</button>
         <button id="cancel">No, please don\'t!</button>
         <flags/>
