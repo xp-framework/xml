@@ -73,7 +73,7 @@ class XslCallbackTest extends \unittest\TestCase {
    */
   #[@xslmethod]
   public function uberCoder($in) {
-    return '�bercoder='.$in;
+    return 'Übercoder='.$in;
   }
   
   #[@test]
@@ -90,7 +90,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="utf-8"?><document/>', 
       'this::uberCoder',
-      array("'Übercoder'"),   // Need this in utf-8 because XSL is in utf-8
+      ["'Übercoder'"],
       'utf-8'
     ));
   }
@@ -100,7 +100,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="iso-8859-1"?><document/>', 
       'this::uberCoder',
-      array("'Übercoder'"),   // Need this in utf-8 because XSL is in utf-8
+      ["'Übercoder'"],
       'utf-8'
     ));
   }
@@ -110,7 +110,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="utf-8"?><document/>', 
       'this::uberCoder',
-      array("'�bercoder'"),  // Need this in iso-8859-1 because XSL is in iso-8859-1
+      [utf8_decode("'Übercoder'")],
       'iso-8859-1'
     ));
   }
@@ -120,7 +120,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="iso-8859-1"?><document/>', 
       'this::uberCoder',
-      array("'�bercoder'"),  // Need this in iso-8859-1 because XSL is in iso-8859-1
+      [utf8_decode("'Übercoder'")],
       'iso-8859-1'
     ));
   }
