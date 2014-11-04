@@ -186,10 +186,10 @@ class NodeTest extends TestCase {
       "  <__id/>\n".
       "</node>",
       $this->sourceOf(Node::fromObject(newinstance('lang.Object', [], [
-        'id'           => 1549,
-        'color'        => 'green',
-        'name'         => null,
-        '___construct' => function() {
+        'id'          => 1549,
+        'color'       => 'green',
+        'name'        => null,
+        '__construct' => function() {
           $this->name= new String('Name goes here');
         }
       ]), 'node'))
