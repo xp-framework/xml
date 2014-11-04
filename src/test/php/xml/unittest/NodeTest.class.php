@@ -192,7 +192,7 @@ class NodeTest extends TestCase {
         '___construct' => function() {
           $this->name= new String('Name goes here');
         }
-      ])))
+      ]), 'node'))
     );
   }
 }

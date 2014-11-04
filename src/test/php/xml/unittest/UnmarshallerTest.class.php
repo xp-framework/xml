@@ -28,7 +28,7 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')),
       'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'xml.unittest.DialogType');
+    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
     $this->assertEquals('file.open', $dialog->getId());
   }
 
@@ -40,7 +40,7 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')),
       'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'xml.unittest.DialogType');
+    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
     $this->assertEquals('Open a file > Choose', $dialog->getCaption());
   }
   
@@ -54,13 +54,13 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'xml.unittest.DialogType');
+    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
     $this->assertTrue($dialog->hasButtons());
     $this->assertEquals(2, $dialog->numButtons());
 
     with ($ok= $dialog->buttonAt(0), $cancel= $dialog->buttonAt(1)); {
-      $this->assertClass($ok, 'xml.unittest.ButtonType');
-      $this->assertClass($cancel, 'xml.unittest.ButtonType');
+      $this->assertInstanceOf('xml.unittest.ButtonType', $ok);
+      $this->assertInstanceOf('xml.unittest.ButtonType', $cancel);
       $this->assertEquals('ok', $ok->getId());
       $this->assertEquals('cancel', $cancel->getId());
       $this->assertEquals('Yes, go ahead', $ok->getCaption());
@@ -76,7 +76,7 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'xml.unittest.DialogType');
+    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
     $this->assertEquals(array('ON_TOP', 'MODAL'), $dialog->getFlags());
   }
   
@@ -91,7 +91,7 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'xml.unittest.DialogType');
+    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
     $this->assertEquals(array(
       'width' => '100',
       'height' => '100'
@@ -104,7 +104,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<dialogtype id="stream.select"/>'), 'memory'),
       'xml.unittest.DialogType'
     );
-    $this->assertClass($dialog, 'xml.unittest.DialogType');
+    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
     $this->assertEquals('stream.select', $dialog->getId());
   }
 
