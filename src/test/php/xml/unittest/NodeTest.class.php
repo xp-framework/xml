@@ -185,15 +185,14 @@ class NodeTest extends TestCase {
       "  <name>Name goes here</name>\n".
       "  <__id/>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(newinstance('lang.Object', array(), '{
-        public $id= 1549;
-        public $color= "green";
-        public $name;
-
-        public function __construct() {
-          $this->name= new String("Name goes here");
-        } 
-      }'), 'node'))
+      $this->sourceOf(Node::fromObject(newinstance('lang.Object', [], [
+        'id'           => 1549,
+        'color'        => 'green',
+        'name'         => null,
+        '___construct' => function() {
+          $this->name= new String('Name goes here');
+        }
+      ])))
     );
   }
 }
