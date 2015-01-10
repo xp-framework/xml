@@ -67,5 +67,5 @@ $xml= '<dialog id="file.open">
    </buttons>
 </dialog>';
 
-Console::writeLine(create(new XPath($xml))->query('/dialog/buttons/button/@name')));
+Console::writeLine((new XPath($xml))->query('/dialog/buttons/button/@name')));
 ```
