@@ -55,7 +55,7 @@ interface IXSLProcessor {
    *
    * @param   xml.Tree xsl
    */
-  public function setXSLTree(\Tree $xsl);
+  public function setXSLTree(Tree $xsl);
   
   /**
    * Set XML file
@@ -76,7 +76,7 @@ interface IXSLProcessor {
    *
    * @param   xml.Tree xml
    */
-  public function setXMLTree(\Tree $xml);
+  public function setXMLTree(Tree $xml);
 
   /**
    * Set XSL transformation parameters
