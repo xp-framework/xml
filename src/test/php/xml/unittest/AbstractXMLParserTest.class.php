@@ -29,7 +29,7 @@ abstract class AbstractXMLParserTest extends TestCase {
    * Tears down test case
    */
   public function tearDown() {
-    delete($this->parser);
+    unset($this->parser);
   }
   
   /**

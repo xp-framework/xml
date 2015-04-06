@@ -142,7 +142,7 @@ class Tree extends \lang\Object implements ParserCallback {
     // Fetch actual encoding from parser
     $tree->setEncoding($parser->getEncoding());
 
-    delete($parser);
+    unset($parser);
     return $tree;
   }
   
@@ -169,7 +169,7 @@ class Tree extends \lang\Object implements ParserCallback {
     // Fetch actual encoding from parser
     $tree->setEncoding($parser->getEncoding());
 
-    delete($parser);
+    unset($parser);
     return $tree;
   }
   
