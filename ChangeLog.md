@@ -3,6 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Fixed issue #1: Merge "Invoke htmlspecialchars() w/ fixed encoding" from
+  XP 5. See https://github.com/xp-framework/xp-framework/pull/367
+  (@thekid)
+
 ## 6.0.1 / 2015-02-12
 
 * Changed dependency to use XP ~6.0 (instead of dev-master) - @thekid

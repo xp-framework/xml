@@ -56,7 +56,7 @@ class XmlStreamWriter extends XmlWriter {
   public function startElement($name, $attributes= array()) {
     $this->stream->write('<'.$name);
     foreach ($attributes as $key => $value) {
-      $this->stream->write(' '.$key.'="'.htmlspecialchars($value).'"');
+      $this->stream->write(' '.$key.'="'.htmlspecialchars($value, ENT_COMPAT, \xp::ENCODING).'"');
     }
     $this->stream->write('>');
     $this->stack[]= '</'.$name.'>';
@@ -148,7 +148,7 @@ class XmlStreamWriter extends XmlWriter {
    * @param   string content
    */
   public function writeText($content) {
-    $this->stream->write(htmlspecialchars($content));
+    $this->stream->write(htmlspecialchars($content, ENT_COMPAT, \xp::ENCODING));
   }
 
   /**
@@ -190,7 +190,7 @@ class XmlStreamWriter extends XmlWriter {
     $this->stream->write('<?'.$target);
     if (is_array($content)) {
       foreach ($content as $key => $value) {
-        $this->stream->write(' '.$key.'="'.htmlspecialchars($value).'"');
+        $this->stream->write(' '.$key.'="'.htmlspecialchars($value, ENT_COMPAT, \xp::ENCODING).'"');
       }
       $this->stream->write('?>');
     } else {
@@ -205,16 +205,16 @@ class XmlStreamWriter extends XmlWriter {
    * @param   string content
    * @param   [:string] attributes
    */
-  public function writeElement($name, $content= null, $attributes= array()) {
+  public function writeElement($name, $content= null, $attributes= []) {
     $this->stream->write('<'.$name);
     foreach ($attributes as $key => $value) {
-      $this->stream->write(' '.$key.'="'.htmlspecialchars($value).'"');
+      $this->stream->write(' '.$key.'="'.htmlspecialchars($value, ENT_COMPAT, \xp::ENCODING).'"');
     }
     
     if (null === $content) {
       $this->stream->write('/>');
     } else {
-      $this->stream->write('>'.htmlspecialchars($content).'</'.$name.'>');
+      $this->stream->write('>'.htmlspecialchars($content, ENT_COMPAT, \xp::ENCODING).'</'.$name.'>');
     }
   }
 }
