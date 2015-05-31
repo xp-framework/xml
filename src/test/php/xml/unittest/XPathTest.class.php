@@ -62,17 +62,17 @@ class XPathTest extends TestCase {
   
   #[@test]
   public function queryReturnsNodeList() {
-    $this->assertEquals(
-      'php.DOMNodeList', 
-      \xp::typeOf(create(new XPath('<document/>'))->query('/'))
+    $this->assertInstanceOf(
+      'DOMNodeList',
+      (new XPath('<document/>'))->query('/')
     );
   }
 
   #[@test]
   public function slashQueryReturnsDocument() {
-    $this->assertEquals(
-      'php.DOMDocument', 
-      \xp::typeOf(create(new XPath('<document/>'))->query('/')->item(0))
+    $this->assertInstanceOf(
+      'DOMDocument',
+      (new XPath('<document/>'))->query('/')->item(0)
     );
   }
   
