@@ -1,6 +1,5 @@
 <?php namespace xml\unittest;
  
-use unittest\TestCase;
 use xml\Node;
 use unittest\actions\RuntimeVersion;
 
@@ -9,7 +8,7 @@ use unittest\actions\RuntimeVersion;
  *
  * @see   xp://net.xp_framework.unittest.xml.TreeTest 
  */
-class NodeTest extends TestCase {
+class NodeTest extends \unittest\TestCase {
   
   /**
    * Helper method which returns the XML representation of a Node object,
@@ -52,10 +51,14 @@ class NodeTest extends TestCase {
     $n->setContent("\0");
   }
   
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function addingNullChild() {
-    $n= new Node('node');
-    $n->addChild($child= null);
+    (new Node('node'))->addChild(null);
+  }
+
+  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  public function addingNullChild7() {
+    (new Node('node'))->addChild(null);
   }
 
   #[@test]
