@@ -332,7 +332,9 @@ class DomXSLProcessor extends \lang\Object implements IXSLProcessor {
     
     $this->processor= new \XSLTProcessor();
     $this->processor->importStyleSheet($this->stylesheet);
-    $this->processor->setParameter('', $this->params);
+    foreach ($this->params as $name => $param) {
+      $this->processor->setParameter('', $name, (string)$param);
+    }
 
     // If we have registered instances, register them in XSLCallback
     if (sizeof($this->_instances)) {
