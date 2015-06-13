@@ -1,8 +1,8 @@
 <?php namespace xml\unittest;
  
 use unittest\TestCase;
-use lang\types\String;
 use xml\Node;
+use unittest\actions\RuntimeVersion;
 
 /**
  * Test XML Node class
@@ -144,11 +144,11 @@ class NodeTest extends TestCase {
     );
   }
   
-  #[@test]
+  #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function sourceOfNodeWithStringContent() {
     $this->assertEquals(
       '<node>XP &amp; APC</node>',
-      $this->sourceOf(new Node('node', new String('XP & APC'))) 
+      $this->sourceOf(new Node('node', new \lang\types\String('XP & APC'))) 
     );
   }
 
@@ -190,7 +190,7 @@ class NodeTest extends TestCase {
         'color'       => 'green',
         'name'        => null,
         '__construct' => function() {
-          $this->name= new String('Name goes here');
+          $this->name= 'Name goes here';
         }
       ]), 'node'))
     );

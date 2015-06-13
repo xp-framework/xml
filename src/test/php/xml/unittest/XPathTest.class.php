@@ -1,17 +1,16 @@
 <?php namespace xml\unittest;
 
-use unittest\TestCase;
 use xml\Tree;
 use xml\XPath;
 use xml\Node;
-use lang\types\String;
+use unittest\actions\RuntimeVersion;
 
 /**
  * TestCase for XPath class
  *
  * @see  xp://xml.XPath
  */
-class XPathTest extends TestCase {
+class XPathTest extends \unittest\TestCase {
 
   /**
    * Returns an XML tree for use in further test cases
@@ -141,26 +140,26 @@ class XPathTest extends TestCase {
     $this->assertEquals('value', $xpath->query('string(/document/node)'));
   }
   
-  #[@test]
+  #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function queryTreeWithEncoding() {
-    $value= new String('value öäü', 'iso-8859-1');
+    $value= new \lang\types\String('value öäü', 'iso-8859-1');
     $xpath= new XPath(Tree::fromString(sprintf(
       '<?xml version="1.0" encoding="iso-8859-1"?>'.
       '<document><node>%s</node></document>',
       $value->getBytes('iso-8859-1')
     )));
 
-    $this->assertEquals($value, new String($xpath->query('string(/document/node)'), 'utf-8'));
+    $this->assertEquals($value, new \lang\types\String($xpath->query('string(/document/node)'), 'utf-8'));
   }
   
-  #[@test]
+  #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function queryTreeWithDefaultEncoding() {
-    $value= new String('value Ã¶Ã¤Ã¼', 'utf-8');
+    $value= new \lang\types\String('value Ã¶Ã¤Ã¼', 'utf-8');
     $xpath= new XPath($s= sprintf(
       '<document><node>%s</node></document>',
       $value->getBytes('utf-8')
     ));
 
-    $this->assertEquals($value, new String($xpath->query('string(/document/node)'), 'utf-8'));
+    $this->assertEquals($value, new \lang\types\String($xpath->query('string(/document/node)'), 'utf-8'));
   }
 }
