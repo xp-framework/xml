@@ -9,6 +9,20 @@ use unittest\actions\RuntimeVersion;
  * @see  xp://xml.rdf.RDFNewsFeed
  */
 class RDFNewsFeedTest extends \unittest\TestCase {
+  private static $TZ;
+
+  /** @return void */
+  #[@beforeClass]
+  public static function saveTZ() {
+    self::$TZ= date_default_timezone_get();
+    date_default_timezone_set('Europe/Berlin');
+  }
+
+  /** @return void */
+  #[@afterClass]
+  public static function restoreTZ() {
+    date_default_timezone_set(self::$TZ);
+  }
 
   #[@test]
   public function can_create() {
