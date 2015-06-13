@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
- 
+
+use unittest\actions\VerifyThat;
+
 /**
  * Test XSL processor
  *
@@ -422,7 +424,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect('xml.TransformerException')]
+  #[@test, @expect('xml.TransformerException'), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function malformedExpression() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -435,7 +437,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect('xml.TransformerException')]
+  #[@test, @expect('xml.TransformerException'), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function unboundVariable() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -448,7 +450,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect('xml.TransformerException')]
+  #[@test, @expect('xml.TransformerException'), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function includeNotFound() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -459,7 +461,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect('xml.TransformerException')]
+  #[@test, @expect('xml.TransformerException'), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function importNotFound() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -470,7 +472,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->processor->run();
   }
 
-  #[@test]
+  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function includingAFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -485,7 +487,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->assertEquals('TEST', $this->processor->output());
   }
 
-  #[@test]
+  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function importingAFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -500,7 +502,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->assertEquals('TEST', $this->processor->output());
   }
 
-  #[@test]
+  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function outputEncodingFromIncludedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -512,7 +514,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
   }
 
-  #[@test]
+  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function outputEncodingFromImportedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -524,7 +526,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
   }
 
-  #[@test]
+  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function outputEncodingFromIncludedInImportedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -536,7 +538,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
   }
 
-  #[@test]
+  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
   public function outputEncodingFromIncludedInIncludedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('

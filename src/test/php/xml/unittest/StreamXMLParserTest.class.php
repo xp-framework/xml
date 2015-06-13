@@ -2,12 +2,14 @@
 
 use xml\parser\StreamInputSource;
 use io\streams\MemoryInputStream;
+use unittest\actions\VerifyThat;
 
 /**
  * Tests XML parser API with io.streams.InputStream source
  *
  * @see  xp://net.xp_framework.unittest.xml.AbstractXMLParserTest
  */
+#[@action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
 class StreamXMLParserTest extends AbstractXMLParserTest {
   
   /**
