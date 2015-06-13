@@ -3,6 +3,9 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.2.0 / 2015-06-13
+
+* Added forward compatibility with PHP7 - @thekid
 * Fixed HHVM compatibility issue in `xml.DomXSLProcessor` - @thekid
 
 ## 6.1.0 / 2015-05-31
