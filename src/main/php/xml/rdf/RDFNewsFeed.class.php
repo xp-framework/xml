@@ -116,7 +116,7 @@ class RDFNewsFeed extends Tree {
     $this->channel->publisher= $publisher;
     $this->channel->copyright= $rights;
    
-    $node= create(new \xml\Node('channel'))
+    $node= (new \xml\Node('channel'))
       ->withChild(new \xml\Node('title', $title))
       ->withChild(new \xml\Node('link', $link))
       ->withChild(new \xml\Node('description', $description))
@@ -149,7 +149,7 @@ class RDFNewsFeed extends Tree {
     $this->image->url= $url;
     $this->image->title= $title;
 
-    $node= create(new \xml\Node('image'))
+    $node= (new \xml\Node('image'))
       ->withChild(new \xml\Node('title', $title))
       ->withChild(new \xml\Node('url', $url))
       ->withChild(new \xml\Node('link', $link))
@@ -197,7 +197,7 @@ class RDFNewsFeed extends Tree {
     $item->link= $link;
     $item->description= $description;
     
-    $node= create(new \xml\Node('item'))
+    $node= (new \xml\Node('item'))
       ->withChild(new \xml\Node('title', $title))
       ->withChild(new \xml\Node('link', $link))
       ->withChild(new \xml\Node('description', $description))

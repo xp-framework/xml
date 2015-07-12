@@ -2,6 +2,7 @@
  
 use xml\Tree;
 use xml\Node;
+use xml\parser\XMLParser;
 use unittest\actions\RuntimeVersion;
 
 /**
@@ -110,7 +111,7 @@ class TreeTest extends \unittest\TestCase {
 
   #[@test]
   public function utf8Encoding() {
-    $t= create(new Tree('unicode'))->withEncoding('UTF-8');
+    $t= (new Tree('unicode'))->withEncoding('UTF-8');
     $t->root()->setContent('Hällo');
 
     $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>', $t->getDeclaration());
@@ -119,7 +120,7 @@ class TreeTest extends \unittest\TestCase {
 
   #[@test]
   public function iso88591Encoding() {
-    $t= create(new Tree('unicode'))->withEncoding('iso-8859-1');
+    $t= (new Tree('unicode'))->withEncoding('iso-8859-1');
     $t->root()->setContent('Hällo');
 
     $this->assertEquals('<?xml version="1.0" encoding="ISO-8859-1"?>', $t->getDeclaration());
@@ -128,7 +129,7 @@ class TreeTest extends \unittest\TestCase {
 
   #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function utf8EncodingWithIso88591StringObject() {
-    $t= create(new Tree('unicode'))->withEncoding('UTF-8');
+    $t= (new Tree('unicode'))->withEncoding('UTF-8');
     $t->root()->setContent(new \lang\types\String('Hällo', 'iso-8859-1'));
 
     $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>', $t->getDeclaration());
@@ -137,7 +138,7 @@ class TreeTest extends \unittest\TestCase {
 
   #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function iso88591EncodingWithIso88591StringObject() {
-    $t= create(new Tree('unicode'))->withEncoding('iso-8859-1');
+    $t= (new Tree('unicode'))->withEncoding('iso-8859-1');
     $t->root()->setContent(new \lang\types\String('Hällo', 'iso-8859-1'));
 
     $this->assertEquals('<?xml version="1.0" encoding="ISO-8859-1"?>', $t->getDeclaration());
@@ -146,7 +147,7 @@ class TreeTest extends \unittest\TestCase {
 
   #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function utf8EncodingWithUtf8StringObject() {
-    $t= create(new Tree('unicode'))->withEncoding('UTF-8');
+    $t= (new Tree('unicode'))->withEncoding('UTF-8');
     $t->root()->setContent(new \lang\types\String('HÃ¤llo', 'UTF-8'));
 
     $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>', $t->getDeclaration());
@@ -155,7 +156,7 @@ class TreeTest extends \unittest\TestCase {
 
   #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
   public function iso88591EncodingWithUtf8StringObject() {
-    $t= create(new Tree('unicode'))->withEncoding('iso-8859-1');
+    $t= (new Tree('unicode'))->withEncoding('iso-8859-1');
     $t->root()->setContent(new \lang\types\String('HÃ¤llo', 'UTF-8'));
 
     $this->assertEquals('<?xml version="1.0" encoding="ISO-8859-1"?>', $t->getDeclaration());
@@ -179,7 +180,7 @@ class TreeTest extends \unittest\TestCase {
   #[@test]
   public function parseIntoUtf8() {
     $tree= new Tree();
-    create(new \xml\parser\XMLParser('utf-8'))->withCallback($tree)->parse(trim('
+    (new XMLParser('utf-8'))->withCallback($tree)->parse(trim('
       <?xml version="1.0" encoding="UTF-8"?>
       <document><node>Some umlauts: Ã¶Ã¤Ã¼</node></document>
     '));
@@ -193,7 +194,7 @@ class TreeTest extends \unittest\TestCase {
   #[@test]
   public function parseIntoIso() {
     $tree= new Tree();
-    create(new \xml\parser\XMLParser('iso-8859-1'))->withCallback($tree)->parse(trim('
+    (new XMLParser('iso-8859-1'))->withCallback($tree)->parse(trim('
       <?xml version="1.0" encoding="UTF-8"?>
       <document><node>Some umlauts: Ã¶Ã¤Ã¼</node></document>
     '));

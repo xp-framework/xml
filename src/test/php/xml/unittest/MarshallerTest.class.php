@@ -163,7 +163,7 @@ class MarshallerTest extends TestCase {
 
   #[@test]
   public function inject() {
-    $window= create(new WindowType())->withOwnerWindow(1);
+    $window= (new WindowType())->withOwnerWindow(1);
     $this->assertMarshalled(
       '<window owner-window="main"/>',
       $this->fixture->marshalTo(new \xml\Node('window'), $window, array('windows' => array(
@@ -175,7 +175,7 @@ class MarshallerTest extends TestCase {
 
   #[@test, @expect('lang.IllegalArgumentException')]
   public function injectionFails() {
-    $window= create(new WindowType())->withOwnerWindow(1);
+    $window= (new WindowType())->withOwnerWindow(1);
     $this->fixture->marshalTo(new \xml\Node('window'), $window);
   }
 

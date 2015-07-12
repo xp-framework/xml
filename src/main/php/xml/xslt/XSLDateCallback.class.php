@@ -3,7 +3,9 @@
 use util\Date;
 use util\DateMath;
 use util\TimeInterval;
-
+use util\TimeZone;
+use lang\Enum;
+use lang\XPClass;
 
 /**
  * XSL callbacks for Date operations
@@ -27,7 +29,7 @@ class XSLDateCallback extends \lang\Object {
   #[@xslmethod]
   public function format($date, $format, $timezone= null) {
     $timezone= empty($timezone) ? null : $timezone;
-    return create(new Date($date))->toString($format, new \util\TimeZone($timezone));
+    return (new Date($date))->toString($format, new TimeZone($timezone));
   }
   
   /**
@@ -41,7 +43,7 @@ class XSLDateCallback extends \lang\Object {
   #[@xslmethod]
   public function diff($type, $strdate1, $strdate2) {
     return DateMath::diff(
-      \lang\Enum::valueOf(\lang\XPClass::forName('util.TimeInterval'), strtoupper($type)),
+      Enum::valueOf(XPClass::forName('util.TimeInterval'), strtoupper($type)),
       new Date($strdate1),
       new Date($strdate2)
     );

@@ -77,7 +77,7 @@ class XPathTest extends \unittest\TestCase {
   
   #[@test]
   public function attributeQuery() {
-    $this->assertEquals('1549', create(new XPath($this->personTree()))
+    $this->assertEquals('1549', (new XPath($this->personTree()))
       ->query('/person/@id')
       ->item(0)
       ->nodeValue
@@ -86,14 +86,14 @@ class XPathTest extends \unittest\TestCase {
 
   #[@test]
   public function attributeName() {
-    $this->assertEquals('id', create(new XPath($this->personTree()))
+    $this->assertEquals('id', (new XPath($this->personTree()))
       ->query('name(/person/@id)')
     );
   }
 
   #[@test]
   public function textQuery() {
-    $this->assertEquals('Timm', create(new XPath($this->personTree()))
+    $this->assertEquals('Timm', (new XPath($this->personTree()))
       ->query('/person/firstName/text()')
       ->item(0)
       ->nodeValue
@@ -102,21 +102,21 @@ class XPathTest extends \unittest\TestCase {
 
   #[@test]
   public function nameQuery() {
-    $this->assertEquals('firstName', create(new XPath($this->personTree()))
+    $this->assertEquals('firstName', (new XPath($this->personTree()))
       ->query('name(/person/firstName)')
     );
   }
 
   #[@test]
   public function stringQuery() {
-    $this->assertEquals('Timm', create(new XPath($this->personTree()))
+    $this->assertEquals('Timm', (new XPath($this->personTree()))
       ->query('string(/person/firstName)')
     );
   }
 
   #[@test]
   public function multipleQuery() {
-    $locations= create(new XPath($this->personTree()))->query('/person/location');
+    $locations= (new XPath($this->personTree()))->query('/person/location');
     
     $this->assertEquals('Karlsruhe', $locations->item(0)->nodeValue);
     $this->assertEquals('Germany', $locations->item(1)->nodeValue);
@@ -124,14 +124,14 @@ class XPathTest extends \unittest\TestCase {
 
   #[@test]
   public function offsetQuery() {
-    $this->assertEquals('Karlsruhe', create(new XPath($this->personTree()))
+    $this->assertEquals('Karlsruhe', (new XPath($this->personTree()))
       ->query('string(/person/location[1])')
     );
   }
 
   #[@test, @expect('xml.XPathException')]
   public function invalidQuery() {
-    create(new XPath('<document/>'))->query(',INVALID,');
+    (new XPath('<document/>'))->query(',INVALID,');
   }
   
   #[@test]
