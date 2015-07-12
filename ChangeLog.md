@@ -3,6 +3,13 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.2.1 / 2015-07-12
+
+* Added forward compatibility with XP 6.4.0
+  . Rewrote code using `create()` to PHP 5.4 syntax
+  . Replaced `raise()` with throw statement
+  (@thekid)
+
 ## 6.2.0 / 2015-06-13
 
 * Added forward compatibility with PHP7 - @thekid
