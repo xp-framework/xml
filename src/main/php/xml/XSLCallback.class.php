@@ -1,19 +1,17 @@
 <?php namespace xml;
 
+use lang\ElementNotFoundException;
+
 /**
  * XSL callback class.
  *
- * @ext      dom
- * @test     xp://net.xp_framework.unittest.xml.XslCallbackTest
- * @see      php://xslt_registerphpfunctions
- * @purpose  Provide PHP callback functions on object instances
+ * @ext   dom
+ * @test  xp://net.xp_framework.unittest.xml.XslCallbackTest
+ * @see   php://xslt_registerphpfunctions
  */
 class XSLCallback extends \lang\Object {
-  private
-    $instances  = array();  
-
-  private static      
-    $instance   = null;
+  private $instances= [];
+  private static $instance;
     
   static function __static() {
     self::$instance= new self();
@@ -64,7 +62,7 @@ class XSLCallback extends \lang\Object {
     $instance= self::$instance->instances[$name];
     
     if (!($instance->getClass()->getMethod($method)->hasAnnotation('xslmethod'))) {
-      raise('lang.ElementNotFoundException', 'Instance "'.$name.'" does not have method "'.$method.'"');
+      throw new ElementNotFoundException('Instance "'.$name.'" does not have method "'.$method.'"');
     }
     
     $va= func_get_args();
