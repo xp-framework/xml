@@ -33,7 +33,7 @@ class Tree extends \lang\Object implements ParserCallback {
    */
   public function __construct($rootName= 'document') {
     $this->root= new Node($rootName);
-    $this->nodeType= \xp::reflect('xml.Node');
+    $this->nodeType= literal('xml.Node');
   }
 
   /**

@@ -3,6 +3,12 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.2.2 / 2014-12-09
+
+* Rewrote code to ue `literal()` instead of `xp::reflect()`. See
+  xp-framework/rfc#298
+  (@thekid)
+
 ## 6.2.1 / 2015-07-12
 
 * Added forward compatibility with XP 6.4.0
