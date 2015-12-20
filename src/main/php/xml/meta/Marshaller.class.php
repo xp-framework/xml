@@ -62,7 +62,7 @@ class Marshaller extends \lang\Object {
       $element= $method->getAnnotation('xmlfactory', 'element');
       
       // Pass injection parameters at end of list
-      $arguments= array();
+      $arguments= [];
       if ($method->hasAnnotation('xmlfactory', 'inject')) {
         foreach ($method->getAnnotation('xmlfactory', 'inject') as $name) {
           if (!isset($inject[$name])) throw new \lang\IllegalArgumentException(
@@ -78,11 +78,11 @@ class Marshaller extends \lang\Object {
       if ($method->hasAnnotation('xmlfactory', 'cast')) {
         $cast= $method->getAnnotation('xmlfactory', 'cast');
         switch (sscanf($cast, '%[^:]::%s', $c, $m)) {
-          case 1: $target= array($instance, $c); break;
-          case 2: $target= array($c, $m); break;
+          case 1: $target= [$instance, $c]; break;
+          case 2: $target= [$c, $m]; break;
           default: throw new \lang\IllegalArgumentException('Unparseable cast "'.$cast.'"');
         }
-        $result= call_user_func(array($instance, $method->getAnnotation('xmlfactory', 'cast')), $result);
+        $result= call_user_func([$instance, $method->getAnnotation('xmlfactory', 'cast')], $result);
       }
       
       // Attributes = "@<name>", Node content= ".", Name = "name()"
@@ -156,7 +156,7 @@ class Marshaller extends \lang\Object {
       $tree->root()->setName(strtolower($class->getSimpleName()));
     }
     
-    self::recurse($instance, $class, $tree->root(), array());
+    self::recurse($instance, $class, $tree->root(), []);
     return $tree->getSource(INDENT_DEFAULT);
   }
  
@@ -168,7 +168,7 @@ class Marshaller extends \lang\Object {
    * @param   [:var] inject
    * @return  xml.Node the given target
    */
-  public function marshalTo(\xml\Node $target= null, \lang\Generic $instance, $inject= array()) {
+  public function marshalTo(\xml\Node $target= null, \lang\Generic $instance, $inject= []) {
     $class= $instance->getClass();
 
     // Create node if not existant

@@ -98,7 +98,7 @@ class XMLFormatException extends \lang\FormatException {
    * @return  string
    */
   public function getTypeName() {
-    static $types= array(
+    static $types= [
       XML_ERROR_NONE                           => 'NONE',
       XML_ERROR_NO_MEMORY                      => 'NO_MEMORY',
       XML_ERROR_SYNTAX                         => 'SYNTAX',
@@ -121,7 +121,7 @@ class XMLFormatException extends \lang\FormatException {
       XML_ERROR_INCORRECT_ENCODING             => 'INCORRECT_ENCODING',
       XML_ERROR_UNCLOSED_CDATA_SECTION         => 'UNCLOSED_CDATA_SECTION',
       XML_ERROR_EXTERNAL_ENTITY_HANDLING       => 'EXTERNAL_ENTITY_HANDLING',
-    );
+    ];
     return isset($types[$this->type]) ? $types[$this->type] : 'UNKNOWN_ERROR';
   }
 

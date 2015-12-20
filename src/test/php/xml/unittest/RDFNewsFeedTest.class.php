@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
 
+use lang\IllegalArgumentException;
+use lang\Error;
 use xml\rdf\RDFNewsFeed;
 use unittest\actions\RuntimeVersion;
 
@@ -147,13 +149,13 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function setChannel_only_accepts_a_date() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', '/', 'Description', 'I am not a date');
   }
 
-  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function setChannel_only_accepts_a_date7() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', '/', 'Description', 'I am not a date');
@@ -185,14 +187,14 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function addItem_only_accepts_a_date() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', '/', 'Channel desc');
     $f->addItem('Item', '/', 'Desc', 'I am not a date');
   }
 
-  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function addItem_only_accepts_a_date7() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', '/', 'Channel desc');

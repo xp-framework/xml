@@ -15,7 +15,7 @@ class WindowType extends \lang\Object {
    * @param   string $name
    * @param   [:int] $windows handle lookup
    */
-  #[@xmlmapping(element= '@owner-window', inject= array('windows'))]
+  #[@xmlmapping(element= '@owner-window', inject= ['windows'])]
   public function setOwnerWindowNamed($name, array $windows) {
     $this->window= $windows[$name];
   }
@@ -26,7 +26,7 @@ class WindowType extends \lang\Object {
    * @param   [:int] $windows handle lookup
    * @return  string name
    */
-  #[@xmlfactory(element= '@owner-window', inject= array('windows'))]
+  #[@xmlfactory(element= '@owner-window', inject= ['windows'])]
   public function getOwnerWindowName(array $windows) {
     return array_search($this->window, $windows);
   }

@@ -20,9 +20,9 @@ class Node extends \lang\Object {
 
   public 
     $name         = '',
-    $attribute    = array(),
+    $attribute    = [],
     $content      = null,
-    $children     = array();
+    $children     = [];
 
   /**
    * Constructor
@@ -38,7 +38,7 @@ class Node extends \lang\Object {
    * @param   [:string] attribute default array() attributes
    * @throws  lang.IllegalArgumentException
    */
-  public function __construct($name, $content= null, $attribute= array()) {
+  public function __construct($name, $content= null, $attribute= []) {
     $this->name= $name;
     $this->attribute= $attribute;
     $this->setContent($content);
@@ -91,7 +91,7 @@ class Node extends \lang\Object {
     if (!method_exists($obj, '__sleep')) {
       $vars= get_object_vars($obj);
     } else {
-      $vars= array();
+      $vars= [];
       foreach ($obj->__sleep() as $var) $vars[$var]= $obj->{$var};
     }
 
@@ -345,7 +345,7 @@ class Node extends \lang\Object {
    * @param xml.Node[] children
    */
   public function setChildren(array $children) {
-    $this->children= array();
+    $this->children= [];
     foreach ($children as $child) {
       $this->addChild($child);
     }
@@ -365,7 +365,7 @@ class Node extends \lang\Object {
    *
    */
   public function clearChildren() {
-    $this->setChildren(array());
+    $this->setChildren([]);
   }
 
   /**

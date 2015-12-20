@@ -80,7 +80,7 @@ class RDFNewsFeed extends Tree {
 
     $this->channel= new \stdClass();
     $this->image= new \stdClass();
-    $this->items= array();
+    $this->items= [];
   }
   
   /**
@@ -206,7 +206,7 @@ class RDFNewsFeed extends Tree {
     $node->setAttribute('rdf:about', $link);
     $item->node= $this->root()->addChild($node);
     $this->items[]= $item;
-    $this->channel->sequence->addChild(new \xml\Node('rdf:li', null, array('rdf:resource' => $link)));
+    $this->channel->sequence->addChild(new \xml\Node('rdf:li', null, ['rdf:resource' => $link]));
     
     return $item;
   }
@@ -280,10 +280,10 @@ class RDFNewsFeed extends Tree {
     if (!isset($trans)) $trans= array_flip(get_html_translation_table(HTML_SPECIALCHARS));
     $cdata= trim($this->_objs[$this->_cnt+ 1]->content);
     
-    $name= strtr(substr($path, 0, -1), array(
+    $name= strtr(substr($path, 0, -1), [
       '/rdf:rdf/' => '',
       '/rss/'     => ''
-    ));
+    ]);
     switch ($name) {
       case 'channel/title':
         $this->channel->title= $cdata;

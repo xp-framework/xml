@@ -1,4 +1,11 @@
 <?php namespace xml\unittest;
+
+use xml\DomXSLProcessor;
+use xml\TransformerException;
+use lang\ElementNotFoundException;
+use lang\IllegalArgumentException;
+use io\FileNotFoundException;
+new import('lang.ResourceProvider');
  
 /**
  * ProcessorTest implementation that tests the DomXSL processor
@@ -10,20 +17,12 @@
 class DomXslProcessorTest extends AbstractProcessorTest {
 
   /**
-   * Ensure the "res://" scheme handler is available
-   */
-  #[@beforeClass]
-  public static function loadResScheme() {
-    \lang\XPClass::forName('lang.ResourceProvider');
-  }
-
-  /**
    * Returns the PHP extension needed for this processor test to work
    *
    * @return  string[]
    */
   public function neededExtension() { 
-    return array('dom', 'xsl');
+    return ['dom', 'xsl'];
   }
 
   /**
@@ -32,7 +31,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * @return  xml.IXSLProcessor
    */
   public function processorInstance() {
-    return new \xml\DomXSLProcessor();
+    return new DomXSLProcessor();
   }
 
   /**
@@ -81,7 +80,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->processor->run();
   }
   
-  #[@test, @expect('lang.ElementNotFoundException')]
+  #[@test, @expect(ElementNotFoundException::class)]
   public function callNonXslHook() {
     $this->processor->registerInstance('proc', $this);
     $this->processor->setXMLBuf('<document/>');
@@ -99,7 +98,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->processor->run();
   }
   
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function callNonRegisteredInstance() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXslBuf('<?xml version="1.0"?>
@@ -120,7 +119,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * Test error handling
    *
    */
-  #[@test, @expect('xml.TransformerException')]
+  #[@test, @expect(TransformerException::class)]
   public function malformedXML() {
     $this->processor->setXMLBuf('@@MALFORMED@@');
   }
@@ -129,7 +128,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * Test error handling
    *
    */
-  #[@test, @expect('xml.TransformerException')]
+  #[@test, @expect(TransformerException::class)]
   public function malformedXSL() {
     $this->processor->setXSLBuf('@@MALFORMED@@');
   }
@@ -265,7 +264,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->processor->setXSLFile('res://xml/unittest/include.xsl');
   }
   
-  #[@test, @expect('io.FileNotFoundException')]
+  #[@test, @expect(FileNotFoundException::class)]
   public function loadNonexistantXSLFromStreamWrapper() {
     $this->processor->setXSLFile('res://nonexistant.xsl');
   }

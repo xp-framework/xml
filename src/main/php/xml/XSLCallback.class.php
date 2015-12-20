@@ -41,7 +41,7 @@ class XSLCallback extends \lang\Object {
    *
    */
   public function clearInstances() {
-    $this->instances= array();
+    $this->instances= [];
   }
   
   /**
@@ -68,12 +68,12 @@ class XSLCallback extends \lang\Object {
     $va= func_get_args();
     
     // Decode arguments [2..*]
-    for ($i= 2, $args= array(), $s= sizeof($va); $i < $s; $i++) {
+    for ($i= 2, $args= [], $s= sizeof($va); $i < $s; $i++) {
       $args[]= is_string($va[$i]) ? iconv('utf-8', \xp::ENCODING, $va[$i]) : $va[$i];
     }
     
     // Call callback method
-    $r= call_user_func_array(array($instance, $method), $args);
+    $r= call_user_func_array([$instance, $method], $args);
     
     // Encode result if necessary
     return is_string($r) ? iconv(\xp::ENCODING, 'utf-8', $r) : $r;

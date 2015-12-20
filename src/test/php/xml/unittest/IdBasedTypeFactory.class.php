@@ -3,7 +3,7 @@
 /**
  * Type factory
  */
-#[@xmlmapping(factory= 'forName', pass= array('@id'))]
+#[@xmlmapping(factory= 'forName', pass= ['@id'])]
 class IdBasedTypeFactory extends \lang\Object {
   
   /**

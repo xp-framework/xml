@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
  
+use xml\Node;
+use lang\IllegalArgumentException;
 use unittest\TestCase;
 use xml\meta\Marshaller;
 
@@ -138,7 +140,7 @@ class MarshallerTest extends TestCase {
     $dialog->setId('file.open');
 
     $node= $this->fixture->marshalTo(new \xml\Node('dialog'), $dialog);
-    $this->assertInstanceOf('xml.Node', $node);
+    $this->assertInstanceOf(Node::class, $node);
     $this->assertEquals('dialog', $node->getName());
     $this->assertEquals('file.open', $node->getAttribute('id'));
   }
@@ -166,14 +168,14 @@ class MarshallerTest extends TestCase {
     $window= (new WindowType())->withOwnerWindow(1);
     $this->assertMarshalled(
       '<window owner-window="main"/>',
-      $this->fixture->marshalTo(new \xml\Node('window'), $window, array('windows' => array(
+      $this->fixture->marshalTo(new \xml\Node('window'), $window, ['windows' => [
         'main'     => 1,
         'desktop'  => 0
-      )))
+      ]])
     );
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function injectionFails() {
     $window= (new WindowType())->withOwnerWindow(1);
     $this->fixture->marshalTo(new \xml\Node('window'), $window);

@@ -17,7 +17,7 @@ class XslTemplate extends Node {
    * @param   string content default NULL
    * @param   [:string] attribute default array() attributes
    */
-  public function __construct($name= 'xsl:template', $content= null, $attributes= array()) {
+  public function __construct($name= 'xsl:template', $content= null, $attributes= []) {
     parent::__construct($name, $content, $attributes); 
   }
   

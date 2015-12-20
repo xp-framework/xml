@@ -9,7 +9,7 @@ use io\streams\OutputStream;
  * @test    xp://net.xp_framework.unittest.xml.io.XmlStreamWriterTest
  */
 class XmlStreamWriter extends XmlWriter {
-  protected $stack= array();
+  protected $stack= [];
   protected $stream= null;
   
   /**
@@ -53,7 +53,7 @@ class XmlStreamWriter extends XmlWriter {
    * @param   string name
    * @param   [:string] attributes
    */
-  public function startElement($name, $attributes= array()) {
+  public function startElement($name, $attributes= []) {
     $this->stream->write('<'.$name);
     foreach ($attributes as $key => $value) {
       $this->stream->write(' '.$key.'="'.htmlspecialchars($value, ENT_COMPAT, \xp::ENCODING).'"');

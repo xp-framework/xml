@@ -1,5 +1,6 @@
 <?php namespace xml\unittest;
  
+use xml\XMLFormatException;
 use xml\Tree;
 use xml\Node;
 use xml\parser\XMLParser;
@@ -34,7 +35,7 @@ class TreeTest extends \unittest\TestCase {
   #[@test]
   public function rootMember() {
     with ($t= new Tree('formresult'), $r= $t->root()); {
-      $this->assertInstanceOf('xml.Node', $r);
+      $this->assertInstanceOf(Node::class, $r);
       $this->assertFalse($r->hasChildren());
       $this->assertEquals([], $r->getAttributes());
       $this->assertEquals('formresult', $r->getName());
@@ -44,7 +45,7 @@ class TreeTest extends \unittest\TestCase {
   #[@test]
   public function addChild() {
     $t= new Tree('tests');
-    $child= new Node('test', 'success', array('name' => 'TreeTest'));
+    $child= new Node('test', 'success', ['name' => 'TreeTest']);
     $this->assertEquals($child, $t->addChild($child));
   }
 
@@ -104,7 +105,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('false', $tree->root()->getAttribute('empty'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function fromNonXmlString() {
     Tree::fromString('@@NO-XML-HERE@@');
   }
@@ -168,7 +169,7 @@ class TreeTest extends \unittest\TestCase {
     $s= microtime(true);
     $t= new Tree();
     for ($i= 0; $i < 100; $i++) {
-      $c= $t->addChild(new Node('child', null, array('id' => $i)));
+      $c= $t->addChild(new Node('child', null, ['id' => $i]));
       for ($j= 0; $j < 100; $j++) {
         $c->addChild(new Node('elements', str_repeat('x', $j)));
       }

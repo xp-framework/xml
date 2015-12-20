@@ -29,7 +29,7 @@ class Document extends Tree {
    * @return  xml.Node[]
    */
   protected function _getElementsByTagName($node, $tagname, $max= -1) {
-    $r= array();
+    $r= [];
     foreach ($node->getChildren() as $child) {
       if ($tagname == $child->getName()) {
         $r[]= $child;
@@ -55,7 +55,7 @@ class Document extends Tree {
    * @return  xml.Node[]
    */
   protected function _getElementsByAttribute($node, $attribute, $name, $max) {
-    $r= array();
+    $r= [];
     foreach ($node->getChildren() as $child) {
       if (
         ($child->hasAttribute($attribute)) &&

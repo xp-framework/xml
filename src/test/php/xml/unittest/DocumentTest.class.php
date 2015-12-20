@@ -47,7 +47,7 @@ class DocumentTest extends TestCase {
     </wizard>');
     
     $this->assertEquals(
-      array($dom->getDocumentElement()->nodeAt(0)->nodeAt(0)),
+      [$dom->getDocumentElement()->nodeAt(0)->nodeAt(0)],
       $dom->getElementsByName('package')
     );
   }

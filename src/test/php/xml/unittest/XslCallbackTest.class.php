@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
 
+use lang\IllegalArgumentException;
+use lang\ElementNotFoundException;
 use xml\XSLCallback;
 use xml\DomXSLProcessor;
 use xml\Node;
@@ -81,7 +83,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Hello Test', $this->runTransformation(
       '<document/>', 
       'this::sayHello',
-      array("'Test'")
+      ["'Test'"]
     ));
   }
 
@@ -130,23 +132,23 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Hello World', $this->runTransformation(
       '<document/>', 
       'this::sayHello',
-      array()
+      []
     ));
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function callOnNotRegisteredCallback() {
-    $this->runTransformation('<irrelevant/>', 'not-registered::irrelevant', array());
+    $this->runTransformation('<irrelevant/>', 'not-registered::irrelevant', []);
   }
 
-  #[@test, @expect('lang.ElementNotFoundException')]
+  #[@test, @expect(ElementNotFoundException::class)]
   public function callNonXslMethod() {
-    $this->runTransformation('<irrelevant/>', 'this::setUp', array());
+    $this->runTransformation('<irrelevant/>', 'this::setUp', []);
   }
 
-  #[@test, @expect('lang.ElementNotFoundException')]
+  #[@test, @expect(ElementNotFoundException::class)]
   public function callNonExistantMethod() {
-    $this->runTransformation('<irrelevant/>', 'this::nonExistantMethod', array());
+    $this->runTransformation('<irrelevant/>', 'this::nonExistantMethod', []);
   }
 
   #[@test]
@@ -155,7 +157,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
-      array('string(/date/value)', "'Y-m-d H:i:s T'")
+      ['string(/date/value)', "'Y-m-d H:i:s T'"]
     ));
   }
 
@@ -166,7 +168,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals($date->toString('Y-m-d H:i:s T', $tz), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
-      array('string(/date/value)', "'Y-m-d H:i:s T'", "'".$tz->getName()."'")
+      ['string(/date/value)', "'Y-m-d H:i:s T'", "'".$tz->getName()."'"]
     ));
   }
 
@@ -176,7 +178,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
-      array('string(/date/value)', "'Y-m-d H:i:s T'", "''")
+      ['string(/date/value)', "'Y-m-d H:i:s T'", "''"]
     ));
   }
 
@@ -186,7 +188,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
-      array('string(/date/value)', "'Y-m-d H:i:s T'")
+      ['string(/date/value)', "'Y-m-d H:i:s T'"]
     ));
   }
 
@@ -195,7 +197,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('a+%26+b%3F', $this->runTransformation(
       '<url>a &amp; b?</url>',
       'xp.string::urlencode',
-      array('string(/)')
+      ['string(/)']
     ));
   }
 
@@ -204,7 +206,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('a & b?', $this->runTransformation(
       '<url>a+%26+b%3F</url>',
       'xp.string::urldecode',
-      array('string(/)')
+      ['string(/)']
     ));
   }
 
@@ -213,7 +215,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals('Hello World!', $this->runTransformation(
       '<string>Hello Test!</string>',
       'xp.string::replace',
-      array('string(/)', "'Test'", "'World'")
+      ['string(/)', "'Test'", "'World'"]
     ));
   }
 
@@ -222,7 +224,7 @@ class XslCallbackTest extends \unittest\TestCase {
     $this->assertEquals("Line 1<br />\nLine 2", $this->runTransformation(
       "<string>Line 1\nLine 2</string>",
       'xp.string::nl2br',
-      array('string(/)')
+      ['string(/)']
     ));
   }
 }

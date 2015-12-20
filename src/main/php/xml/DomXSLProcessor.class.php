@@ -32,13 +32,13 @@ class DomXSLProcessor extends \lang\Object implements IXSLProcessor {
     $processor      = null,
     $stylesheet     = null,
     $document       = null,
-    $params         = array(),
+    $params         = [],
     $output         = '',
     $outputEncoding = '',
     $baseURI        = '';
 
   public
-    $_instances   = array(),
+    $_instances   = [],
     $_base        = '';
 
   static function __static() {
@@ -343,7 +343,7 @@ class DomXSLProcessor extends \lang\Object implements IXSLProcessor {
         $cb->registerInstance($name, $instance);
       }
     }
-    $this->processor->registerPHPFunctions(array('XSLCallback::invoke'));
+    $this->processor->registerPHPFunctions(['XSLCallback::invoke']);
     if (null === ($this->outputEncoding= $this->determineOutputEncoding(
       $this->stylesheet->documentElement,
       $this->baseURI

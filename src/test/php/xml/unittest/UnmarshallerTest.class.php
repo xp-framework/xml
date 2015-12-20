@@ -1,5 +1,12 @@
 <?php namespace xml\unittest;
  
+use xml\unittest\DialogType;
+use xml\unittest\ButtonType;
+use xml\XMLFormatException;
+use lang\reflect\TargetInvocationException;
+use lang\IllegalArgumentException;
+use xml\unittest\ApplicationType;
+use xml\unittest\TextInputType;
 use unittest\TestCase;
 use xml\meta\Unmarshaller;
 use io\streams\MemoryInputStream;
@@ -28,7 +35,7 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')),
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
+    $this->assertInstanceOf(DialogType::class, $dialog);
     $this->assertEquals('file.open', $dialog->getId());
   }
 
@@ -40,7 +47,7 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')),
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
+    $this->assertInstanceOf(DialogType::class, $dialog);
     $this->assertEquals('Open a file > Choose', $dialog->getCaption());
   }
   
@@ -54,13 +61,13 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
+    $this->assertInstanceOf(DialogType::class, $dialog);
     $this->assertTrue($dialog->hasButtons());
     $this->assertEquals(2, $dialog->numButtons());
 
     with ($ok= $dialog->buttonAt(0), $cancel= $dialog->buttonAt(1)); {
-      $this->assertInstanceOf('xml.unittest.ButtonType', $ok);
-      $this->assertInstanceOf('xml.unittest.ButtonType', $cancel);
+      $this->assertInstanceOf(ButtonType::class, $ok);
+      $this->assertInstanceOf(ButtonType::class, $cancel);
       $this->assertEquals('ok', $ok->getId());
       $this->assertEquals('cancel', $cancel->getId());
       $this->assertEquals('Yes, go ahead', $ok->getCaption());
@@ -76,8 +83,8 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
-    $this->assertEquals(array('ON_TOP', 'MODAL'), $dialog->getFlags());
+    $this->assertInstanceOf(DialogType::class, $dialog);
+    $this->assertEquals(['ON_TOP', 'MODAL'], $dialog->getFlags());
   }
   
   #[@test]
@@ -91,11 +98,11 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
-    $this->assertEquals(array(
+    $this->assertInstanceOf(DialogType::class, $dialog);
+    $this->assertEquals([
       'width' => '100',
       'height' => '100'
-    ), $dialog->getOptions());
+    ], $dialog->getOptions());
   }
 
   #[@test]
@@ -104,11 +111,11 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<dialogtype id="stream.select"/>'), 'memory'),
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $dialog);
+    $this->assertInstanceOf(DialogType::class, $dialog);
     $this->assertEquals('stream.select', $dialog->getId());
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function malformedStream() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<not-valid-xml'), 'memory'), 
@@ -116,7 +123,7 @@ class UnmarshallerTest extends TestCase {
     );
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function emptyStream() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream(''), 'memory'), 
@@ -134,7 +141,7 @@ class UnmarshallerTest extends TestCase {
     );
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function malformedString() {
     Unmarshaller::unmarshal(
       '<not-valid-xml', 
@@ -142,7 +149,7 @@ class UnmarshallerTest extends TestCase {
     );
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function emptyString() {
     Unmarshaller::unmarshal(
       '', 
@@ -156,7 +163,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<dialog/>')),
       'xml.unittest.NameBasedTypeFactory'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $object);
+    $this->assertInstanceOf(DialogType::class, $object);
   }
 
   #[@test]
@@ -165,10 +172,10 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<button/>')),
       'xml.unittest.NameBasedTypeFactory'
     );
-    $this->assertInstanceOf('xml.unittest.ButtonType', $object);
+    $this->assertInstanceOf(ButtonType::class, $object);
   }
 
-  #[@test, @expect('lang.reflect.TargetInvocationException')]
+  #[@test, @expect(TargetInvocationException::class)]
   public function nameBasedFactoryToUnknown() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<unknown/>')),
@@ -182,7 +189,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<object id="dialog"/>')),
       'xml.unittest.IdBasedTypeFactory'
     );
-    $this->assertInstanceOf('xml.unittest.DialogType', $object);
+    $this->assertInstanceOf(DialogType::class, $object);
   }
 
   #[@test]
@@ -191,10 +198,10 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<object id="button"/>')),
       'xml.unittest.IdBasedTypeFactory'
     );
-    $this->assertInstanceOf('xml.unittest.ButtonType', $object);
+    $this->assertInstanceOf(ButtonType::class, $object);
   }
 
-  #[@test, @expect('lang.reflect.TargetInvocationException')]
+  #[@test, @expect(TargetInvocationException::class)]
   public function idBasedFactoryToUnknown() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<object id="unknown"/>')),
@@ -207,15 +214,15 @@ class UnmarshallerTest extends TestCase {
     $window= $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<window owner-window="main"/>')),
       'xml.unittest.WindowType',
-      array('windows' => array(
+      ['windows' => [
         'main'     => 1,
         'desktop'  => 0
-      ))
+      ]]
     );
     $this->assertEquals(1, $window->getOwnerWindow());
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function injectionFails() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<window owner-window="main"/>')),
@@ -229,7 +236,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<app:application xmlns:app="http://projects.xp-framework.net/xmlns/app"/>')),
       'xml.unittest.ApplicationType'
     );
-    $this->assertInstanceOf('xml.unittest.ApplicationType', $app);
+    $this->assertInstanceOf(ApplicationType::class, $app);
   }
 
   #[@test]
@@ -238,7 +245,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<input id="name" disabled="true"/>')),
       'xml.unittest.TextInputType'
     );
-    $this->assertInstanceOf('xml.unittest.TextInputType', $t);
+    $this->assertInstanceOf(TextInputType::class, $t);
     $this->assertTrue($t->getDisabled());
   }
 }

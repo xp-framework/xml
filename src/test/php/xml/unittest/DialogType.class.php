@@ -12,8 +12,8 @@ class DialogType extends \lang\Object {
     $id       = '',
     $caption  = '',
     $buttons  = null,
-    $flags    = array(),
-    $options  = array();
+    $flags    = [],
+    $options  = [];
 
   /**
    * Constructor
@@ -118,9 +118,9 @@ class DialogType extends \lang\Object {
    * @param   string $flag1
    * @param   string $flag2
    */
-  #[@xmlmapping(element= 'flags', pass= array('substring-before(., "|")', 'substring-after(., "|")'))]
+  #[@xmlmapping(element= 'flags', pass= ['substring-before(., "|")', 'substring-after(., "|")'])]
   public function setFlags($flag1, $flag2) {
-    $this->flags= array($flag1, $flag2);
+    $this->flags= [$flag1, $flag2];
   }
   
   /**
@@ -139,7 +139,7 @@ class DialogType extends \lang\Object {
    * @param   string $name
    * @param   string $value
    */
-  #[@xmlmapping(element= 'options/option', pass= array('@name', '@value'))]
+  #[@xmlmapping(element= 'options/option', pass= ['@name', '@value'])]
   public function setOptions($name, $value) {
     $this->options[$name]= $value;
   }

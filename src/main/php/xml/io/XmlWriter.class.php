@@ -29,7 +29,7 @@ abstract class XmlWriter extends \lang\Object {
    * @param   string name
    * @param   [:string] attributes
    */
-  public abstract function startElement($name, $attributes= array());
+  public abstract function startElement($name, $attributes= []);
   
   /**
    * Close an element previously opened with startElement()
@@ -122,5 +122,5 @@ abstract class XmlWriter extends \lang\Object {
    * @param   string content
    * @param   [:string] attributes
    */
-  public abstract function writeElement($name, $content= null, $attributes= array());
+  public abstract function writeElement($name, $content= null, $attributes= []);
 }

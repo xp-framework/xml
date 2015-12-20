@@ -1,5 +1,9 @@
 <?php namespace xml\unittest;
  
+use xml\XMLFormatException;
+use lang\IllegalArgumentException;
+use lang\Error;
+use lang\Object;
 use xml\Node;
 use unittest\actions\RuntimeVersion;
 
@@ -45,18 +49,18 @@ class NodeTest extends \unittest\TestCase {
     $this->assertEquals('name', $n->getName());
   }
   
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function illegalContent() {
     $n= new Node('node');
     $n->setContent("\0");
   }
   
-  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function addingNullChild() {
     (new Node('node'))->addChild(null);
   }
 
-  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function addingNullChild7() {
     (new Node('node'))->addChild(null);
   }
@@ -79,7 +83,7 @@ class NodeTest extends \unittest\TestCase {
   public function fromEmptyArray() {
     $this->assertEquals(
       '<node/>', 
-      $this->sourceOf(Node::fromArray(array(), 'node'))
+      $this->sourceOf(Node::fromArray([], 'node'))
     );
   }
 
@@ -87,7 +91,7 @@ class NodeTest extends \unittest\TestCase {
   public function fromNumberArray() {
     $this->assertEquals(
       '<items><item>1</item><item>2</item></items>', 
-      $this->sourceOf(Node::fromArray(array(1, 2), 'items'), INDENT_NONE)
+      $this->sourceOf(Node::fromArray([1, 2], 'items'), INDENT_NONE)
     );
   }
 
@@ -95,7 +99,7 @@ class NodeTest extends \unittest\TestCase {
   public function fromCharacterArray() {
     $this->assertEquals(
       '<characters><character>1</character><character>&amp;</character><character>1</character></characters>', 
-      $this->sourceOf(Node::fromArray(array('1', '&', '1'), 'characters'), INDENT_NONE)
+      $this->sourceOf(Node::fromArray(['1', '&', '1'], 'characters'), INDENT_NONE)
     );
   }
   
@@ -111,7 +115,7 @@ class NodeTest extends \unittest\TestCase {
   public function sourceOfNodeWithOneAttribute() {
     $this->assertEquals(
       '<node id="1"/>', 
-      $this->sourceOf(new Node('node', null, array('id' => 1)))
+      $this->sourceOf(new Node('node', null, ['id' => 1]))
     );
   }
 
@@ -119,7 +123,7 @@ class NodeTest extends \unittest\TestCase {
   public function sourceOfNodeWithTwoAttributes() {
     $this->assertEquals(
       '<node id="2" name="&amp;XML"/>', 
-      $this->sourceOf(new Node('node', null, array('id' => 2, 'name' => '&XML')))
+      $this->sourceOf(new Node('node', null, ['id' => 2, 'name' => '&XML']))
     );
   }
 
@@ -188,7 +192,7 @@ class NodeTest extends \unittest\TestCase {
       "  <name>Name goes here</name>\n".
       "  <__id/>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(newinstance('lang.Object', [], [
+      $this->sourceOf(Node::fromObject(newinstance(Object::class, [], [
         'id'          => 1549,
         'color'       => 'green',
         'name'        => null,

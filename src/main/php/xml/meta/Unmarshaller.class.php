@@ -94,12 +94,12 @@ class Unmarshaller extends \lang\Object {
           // * If the xmlmapping annotation has a key "class", call recurse()
           //   with the given XPath, the node as context and the key's value
           //   as classname
-          $arguments= array(self::recurse(
+          $arguments= [self::recurse(
             $xpath, 
             $node, 
             \lang\XPClass::forName($method->getAnnotation('xmlmapping', 'class')),
             $inject
-          ));
+          )];
         } else if ($method->hasAnnotation('xmlmapping', 'factory')) {
 
           // * If the xmlmapping annotation has a key "factory", call recurse()
@@ -109,36 +109,36 @@ class Unmarshaller extends \lang\Object {
           //   In case it is, call the factory method with the arguments 
           //   constructed from the "pass" key.
           if ($method->hasAnnotation('xmlmapping', 'pass')) {
-            $factoryArgs= array();
+            $factoryArgs= [];
             foreach ($method->getAnnotation('xmlmapping', 'pass') as $pass) {
               $factoryArgs[]= self::contentOf($xpath->query($pass, $node));
             }
           } else {
-            $factoryArgs= array($node->nodeName);
+            $factoryArgs= [$node->nodeName];
           }
-          $arguments= array(self::recurse(
+          $arguments= [self::recurse(
             $xpath, 
             $node, 
             \lang\XPClass::forName(call_user_func_array(
-              array($instance, $method->getAnnotation('xmlmapping', 'factory')), 
+              [$instance, $method->getAnnotation('xmlmapping', 'factory')], 
               $factoryArgs
             )),
             $inject
-          ));
+          )];
         } else if ($method->hasAnnotation('xmlmapping', 'pass')) {
         
           // * If the xmlmapping annotation has a key "pass" (expected to be an
           //   array of XPaths relative to the node), construct the method's
           //   argument list from the XPaths' results.
-          $arguments= array();
+          $arguments= [];
           foreach ($method->getAnnotation('xmlmapping', 'pass') as $pass) {
             $arguments[]= self::contentOf($xpath->query($pass, $node));
           }
         } else if ($method->hasAnnotation('xmlmapping', 'cast')) {
           $cast= $method->getAnnotation('xmlmapping', 'cast');
           switch (sscanf($cast, '%[^:]::%s', $c, $m)) {
-            case 1: $target= array($instance, $c); break;
-            case 2: $target= array($c, $m); break;
+            case 1: $target= [$instance, $c]; break;
+            case 2: $target= [$c, $m]; break;
             default: throw new \lang\IllegalArgumentException('Unparseable cast "'.$cast.'"');
           }
 
@@ -151,11 +151,11 @@ class Unmarshaller extends \lang\Object {
           //   contents to the specified type before passing it to the method.
           $value= iconv('utf-8', \xp::ENCODING, $node->textContent);
           settype($value, $method->getAnnotation('xmlmapping', 'type'));
-          $arguments= array($value);
+          $arguments= [$value];
         } else {
 
           // * Otherwise, pass the node's content to the method
-          $arguments= array(iconv('utf-8', \xp::ENCODING, $node->textContent));
+          $arguments= [iconv('utf-8', \xp::ENCODING, $node->textContent)];
         }
         
         // Pass injection parameters at end of list
@@ -196,7 +196,7 @@ class Unmarshaller extends \lang\Object {
       $e= libxml_get_last_error();
       throw new XMLFormatException(trim($e->message), $e->code, $source, $e->line, $e->column);
     }
-    return self::recurse(new XPath($doc), $doc->documentElement, \lang\XPClass::forName($classname), array());
+    return self::recurse(new XPath($doc), $doc->documentElement, \lang\XPClass::forName($classname), []);
   }
 
   /**
@@ -211,7 +211,7 @@ class Unmarshaller extends \lang\Object {
    * @throws  lang.reflect.TargetInvocationException
    * @throws  lang.IllegalArgumentException
    */
-  public function unmarshalFrom(InputSource $input, $classname, $inject= array()) {
+  public function unmarshalFrom(InputSource $input, $classname, $inject= []) {
     libxml_clear_errors();
     $doc= new \DOMDocument();
     if (!$doc->load(Streams::readableUri($input->getStream()))) {
@@ -226,12 +226,12 @@ class Unmarshaller extends \lang\Object {
     $class= \lang\XPClass::forName($classname);
     if ($class->hasAnnotation('xmlmapping', 'factory')) {
       if ($class->hasAnnotation('xmlmapping', 'pass')) {
-        $factoryArgs= array();
+        $factoryArgs= [];
         foreach ($class->getAnnotation('xmlmapping', 'pass') as $pass) {
           $factoryArgs[]= self::contentOf($xpath->query($pass, $doc->documentElement));
         }
       } else {
-        $factoryArgs= array($doc->documentElement->nodeName);
+        $factoryArgs= [$doc->documentElement->nodeName];
       }
       $class= $class->getMethod($class->getAnnotation('xmlmapping', 'factory'))->invoke(null, $factoryArgs);
     }

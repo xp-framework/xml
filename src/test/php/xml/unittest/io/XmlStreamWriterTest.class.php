@@ -58,7 +58,7 @@ class XmlStreamWriterTest extends \unittest\TestCase {
 
   #[@test]
   public function startElementWithAttribute() {
-    $this->writer->startElement('book', array('isbn' => '978-3-86680-192-9'));
+    $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9']);
     $this->assertEquals(
       '<book isbn="978-3-86680-192-9">', 
       $this->out->getBytes()
@@ -67,7 +67,7 @@ class XmlStreamWriterTest extends \unittest\TestCase {
 
   #[@test]
   public function startElementWithAttributes() {
-    $this->writer->startElement('book', array('isbn' => '978-3-86680-192-9', 'authors' => 'Timm & Alex'));
+    $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9', 'authors' => 'Timm & Alex']);
     $this->assertEquals(
       '<book isbn="978-3-86680-192-9" authors="Timm &amp; Alex">', 
       $this->out->getBytes()
@@ -225,7 +225,7 @@ class XmlStreamWriterTest extends \unittest\TestCase {
 
   #[@test]
   public function writePIWithAttributes() {
-    $this->writer->writePI('xml-stylesheet', array('href' => 'template.xsl'));
+    $this->writer->writePI('xml-stylesheet', ['href' => 'template.xsl']);
     $this->assertEquals(
       '<?xml-stylesheet href="template.xsl"?>', 
       $this->out->getBytes()
@@ -247,7 +247,7 @@ class XmlStreamWriterTest extends \unittest\TestCase {
 
   #[@test]
   public function writElement() {
-    $this->writer->writeElement('book', 'Hello & World', array('isbn' => '978-3-86680-192-9'));
+    $this->writer->writeElement('book', 'Hello & World', ['isbn' => '978-3-86680-192-9']);
     $this->assertEquals(
       '<book isbn="978-3-86680-192-9">Hello &amp; World</book>', 
       $this->out->getBytes()

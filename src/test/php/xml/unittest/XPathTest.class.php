@@ -1,5 +1,8 @@
 <?php namespace xml\unittest;
 
+use lang\IllegalArgumentException;
+use xml\XMLFormatException;
+use xml\XPathException;
 use xml\Tree;
 use xml\XPath;
 use xml\Node;
@@ -44,17 +47,17 @@ class XPathTest extends \unittest\TestCase {
     new XPath(new Tree('document'));
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function constructWithNull() {
     new XPath(null);
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function constructWithUnclosedTag() {
     new XPath('<unclosed-tag>');
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function constructWithSyntaxErrorInAttribute() {
     new XPath('<hello attribute="/>');
   }
@@ -129,7 +132,7 @@ class XPathTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect('xml.XPathException')]
+  #[@test, @expect(XPathException::class)]
   public function invalidQuery() {
     (new XPath('<document/>'))->query(',INVALID,');
   }

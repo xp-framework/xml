@@ -1,5 +1,6 @@
 <?php namespace xml\unittest;
 
+use xml\XMLFormatException;
 use unittest\TestCase;
 use xml\parser\XMLParser;
 use xml\parser\ParserCallback;
@@ -48,7 +49,7 @@ abstract class AbstractXMLParserTest extends TestCase {
    * @return  xml.parser.ParserCallback
    */
   protected function newCallback() {
-    return newinstance('xml.parser.ParserCallback', array(), '{
+    return newinstance(ParserCallback::class, [], '{
       protected
         $pointer  = array();
         
@@ -96,7 +97,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->assertTrue($this->parser->parse($this->source('<root/>', true)));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function emptyString() {
     $this->parser->parse($this->source('', false));
   }
@@ -120,33 +121,33 @@ abstract class AbstractXMLParserTest extends TestCase {
       </chapter>
     </book>'));
     $this->assertEquals('book', $callback->tree[self::NAME]);
-    $this->assertEquals(array(), $callback->tree[self::ATTR]);
+    $this->assertEquals([], $callback->tree[self::ATTR]);
     
     with ($author= $callback->tree[self::CHLD][1]); {
       $this->assertEquals('author', $author[self::NAME]);
-      $this->assertEquals(array(), $author[self::ATTR]);
+      $this->assertEquals([], $author[self::ATTR]);
     
       with ($name= $author[self::CHLD][0]); {
         $this->assertEquals('name', $name[self::NAME]);
-        $this->assertEquals(array(), $name[self::ATTR]);
-        $this->assertEquals(array('Timm'), $name[self::CHLD]);
+        $this->assertEquals([], $name[self::ATTR]);
+        $this->assertEquals(['Timm'], $name[self::CHLD]);
       }
     }
 
     with ($chapter= $callback->tree[self::CHLD][3]); {
       $this->assertEquals('chapter', $chapter[self::NAME]);
-      $this->assertEquals(array('id' => '1'), $chapter[self::ATTR]);
+      $this->assertEquals(['id' => '1'], $chapter[self::ATTR]);
 
       with ($title= $chapter[self::CHLD][1]); {
         $this->assertEquals('title', $title[self::NAME]);
-        $this->assertEquals(array(), $title[self::ATTR]);
-        $this->assertEquals(array('Introduction'), $title[self::CHLD]);
+        $this->assertEquals([], $title[self::ATTR]);
+        $this->assertEquals(['Introduction'], $title[self::CHLD]);
       }
 
       with ($paragraph= $chapter[self::CHLD][3]); {
         $this->assertEquals('paragraph', $paragraph[self::NAME]);
-        $this->assertEquals(array(), $paragraph[self::ATTR]);
-        $this->assertEquals(array('This is where it all started.'), $paragraph[self::CHLD]);
+        $this->assertEquals([], $paragraph[self::ATTR]);
+        $this->assertEquals(['This is where it all started.'], $paragraph[self::CHLD]);
       }
     }
   }
@@ -158,7 +159,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       $this->parser->setCallback($callback);
       $this->parser->parse($this->source('<run id="'.$i.'"/>'));
       $this->assertEquals(
-        array('run', array('id' => (string)$i), array()), 
+        ['run', ['id' => (string)$i], []], 
         $callback->tree, 
         'Run #'.$i
       );
@@ -183,42 +184,42 @@ abstract class AbstractXMLParserTest extends TestCase {
     }
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function withoutRoot() {
     $this->parser->parse($this->source(''));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function unclosedTag() {
     $this->parser->parse($this->source('<a>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function unclosedAttribute() {
     $this->parser->parse($this->source('<a href="http://>Click</a>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function unclosedComment() {
     $this->parser->parse($this->source('<doc><!-- Comment</doc>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function incorrectlyClosedComment() {
     $this->parser->parse($this->source('<doc><!-- Comment ></doc>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function malformedComment() {
     $this->parser->parse($this->source('<doc><! Comment --></doc>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function unclosedProcessingInstruction() {
     $this->parser->parse($this->source('<doc><?php echo "1"; </doc>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function attributeRedefinition() {
     $this->parser->parse($this->source('<a id="1" id="2"/>'));
   }
@@ -229,7 +230,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<n id="\'1\'" t=\'"_new"\' q="&apos;&quot;"/>'));
     $this->assertEquals(
-      array('n', array('id' => "'1'", 't' => '"_new"', 'q' => '\'"'), array()),
+      ['n', ['id' => "'1'", 't' => '"_new"', 'q' => '\'"'], []],
       $callback->tree
     );
   }
@@ -240,12 +241,12 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<a id=">"/>'));
     $this->assertEquals(
-      array('a', array('id' => '>'), array()),
+      ['a', ['id' => '>'], []],
       $callback->tree
     );
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function smallerSignInAttribute() {
     $this->parser->parse($this->source('<a id="<"/>'));
   }
@@ -257,11 +258,11 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->parse($this->source('
       <doc>CDATA [<![CDATA[ <&> ]]>]</doc>
     '));
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         'CDATA [', '<&>', ']'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -270,11 +271,11 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<doc><?php echo "1"; ?></doc>'));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         '<?php echo "1"; ?>'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -283,14 +284,14 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<doc><!-- Comment --></doc>'));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         '<!-- Comment -->'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function nestedCdata() {
     $callback= $this->newCallback();
     $this->parser->setCallback($callback);
@@ -307,11 +308,11 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>&quot;3 &lt; 5 &apos;&amp;&apos; 5 &gt; 3&quot;</doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         '"', '3', '<', '5', "'", '&', "'", '5', '>', '3', '"'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -322,11 +323,11 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>&#169; 2001-2009 the XP team</doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         '©', '2001-2009 the XP team'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -339,11 +340,11 @@ abstract class AbstractXMLParserTest extends TestCase {
     '));
 
     $this->assertEquals('iso-8859-1', $callback->encoding);
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         'The', 'übercoder returns'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -356,29 +357,29 @@ abstract class AbstractXMLParserTest extends TestCase {
     '));
     
     $this->assertEquals('utf-8', $callback->encoding);
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         'The', 'Ã¼bercoder returns'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function undeclaredEntity() {
     $this->parser->parse($this->source('<doc>&nbsp;</doc>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function undeclaredEntityInAttribute() {
     $this->parser->parse($this->source('<doc><a href="&nbsp;"/></doc>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function doubleRoot() {
     $this->parser->parse($this->source('<doc/><doc/>'));
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function docTypeWithoutContent() {
     $this->parser->parse($this->source('<!DOCTYPE doc ]>'));
   }
@@ -392,11 +393,11 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>Copyright: &copy;</doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         'Copyright:', '&copy;'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -408,11 +409,11 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>Copyright: &copyright;</doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
+    $this->assertEquals([
+      'doc', [], [
         'Copyright:', '&copyright;'
-      )
-    ), $callback->tree);
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -424,11 +425,11 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc><book copyright="Copyright &copyright;"/></doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
-        array('book', array('copyright' => 'Copyright 2009 The XP team'), array()),
-      )
-    ), $callback->tree);
+    $this->assertEquals([
+      'doc', [], [
+        ['book', ['copyright' => 'Copyright 2009 The XP team'], []],
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -443,11 +444,11 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc><book copyright="Copyright &copyright;"/></doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array(
-        array('book', array('copyright' => 'Copyright 2009 The XP team'), array()),
-      )
-    ), $callback->tree);
+    $this->assertEquals([
+      'doc', [], [
+        ['book', ['copyright' => 'Copyright 2009 The XP team'], []],
+      ]
+    ], $callback->tree);
   }
 
   #[@test]
@@ -459,12 +460,12 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>Copyright: &copyright;</doc>
     '));
 
-    $this->assertEquals(array(
-      'doc', array(), array('Copyright:'),
-    ), $callback->tree);
+    $this->assertEquals([
+      'doc', [], ['Copyright:'],
+    ], $callback->tree);
   }
 
-  #[@test, @expect('xml.XMLFormatException')]
+  #[@test, @expect(XMLFormatException::class)]
   public function externalEntityInAttribute() {
     $callback= $this->newCallback();
     $this->parser->setCallback($callback);
