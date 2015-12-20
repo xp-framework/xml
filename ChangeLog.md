@@ -9,6 +9,7 @@ XML APIs for the XP Framework ChangeLog
   touched, unofficial PHP 5.4 support is still available though not tested
   with Travis-CI*.
   (@thekid)
+* Officially addited support for HHVM (3.5+) support - @thekid
 
 ## 6.2.2 / 2014-12-09
 
