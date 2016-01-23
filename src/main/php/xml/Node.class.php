@@ -421,7 +421,7 @@ class Node extends \lang\Object {
     foreach ($this->attribute as $name => $value) {
       $a.= ' @'.$name.'= '.\xp::stringOf($value);
     }
-    $s= $this->getClassName().'('.$this->name.$a.') {';
+    $s= nameof($this).'('.$this->name.$a.') {';
     if (!$this->children) {
       $s.= null === $this->content ? ' ' : ' '.\xp::stringOf($this->content).' ';
     } else {

@@ -274,7 +274,7 @@ class Tree extends \lang\Object implements ParserCallback {
   public function toString() {
     return sprintf(
       "%s(version=%s encoding=%s)@{\n  %s\n}",
-      $this->getClassName(),
+      nameof($this),
       $this->version,
       $this->encoding,
       \xp::stringOf($this->root, '  ')

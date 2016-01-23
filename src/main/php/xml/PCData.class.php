@@ -40,6 +40,6 @@ class PCData extends \lang\Object {
    * @return  string
    */
   public function toString() {
-    return $this->getClassName().'('.$this->pcdata.')';
+    return nameof($this).'('.$this->pcdata.')';
   }
 }

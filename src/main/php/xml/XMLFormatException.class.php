@@ -73,7 +73,7 @@ class XMLFormatException extends \lang\FormatException {
       "  linenumber %d\n".
       "  column     %d\n".
       "}\n",
-      $this->getClassName(),
+      nameof($this),
       $this->getMessage(),
       $this->getType(),
       $this->getTypeName(),

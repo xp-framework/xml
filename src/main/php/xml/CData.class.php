@@ -36,6 +36,6 @@ class CData extends \lang\Object {
    * @return  string
    */
   public function toString() {
-    return $this->getClassName().'('.$this->cdata.')';
+    return nameof($this).'('.$this->cdata.')';
   }
 }

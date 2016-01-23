@@ -49,6 +49,6 @@ class TreeInputSource extends \lang\Object implements InputSource {
    * @return  string
    */
   public function toString() {
-    return $this->getClassName().'<'.$this->source.'>';
+    return nameof($this).'<'.$this->source.'>';
   }
 }
