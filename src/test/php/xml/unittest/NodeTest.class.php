@@ -151,14 +151,6 @@ class NodeTest extends \unittest\TestCase {
     );
   }
   
-  #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
-  public function sourceOfNodeWithStringContent() {
-    $this->assertEquals(
-      '<node>XP &amp; APC</node>',
-      $this->sourceOf(new Node('node', new \lang\types\String('XP & APC'))) 
-    );
-  }
-
   #[@test]
   public function getSourceWithDefaultEncoding() {
     $this->assertEquals(
