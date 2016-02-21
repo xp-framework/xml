@@ -143,26 +143,19 @@ class XPathTest extends \unittest\TestCase {
     $this->assertEquals('value', $xpath->query('string(/document/node)'));
   }
   
-  #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test]
   public function queryTreeWithEncoding() {
-    $value= new \lang\types\String('value ���', 'iso-8859-1');
     $xpath= new XPath(Tree::fromString(sprintf(
       '<?xml version="1.0" encoding="iso-8859-1"?>'.
       '<document><node>%s</node></document>',
-      $value->getBytes('iso-8859-1')
+      utf8_decode('öäü')
     )));
-
-    $this->assertEquals($value, new \lang\types\String($xpath->query('string(/document/node)'), 'utf-8'));
+    $this->assertEquals('öäü', $xpath->query('string(/document/node)'));
   }
   
-  #[@test, @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test]
   public function queryTreeWithDefaultEncoding() {
-    $value= new \lang\types\String('value öäü', 'utf-8');
-    $xpath= new XPath($s= sprintf(
-      '<document><node>%s</node></document>',
-      $value->getBytes('utf-8')
-    ));
-
-    $this->assertEquals($value, new \lang\types\String($xpath->query('string(/document/node)'), 'utf-8'));
+    $xpath= new XPath('<document><node>öäü</node></document>');
+    $this->assertEquals('öäü', $xpath->query('string(/document/node)'));
   }
 }
