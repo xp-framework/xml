@@ -184,7 +184,7 @@ class NodeTest extends \unittest\TestCase {
       "  <name>Name goes here</name>\n".
       "  <__id/>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(newinstance(Object::class, [], [
+      $this->sourceOf(Node::fromObject(newinstance('lang\Object', [], [
         'id'          => 1549,
         'color'       => 'green',
         'name'        => null,
