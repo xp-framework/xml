@@ -194,4 +194,24 @@ class NodeTest extends \unittest\TestCase {
       ]), 'node'))
     );
   }
+
+  #[@test]
+  public function fromObjectShortName() {
+    $this->assertEquals(
+      "<Object·6>\n".
+      "  <id>1549</id>\n".
+      "  <color>green</color>\n".
+      "  <name>Name goes here</name>\n".
+      "  <__id/>\n".
+      "</Object·6>",
+      $this->sourceOf(Node::fromObject(newinstance('lang\Object', [], [
+        'id'          => 1549,
+        'color'       => 'green',
+        'name'        => null,
+        '__construct' => function() {
+          $this->name= 'Name goes here';
+        }
+      ]), null))
+    );
+  }
 }

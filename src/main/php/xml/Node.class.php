@@ -97,8 +97,8 @@ class Node extends \lang\Object {
 
     if (null !== $name) return self::fromArray($vars, $name);
 
-    $class= get_class($obj);
-    return self::fromArray($vars, (false !== ($p= strrpos($class, '\\'))) ? substr($class, $p+ 2): $class);
+    $class= utf8_encode(get_class($obj));
+    return self::fromArray($vars, (false !== ($p= strrpos($class, '\\'))) ? substr($class, $p+ 1): $class);
   }
 
   /**
