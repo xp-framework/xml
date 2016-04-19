@@ -184,7 +184,7 @@ class NodeTest extends \unittest\TestCase {
       "  <name>Name goes here</name>\n".
       "  <__id/>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(newinstance('lang\Object', [], [
+      $this->sourceOf(Node::fromObject(newinstance('lang.Object', [], [
         'id'          => 1549,
         'color'       => 'green',
         'name'        => null,
@@ -197,21 +197,16 @@ class NodeTest extends \unittest\TestCase {
 
   #[@test]
   public function fromObjectShortName() {
+
+    $obj= new Object([
+        '__construct' => function() {}
+      ]);
+
     $this->assertEquals(
-      "<Object·6>\n".
-      "  <id>1549</id>\n".
-      "  <color>green</color>\n".
-      "  <name>Name goes here</name>\n".
+      "<Object>\n".
       "  <__id/>\n".
-      "</Object·6>",
-      $this->sourceOf(Node::fromObject(newinstance('lang\Object', [], [
-        'id'          => 1549,
-        'color'       => 'green',
-        'name'        => null,
-        '__construct' => function() {
-          $this->name= 'Name goes here';
-        }
-      ]), null))
+      "</Object>",
+      $this->sourceOf(Node::fromObject($obj, null))
     );
   }
 }
