@@ -194,4 +194,14 @@ class NodeTest extends \unittest\TestCase {
       ]), 'node'))
     );
   }
+
+  #[@test]
+  public function fromObjectShortName() {
+    $this->assertEquals(
+      "<Object>\n".
+      "  <__id/>\n".
+      "</Object>",
+      $this->sourceOf(Node::fromObject(new Object(), null))
+    );
+  }
 }
