@@ -197,16 +197,11 @@ class NodeTest extends \unittest\TestCase {
 
   #[@test]
   public function fromObjectShortName() {
-
-    $obj= new Object([
-        '__construct' => function() {}
-      ]);
-
     $this->assertEquals(
       "<Object>\n".
       "  <__id/>\n".
       "</Object>",
-      $this->sourceOf(Node::fromObject($obj, null))
+      $this->sourceOf(Node::fromObject(new Object(), null))
     );
   }
 }
