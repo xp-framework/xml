@@ -3,6 +3,11 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.0.1 / 2016-04-20
+
+* Merged pull request #2: Updated obsolete PHP namespace seperator...
+  (@djuelg, @kiesel)
+
 ## 7.0.0 / 2016-02-21
 
 * **Adopted semantic versioning. See xp-framework/rfc#300** - @thekid 
