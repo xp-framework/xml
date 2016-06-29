@@ -2,7 +2,6 @@
 
 use xml\Tree;
 
-
 /**
  * The document class is a specialized tree with accessor methods to 
  * retrieve elements by specified search criteria. 
@@ -11,12 +10,11 @@ use xml\Tree;
  * Model (DOM) Level 2 Core Specification, although some of the 
  * method names correspond with those from it.
  *
- * @test     xp://net.xp_framework.unittest.xml.DocumentTest
- * @see      xp://xml.Tree
- * @see      http://www.mozilla.org/docs/dom/domref/dom_doc_ref.html
- * @see      http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/Document.html 
- * @see      http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113 
- * @purpose  Tree
+ * @see   xp://xml.Tree
+ * @see   http://www.mozilla.org/docs/dom/domref/dom_doc_ref.html
+ * @see   http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/Document.html 
+ * @see   http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113 
+ * @test  xp://net.xp_framework.unittest.xml.DocumentTest
  */
 class Document extends Tree {
 
@@ -143,7 +141,7 @@ class Document extends Tree {
   /**
    * Construct a document from a file
    *
-   * @param   xml.File file
+   * @param   io.File file
    * @return  xml.dom.Document
    */
   public static function fromFile($file, $class= __CLASS__) {
