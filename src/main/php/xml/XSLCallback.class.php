@@ -54,28 +54,17 @@ class XSLCallback extends \lang\Object {
    * @throws  lang.IllegalArgumentException if the instance is not known
    * @throws  lang.ElementNotFoundException if the given method does not exist or is not xsl-accessible
    */
-  public static function invoke($name, $method) {
+  public static function invoke($name, $method, ...$args) {
     if (!isset(self::$instance->instances[$name])) throw new \lang\IllegalArgumentException(
       'No such registered XSL callback instance: "'.$name.'"'
     );
 
     $instance= self::$instance->instances[$name];
-    
     if (!($instance->getClass()->getMethod($method)->hasAnnotation('xslmethod'))) {
       throw new ElementNotFoundException('Instance "'.$name.'" does not have method "'.$method.'"');
     }
-    
-    $va= func_get_args();
-    
-    // Decode arguments [2..*]
-    for ($i= 2, $args= [], $s= sizeof($va); $i < $s; $i++) {
-      $args[]= is_string($va[$i]) ? iconv('utf-8', \xp::ENCODING, $va[$i]) : $va[$i];
-    }
-    
+
     // Call callback method
-    $r= call_user_func_array([$instance, $method], $args);
-    
-    // Encode result if necessary
-    return is_string($r) ? iconv(\xp::ENCODING, 'utf-8', $r) : $r;
+    return $instance->{$method}(...$args);
   }
 }

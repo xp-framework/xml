@@ -3,6 +3,15 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.0 / 2016-08-28
+
+* Improved speed of XSL callbacks by using direct invocations instead
+  of `call_user_func_array` / `func_get_args` indirection
+  (@thekid)
+* **Heads up: Dropped PHP 5.5 support!** - @thekid
+* Added forward compatibility with XP 8.0.0
+  (@thekid)
+
 ## 7.0.1 / 2016-04-20
 
 * Merged pull request #2: Updated obsolete PHP namespace seperator...
