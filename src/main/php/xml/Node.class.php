@@ -161,7 +161,7 @@ class Node extends \lang\Object {
   /**
    * Sets all attributes
    *
-   * @param   <string,string>[] attributes
+   * @param   [:string] attributes
    */
   public function setAttributes($attrs) {
     $this->attribute= $attrs;
@@ -182,7 +182,7 @@ class Node extends \lang\Object {
   /**
    * Retrieve all attributes
    *
-   * @return   <string, string>[] attributes
+   * @return   [:string] attributes
    */
   public function getAttributes() {
     return $this->attribute;
