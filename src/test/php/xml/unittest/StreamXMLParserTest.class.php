@@ -7,7 +7,7 @@ use unittest\actions\VerifyThat;
 /**
  * Tests XML parser API with io.streams.InputStream source
  *
- * @see  xp://net.xp_framework.unittest.xml.AbstractXMLParserTest
+ * @see  xp://xml.unittest.AbstractXMLParserTest
  */
 #[@action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
 class StreamXMLParserTest extends AbstractXMLParserTest {

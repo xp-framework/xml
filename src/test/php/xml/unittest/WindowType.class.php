@@ -3,8 +3,8 @@
 /**
  * Test class for Marshaller / Unmarshaller tests
  *
- * @see  xp://net.xp_framework.unittest.xml.UnmarshallerTest
- * @see  xp://net.xp_framework.unittest.xml.MarshallerTest
+ * @see  xp://xml.unittest.UnmarshallerTest
+ * @see  xp://xml.unittest.MarshallerTest
  */
 class WindowType extends \lang\Object {
   protected $window= null;
@@ -44,7 +44,7 @@ class WindowType extends \lang\Object {
    * Sets window
    *
    * @param   int $id
-   * @return  net.xp_framework.unittest.xml.WindowType this
+   * @return  xml.unittest.WindowType this
    */
   public function withOwnerWindow($id) {
     $this->window= $id;

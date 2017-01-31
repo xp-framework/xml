@@ -18,7 +18,7 @@ define('XSL_NAMESPACE',   'http://www.w3.org/1999/XSL/Transform');
  *   echo $s->getSource(INDENT_DEFAULT);
  * </code>
  *
- * @test     xp://net.xp_framework.unittest.xml.StylesheetTest
+ * @test     xp://xml.unittest.StylesheetTest
  * @see      http://www.w3.org/TR/xslt XSL Transformations (XSLT) Version 1.0
  * @purpose  Wrapper class
  */

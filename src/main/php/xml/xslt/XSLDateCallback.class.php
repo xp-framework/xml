@@ -13,7 +13,7 @@ use lang\XPClass;
  * @ext       ext/date
  * @see       xp://util.Date
  * @see       xp://util.DateMath
- * @test      xp://net.xp_framework.unittest.xml.XslCallbackTest
+ * @test      xp://xml.unittest.XslCallbackTest
  * @purpose   XSL callback
  */
 class XSLDateCallback extends \lang\Object {

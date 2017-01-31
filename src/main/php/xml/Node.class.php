@@ -1,7 +1,5 @@
 <?php namespace xml;
 
-
-
 define('INDENT_DEFAULT',    0);
 define('INDENT_WRAPPED',    1);
 define('INDENT_NONE',       2);
@@ -12,7 +10,7 @@ define('XML_ILLEGAL_CHARS',   "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0b\x0c\x0e\
  * Represents a node
  *
  * @see   xp://xml.Tree#addChild
- * @test  xp://net.xp_framework.unittest.xml.NodeTest
+ * @test  xp://xml.unittest.NodeTest
  */
 class Node extends \lang\Object {
   const

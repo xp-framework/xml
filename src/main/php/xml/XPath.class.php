@@ -20,7 +20,7 @@
  * </code>
  *
  * @ext      dom
- * @test     xp://net.xp_framework.unittest.xml.XPathTest
+ * @test     xp://xml.unittest.XPathTest
  * @purpose  Provide XPath functionality
  */
 class XPath extends \lang\Object {

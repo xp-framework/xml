@@ -22,7 +22,7 @@ use io\streams\Streams;
  *   echo $t->toString();
  * </code>
  *
- * @test  xp://net.xp_framework.unittest.xml.UnmarshallerTest
+ * @test  xp://xml.unittest.UnmarshallerTest
  * @ext   dom
  * @see   http://castor.org/xml-mapping.html
  */

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!--
- ! Include file for net.xp_framework.unittest.xml.AbstractProcessorTest
+ ! Include file for xml.unittest.AbstractProcessorTest
  !
  ! $Id$
  !-->

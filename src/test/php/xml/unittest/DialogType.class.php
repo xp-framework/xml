@@ -65,8 +65,8 @@ class DialogType extends \lang\Object {
   /**
    * Add a button
    *
-   * @param   net.xp_framework.unittest.xml.ButtonType $button
-   * @return  net.xp_framework.unittest.xml.ButtonType the added button
+   * @param   xml.unittest.ButtonType $button
+   * @return  xml.unittest.ButtonType the added button
    */
   #[@xmlmapping(element= 'button', class= 'xml.unittest.ButtonType')]
   public function addButton($button) {
@@ -87,7 +87,7 @@ class DialogType extends \lang\Object {
    * Returns button at a given position
    *
    * @param   int
-   * @return  net.xp_framework.unittest.xml.ButtonType 
+   * @return  xml.unittest.ButtonType 
    */
   public function buttonAt($offset) {
     return $this->buttons->get($offset);
@@ -105,7 +105,7 @@ class DialogType extends \lang\Object {
   /**
    * Retrieve this dialog's buttons
    *
-   * @return  util.collections.Vector<net.xp_framework.unittest.xml.ButtonType>
+   * @return  util.collections.Vector<xml.unittest.ButtonType>
    */
   #[@xmlfactory(element= 'button')]
   public function getButtons() {

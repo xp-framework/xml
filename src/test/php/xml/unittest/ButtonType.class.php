@@ -4,7 +4,7 @@
  * Test class for Marshaller / Unmarshaller tests. Used by
  * DialogType.
  *
- * @see  xp://net.xp_framework.unittest.xml.DialogType
+ * @see  xp://xml.unittest.DialogType
  */
 class ButtonType extends \lang\Object {
   public $id= '';

@@ -25,7 +25,7 @@ use xml\xslt\XSLStringCallback;
  *
  * @purpose  Transform XML/XSLT using PHPs XSLT functions
  * @ext      xslt
- * @test     xp://net.xp_framework.unittest.xml.DomXslProcessorTest
+ * @test     xp://xml.unittest.DomXslProcessorTest
  */
 class DomXSLProcessor extends \lang\Object implements IXSLProcessor {
   public 

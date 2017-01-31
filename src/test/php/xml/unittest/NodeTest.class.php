@@ -10,7 +10,7 @@ use unittest\actions\RuntimeVersion;
 /**
  * Test XML Node class
  *
- * @see   xp://net.xp_framework.unittest.xml.TreeTest 
+ * @see   xp://xml.unittest.TreeTest 
  */
 class NodeTest extends \unittest\TestCase {
   

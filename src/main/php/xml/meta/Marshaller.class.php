@@ -22,7 +22,7 @@ use xml\XMLFormatException;
  *   echo $xml;
  * </code>
  *
- * @test     xp://net.xp_framework.unittest.xml.MarshallerTest
+ * @test     xp://xml.unittest.MarshallerTest
  * @ext      dom
  * @see      http://castor.org/xml-mapping.html
  * @purpose  XML databinding

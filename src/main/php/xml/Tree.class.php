@@ -8,7 +8,7 @@ use xml\parser\XMLParser;
  * The Tree class represents a tree which can be exported
  * to and imported from an XML document.
  *
- * @test  xp://net.xp_framework.unittest.xml.TreeTest
+ * @test  xp://unittest.xml.TreeTest
  * @see   xp://xml.parser.XMLParser
  */
 class Tree extends \lang\Object implements ParserCallback {

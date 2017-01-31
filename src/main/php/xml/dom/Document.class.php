@@ -14,7 +14,7 @@ use xml\Tree;
  * @see   http://www.mozilla.org/docs/dom/domref/dom_doc_ref.html
  * @see   http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/Document.html 
  * @see   http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113 
- * @test  xp://net.xp_framework.unittest.xml.DocumentTest
+ * @test  xp://xml.unittest.DocumentTest
  */
 class Document extends Tree {
 

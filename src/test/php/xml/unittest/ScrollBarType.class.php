@@ -3,7 +3,7 @@
 /**
  * Test class for Marshaller / Unmarshaller tests
  *
- * @see  xp://net.xp_framework.unittest.xml.MarshallerTest
+ * @see  xp://xml.unittest.MarshallerTest
  * @see  rfc://0040
  */
 #[@xmlfactory(element = 'scroll')]

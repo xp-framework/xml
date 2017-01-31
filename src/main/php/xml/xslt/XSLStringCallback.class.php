@@ -4,7 +4,7 @@
  * XSL callbacks for string operations
  *
  * @purpose   XSL callback
- * @test      xp://net.xp_framework.unittest.xml.XslCallbackTest
+ * @test      xp://xml.unittest.XslCallbackTest
  */
 class XSLStringCallback extends \lang\Object {
 

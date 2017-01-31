@@ -6,7 +6,7 @@ use io\streams\OutputStream;
 /**
  * Outputs XML to an output stream.
  *
- * @test    xp://net.xp_framework.unittest.xml.io.XmlStreamWriterTest
+ * @test    xp://xml.unittest.io.XmlStreamWriterTest
  */
 class XmlStreamWriter extends XmlWriter {
   protected $stack= [];

@@ -3,8 +3,8 @@
 /**
  * Test class for Marshaller / Unmarshaller tests.
  *
- * @see  xp://net.xp_framework.unittest.xml.UnmarshallerTest
- * @see  xp://net.xp_framework.unittest.xml.MarshallerTest
+ * @see  xp://xml.unittest.UnmarshallerTest
+ * @see  xp://xml.unittest.MarshallerTest
  */
 class TextInputType extends \lang\Object {
   protected $id= '';

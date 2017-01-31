@@ -6,7 +6,7 @@ use lang\ElementNotFoundException;
  * XSL callback class.
  *
  * @ext   dom
- * @test  xp://net.xp_framework.unittest.xml.XslCallbackTest
+ * @test  xp://xml.unittest.XslCallbackTest
  * @see   php://xslt_registerphpfunctions
  */
 class XSLCallback extends \lang\Object {

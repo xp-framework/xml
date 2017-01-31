@@ -20,8 +20,8 @@ use xml\XMLFormatException;
  * </code>
  *
  * @ext     xml
- * @test    xp://net.xp_framework.unittest.xml.StreamXMLParserTest
- * @test    xp://net.xp_framework.unittest.xml.StringXMLParserTest
+ * @test    xp://xml.unittest.StreamXMLParserTest
+ * @test    xp://xml.unittest.StringXMLParserTest
  */
 class XMLParser extends \lang\Object {
   public
