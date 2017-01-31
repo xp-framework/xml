@@ -3,6 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.1 / 2017-01-31
+
+* Code QA (no functional changes!) - @thekid
+
 ## 8.0.0 / 2016-08-28
 
 * Improved speed of XSL callbacks by using direct invocations instead
