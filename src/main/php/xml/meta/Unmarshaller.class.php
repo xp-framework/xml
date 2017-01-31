@@ -9,18 +9,11 @@ use io\streams\Streams;
  * Creates objects from XML by using annotations.
  *
  * Example:
- * <code>
- *   // [...load $xml from a file or a stream...]
+ * ```php
+ * // [...load $xml from a file or a stream...]
  *
- *   try {
- *     $t= Unmarshaller::unmarshal($xml, 'com.1and1.qf.xml.types.TransmissionType');
- *   } catch (XPException $e) {
- *     $e->printStackTrace();
- *     exit(-1);
- *   }
- *
- *   echo $t->toString();
- * </code>
+ * $transmission= Unmarshaller::unmarshal($xml, 'com.1and1.qf.xml.types.TransmissionType');
+ * ```
  *
  * @test  xp://xml.unittest.UnmarshallerTest
  * @ext   dom

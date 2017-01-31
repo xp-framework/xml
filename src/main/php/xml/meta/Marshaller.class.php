@@ -4,28 +4,19 @@ use xml\Tree;
 use xml\QName;
 use xml\XMLFormatException;
 
-
 /**
  * Marshalls XML from objects by using annotations.
  *
  * Example:
- * <code>
- *   // [...create transmission object...]
+ * ```php
+ * // [...create transmission object...]
  *
- *   try {
- *     $xml= Marshaller::marshal($transmission);
- *   } catch (XPException $e) {
- *     $e->printStackTrace();
- *     exit(-1);
- *   }
+ * $xml= Marshaller::marshal($transmission);
+ * ```
  *
- *   echo $xml;
- * </code>
- *
- * @test     xp://xml.unittest.MarshallerTest
- * @ext      dom
- * @see      http://castor.org/xml-mapping.html
- * @purpose  XML databinding
+ * @test  xp://xml.unittest.MarshallerTest
+ * @ext   dom
+ * @see   http://castor.org/xml-mapping.html
  */
 class Marshaller extends \lang\Object {
 
