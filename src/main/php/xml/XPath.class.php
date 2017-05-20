@@ -1,23 +1,23 @@
 <?php namespace xml;
 
-
+use lang\IllegalArgumentException;
 
 /**
  * XPath class
  *
- * <code>
- *   uses('xml.XPath');
+ * ```php
+ * use xml\XPath;
  * 
- *   $xml= '<dialog id="file.open">
- *    <caption>Open a file</caption>
- *      <buttons>
- *        <button name="ok"/>
- *        <button name="cancel"/>
- *      </buttons>
- *   </dialog>';
+ * $xml= '<dialog id="file.open">
+ *  <caption>Open a file</caption>
+ *    <buttons>
+ *      <button name="ok"/>
+ *      <button name="cancel"/>
+ *    </buttons>
+ * </dialog>';
  *   
- *   echo create(new XPath($xml))->query('/dialog/buttons/button/@name'));
- * </code>
+ * echo (new XPath($xml))->query('/dialog/buttons/button/@name'));
+ * ```
  *
  * @ext      dom
  * @test     xp://xml.unittest.XPathTest
@@ -56,16 +56,11 @@ class XPath extends \lang\Object {
   }
   
   /**
-   * Constructor. Accepts  the following types as argument:
-   * <ul>
-   *   <li>A string containing the XML</li>
-   *   <li>A DomDocument object (as returned by domxml_open_mem, e.g.)</li>
-   *   <li>An xml.Tree object</li>
-   * </ul>
+   * Constructor
    *
-   * @param   var arg
-   * @throws  lang.IllegalArgumentException
-   * @throws  xml.XMLFormatException in case the argument is a string and not valid XML
+   * @param  string|xml.Tree|php.DomDocument $arg
+   * @throws lang.IllegalArgumentException
+   * @throws xml.XMLFormatException in case the argument is a string and not valid XML
    */
   public function __construct($arg) {
     if ($arg instanceof \DOMDocument) {
@@ -77,7 +72,7 @@ class XPath extends \lang\Object {
     } else if (is_string($arg)) {
       $this->context= new \DOMXPath($this->loadXML($arg));
     } else {
-      throw new \lang\IllegalArgumentException('Unsupported parameter type '.\xp::typeOf($arg));
+      throw new IllegalArgumentException('Unsupported parameter type '.typeof($arg)->getName());
     }
   }
   
