@@ -18,7 +18,7 @@ use xml\XMLFormatException;
  * @ext   dom
  * @see   http://castor.org/xml-mapping.html
  */
-class Marshaller extends \lang\Object {
+class Marshaller {
 
   /**
    * Iterate over class methods with @xmlfactory annotation
@@ -110,14 +110,14 @@ class Marshaller extends \lang\Object {
         }
       } else if ($result instanceof \Traversable) {
         foreach ($result as $value) {
-          if ($value instanceof \lang\Generic) {
-            self::recurse($value, $value->getClass(), $node->addChild(new \xml\Node($element)), $inject);
+          if (is_object($value)) {
+            self::recurse($value, typeof($value), $node->addChild(new \xml\Node($element)), $inject);
           } else {
             $node->addChild(new \xml\Node($element, $value));
           }
         }
-      } else if ($result instanceof \lang\Generic) {
-        self::recurse($result, $result->getClass(), $node->addChild(new \xml\Node($element)), $inject);
+      } else if (is_object($result)) {
+        self::recurse($result, typeof($result), $node->addChild(new \xml\Node($element)), $inject);
       }
     }
   }
@@ -131,7 +131,7 @@ class Marshaller extends \lang\Object {
    * @deprecated  Use marshalTo() instead
    */
   public static function marshal($instance, $qname= null) {
-    $class= $instance->getClass();
+    $class= typeof($instance);
 
     // Create XML tree and root node. Use the information provided by the
     // qname argument if existant, use the class` non-qualified (and 
@@ -155,12 +155,12 @@ class Marshaller extends \lang\Object {
    * Marshal an object to xml
    *
    * @param   xml.Node target
-   * @param   lang.Object instance
+   * @param   object $instance
    * @param   [:var] inject
    * @return  xml.Node the given target
    */
-  public function marshalTo(\xml\Node $target= null, \lang\Generic $instance, $inject= []) {
-    $class= $instance->getClass();
+  public function marshalTo(\xml\Node $target= null, $instance, $inject= []) {
+    $class= typeof($instance);
 
     // Create node if not existant
     if (null === $target) $target= new \xml\Node(null);
