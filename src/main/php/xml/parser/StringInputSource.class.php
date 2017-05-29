@@ -8,7 +8,7 @@ use io\streams\MemoryInputStream;
  *
  * @see      xp://xml.parser.XMLParser#parse
  */
-class StringInputSource extends \lang\Object implements InputSource {
+class StringInputSource implements InputSource {
   protected
     $stream = null,
     $source = '';

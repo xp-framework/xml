@@ -22,7 +22,7 @@
  *
  * @purpose  Wrapper
  */
-class PCData extends \lang\Object {
+class PCData {
   public $pcdata= '';
     
   /**

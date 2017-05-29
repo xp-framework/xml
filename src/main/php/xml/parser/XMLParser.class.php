@@ -23,7 +23,7 @@ use xml\XMLFormatException;
  * @test    xp://xml.unittest.StreamXMLParserTest
  * @test    xp://xml.unittest.StringXMLParserTest
  */
-class XMLParser extends \lang\Object {
+class XMLParser {
   public
     $encoding     = '',
     $callback     = null;

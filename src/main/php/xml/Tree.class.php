@@ -11,7 +11,7 @@ use xml\parser\XMLParser;
  * @test  xp://unittest.xml.TreeTest
  * @see   xp://xml.parser.XMLParser
  */
-class Tree extends \lang\Object implements ParserCallback {
+class Tree implements ParserCallback {
   public 
     $root     = null,
     $nodeType = null;

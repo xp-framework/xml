@@ -15,7 +15,7 @@
  *
  * @purpose  XML Namespaces
  */
-class QName extends \lang\Object {
+class QName {
   public
     $namespace    = '',
     $localpart    = '',

@@ -6,7 +6,7 @@
  * @see  xp://xml.unittest.UnmarshallerTest
  * @see  xp://xml.unittest.MarshallerTest
  */
-class TextInputType extends \lang\Object {
+class TextInputType {
   protected $id= '';
   protected $disabled= false;
 

@@ -9,7 +9,7 @@ use io\streams\FileInputStream;
  *
  * @see      xp://xml.parser.XMLParser#parse
  */
-class FileInputSource extends \lang\Object implements InputSource {
+class FileInputSource implements InputSource {
   protected
     $file   = null,
     $stream = null;

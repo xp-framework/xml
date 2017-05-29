@@ -7,6 +7,6 @@
  * @see  xp://xml.unittest.MarshallerTest
  */
 #[@xmlns(app = 'http://projects.xp-framework.net/xmlns/app')]
-class ApplicationType extends \lang\Object {
+class ApplicationType {
 
 }

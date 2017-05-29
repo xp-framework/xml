@@ -7,7 +7,7 @@
  *
  * @see      xp://xml.parser.XMLParser#parse
  */
-class StreamInputSource extends \lang\Object implements InputSource {
+class StreamInputSource implements InputSource {
   protected
     $stream = null,
     $source = '';

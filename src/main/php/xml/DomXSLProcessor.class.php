@@ -27,7 +27,7 @@ use xml\xslt\XSLStringCallback;
  * @ext      xslt
  * @test     xp://xml.unittest.DomXslProcessorTest
  */
-class DomXSLProcessor extends \lang\Object implements IXSLProcessor {
+class DomXSLProcessor implements IXSLProcessor {
   public 
     $processor      = null,
     $stylesheet     = null,

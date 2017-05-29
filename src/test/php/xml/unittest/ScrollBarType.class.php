@@ -7,6 +7,6 @@
  * @see  rfc://0040
  */
 #[@xmlfactory(element = 'scroll')]
-class ScrollBarType extends \lang\Object {
+class ScrollBarType {
 
 }

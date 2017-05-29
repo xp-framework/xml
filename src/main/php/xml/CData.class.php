@@ -18,7 +18,7 @@
  *
  * @purpose  Wrapper
  */
-class CData extends \lang\Object {
+class CData {
   public $cdata= '';
     
   /**

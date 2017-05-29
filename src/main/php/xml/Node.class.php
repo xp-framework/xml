@@ -12,7 +12,7 @@ define('XML_ILLEGAL_CHARS',   "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0b\x0c\x0e\
  * @see   xp://xml.Tree#addChild
  * @test  xp://xml.unittest.NodeTest
  */
-class Node extends \lang\Object {
+class Node {
   const
     XML_ILLEGAL_CHARS   = XML_ILLEGAL_CHARS;
 

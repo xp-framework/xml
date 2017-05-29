@@ -16,7 +16,7 @@ use lang\XPClass;
  * @test      xp://xml.unittest.XslCallbackTest
  * @purpose   XSL callback
  */
-class XSLDateCallback extends \lang\Object {
+class XSLDateCallback {
 
   /**
    * Format the given date with the format specifier

@@ -6,7 +6,7 @@
  * Outputs XML.
  *
  */
-abstract class XmlWriter extends \lang\Object {
+abstract class XmlWriter {
 
   /**
    * Start writing a document
