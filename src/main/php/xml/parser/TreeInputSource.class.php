@@ -9,7 +9,7 @@ use xml\Tree;
  *
  * @see      xp://xml.parser.XMLParser#parse
  */
-class TreeInputSource extends \lang\Object implements InputSource {
+class TreeInputSource implements InputSource {
   protected
     $stream = null,
     $source = '';

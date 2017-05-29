@@ -9,7 +9,7 @@ use lang\ElementNotFoundException;
  * @test  xp://xml.unittest.XslCallbackTest
  * @see   php://xslt_registerphpfunctions
  */
-class XSLCallback extends \lang\Object {
+class XSLCallback {
   private $instances= [];
   private static $instance;
     
@@ -60,7 +60,7 @@ class XSLCallback extends \lang\Object {
     );
 
     $instance= self::$instance->instances[$name];
-    if (!($instance->getClass()->getMethod($method)->hasAnnotation('xslmethod'))) {
+    if (!(typeof($instance)->getMethod($method)->hasAnnotation('xslmethod'))) {
       throw new ElementNotFoundException('Instance "'.$name.'" does not have method "'.$method.'"');
     }
 

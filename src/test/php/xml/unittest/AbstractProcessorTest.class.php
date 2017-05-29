@@ -36,7 +36,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
    * @return  string
    */
   protected function includeUri($stylesheet) {
-    $name= $this->getClass()->getPackage()->getResourceAsStream($stylesheet.'.xsl')->getURI();
+    $name= typeof($this)->getPackage()->getResourceAsStream($stylesheet.'.xsl')->getURI();
     
     // Normalize URI according to http://en.wikipedia.org/wiki/File_URI_scheme
     // * "f:\a dir\c.xsl"       => "file:///f:/a%20dor/c.xsl"

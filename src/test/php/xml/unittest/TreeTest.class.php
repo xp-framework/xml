@@ -169,4 +169,14 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('document', $tree->root()->getName());
     $this->assertEquals('Some umlauts: öäü', $tree->root()->nodeAt(0)->getContent());
   }
+
+  #[@test]
+  public function as_string() {
+    $this->assertEquals(
+      "xml.Tree(version=1.0 encoding=utf-8)@{\n".
+      "  xml.Node(doc) { }\n".
+      "}",
+      (new Tree('doc'))->toString()
+    );
+  }
 }

@@ -6,7 +6,7 @@
  * @purpose   XSL callback
  * @test      xp://xml.unittest.XslCallbackTest
  */
-class XSLStringCallback extends \lang\Object {
+class XSLStringCallback {
 
   /**
    * urlencode() string

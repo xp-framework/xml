@@ -1,6 +1,8 @@
 <?php namespace xml;
  
 use io\FileUtil;
+use lang\Value;
+use util\Objects;
 use xml\parser\ParserCallback;
 use xml\parser\XMLParser;
 
@@ -11,7 +13,7 @@ use xml\parser\XMLParser;
  * @test  xp://unittest.xml.TreeTest
  * @see   xp://xml.parser.XMLParser
  */
-class Tree extends \lang\Object implements ParserCallback {
+class Tree implements ParserCallback, Value {
   public 
     $root     = null,
     $nodeType = null;
@@ -265,18 +267,35 @@ class Tree extends \lang\Object implements ParserCallback {
     unset($this->_cnt, $this->_cdata, $this->_objs);
   }
 
-  /**
-   * Creates a string representation of this object
-   *
-   * @return  string
-   */
+  /** @return string */
   public function toString() {
     return sprintf(
       "%s(version=%s encoding=%s)@{\n  %s\n}",
       nameof($this),
       $this->version,
       $this->encoding,
-      \xp::stringOf($this->root, '  ')
+      str_replace("\n", "\n  ", $this->root->toString())
     );
+  }
+
+  /** @return string */
+  public function hashCode() {
+    return md5($this->version.$this->encoding.$this->root->hashCode());
+  }
+
+  /**
+   * Compare this tree to a given value
+   *
+   * @param  var $value
+   * @return int
+   */
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare(
+        [$this->version, $this->encoding, $this->root],
+        [$value->version, $value->encoding, $value->root]
+      )
+      : 1
+    ;
   }
 } 

@@ -7,7 +7,7 @@
  * @see  xp://xml.unittest.MarshallerTest
  * @see  rfc://0040
  */
-class DialogType extends \lang\Object {
+class DialogType {
   public
     $id       = '',
     $caption  = '',

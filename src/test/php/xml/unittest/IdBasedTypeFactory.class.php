@@ -4,7 +4,7 @@
  * Type factory
  */
 #[@xmlmapping(factory= 'forName', pass= ['@id'])]
-class IdBasedTypeFactory extends \lang\Object {
+class IdBasedTypeFactory {
   
   /**
    * Factory method

@@ -6,7 +6,7 @@
  *
  * @see  xp://xml.unittest.DialogType
  */
-class ButtonType extends \lang\Object {
+class ButtonType {
   public $id= '';
   public $caption= '';
 

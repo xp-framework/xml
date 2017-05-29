@@ -23,7 +23,7 @@ use lang\IllegalArgumentException;
  * @test     xp://xml.unittest.XPathTest
  * @purpose  Provide XPath functionality
  */
-class XPath extends \lang\Object {
+class XPath {
   public $context= null;
 
   static function __static() {

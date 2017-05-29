@@ -1,5 +1,8 @@
 <?php namespace xml;
 
+use lang\Value;
+use util\Objects;
+
 define('INDENT_DEFAULT',    0);
 define('INDENT_WRAPPED',    1);
 define('INDENT_NONE',       2);
@@ -12,9 +15,8 @@ define('XML_ILLEGAL_CHARS',   "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0b\x0c\x0e\
  * @see   xp://xml.Tree#addChild
  * @test  xp://xml.unittest.NodeTest
  */
-class Node extends \lang\Object {
-  const
-    XML_ILLEGAL_CHARS   = XML_ILLEGAL_CHARS;
+class Node implements Value {
+  const XML_ILLEGAL_CHARS   = XML_ILLEGAL_CHARS;
 
   public 
     $name         = '',
@@ -25,11 +27,11 @@ class Node extends \lang\Object {
   /**
    * Constructor
    *
-   * <code>
-   *   $n= new Node('document');
-   *   $n= new Node('text', 'Hello World');
-   *   $n= new Node('article', '', array('id' => 42));
-   * </code>
+   * ```php
+   * $n= new Node('document');
+   * $n= new Node('text', 'Hello World');
+   * $n= new Node('article', '', ['id' => 42]);
+   * ```
    *
    * @param   string name
    * @param   string content default NULL
@@ -399,35 +401,42 @@ class Node extends \lang\Object {
     return $this->children[$pos];
   }
   
-  /**
-   * Returns whether another object is equal to this node
-   *
-   * @param   lang.Generic cmp
-   * @return  bool
-   */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->toString() === $cmp->toString();
-  }
-
-  /**
-   * Creates a string representation of this object
-   *
-   * @return  string
-   */
+  /** @return string */
   public function toString() {
     $a= '';
     foreach ($this->attribute as $name => $value) {
       $a.= ' @'.$name.'= '.\xp::stringOf($value);
     }
     $s= nameof($this).'('.$this->name.$a.') {';
-    if (!$this->children) {
-      $s.= null === $this->content ? ' ' : ' '.\xp::stringOf($this->content).' ';
-    } else {
+    if ($this->children) {
       $s.= null === $this->content ? "\n" : "\n  ".\xp::stringOf($this->content)."\n";
       foreach ($this->children as $child) {
-        $s.= '  '.\xp::stringOf($child, '  ')."\n";
+        $s.= '  '.str_replace("\n", "\n  ", $child->toString())."\n";
       }
+    } else {
+      $s.= null === $this->content ? ' ' : ' '.\xp::stringOf($this->content).' ';
     }
     return $s.'}';
+  }
+
+  /** @return string */
+  public function hashCode() {
+    return md5($this->name.$this->content.Objects::hashOf($this->attribute).Objects::hashOf($this->children));
+  }
+
+  /**
+   * Compare this tree to a given value
+   *
+   * @param  var $value
+   * @return int
+   */
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare(
+        [$this->name, $this->content, $this->attribute, $this->children],
+        [$value->name, $value->content, $value->attribute, $this->children]
+      )
+      : 1
+    ;
   }
 }

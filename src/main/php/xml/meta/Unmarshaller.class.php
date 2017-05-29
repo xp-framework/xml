@@ -19,7 +19,7 @@ use io\streams\Streams;
  * @ext   dom
  * @see   http://castor.org/xml-mapping.html
  */
-class Unmarshaller extends \lang\Object {
+class Unmarshaller {
 
   static function __static() {
     libxml_use_internal_errors(true);
