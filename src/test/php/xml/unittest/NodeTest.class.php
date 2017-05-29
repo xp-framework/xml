@@ -204,4 +204,38 @@ class NodeTest extends \unittest\TestCase {
       $this->sourceOf(Node::fromObject(new Object(), null))
     );
   }
+
+  #[@test]
+  public function as_string() {
+    $this->assertEquals(
+      'xml.Node(doc) { }',
+      (new Node('doc'))->toString()
+    );
+  }
+
+  #[@test]
+  public function as_string_with_content() {
+    $this->assertEquals(
+      'xml.Node(test) { "Succeeded" }',
+      (new Node('test', 'Succeeded'))->toString()
+    );
+  }
+
+  #[@test]
+  public function as_string_with_attributes() {
+    $this->assertEquals(
+      'xml.Node(a @href= "http://example.com") { }',
+      (new Node('a', null, ['href' => 'http://example.com']))->toString()
+    );
+  }
+
+  #[@test]
+  public function as_string_with_children() {
+    $this->assertEquals(
+      "xml.Node(div) {\n".
+      "  xml.Node(p) { \"Test\" }\n".
+      "}",
+      (new Node('div'))->withChild(new Node('p', 'Test'))->toString()
+    );
+  }
 }
