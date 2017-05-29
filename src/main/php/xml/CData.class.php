@@ -15,10 +15,8 @@
  *     <data><![CDATA[<Hello World>]]></data>
  *   </document>
  * </pre>
- *
- * @purpose  Wrapper
  */
-class CData {
+class CData implements \lang\Value {
   public $cdata= '';
     
   /**
@@ -37,5 +35,20 @@ class CData {
    */
   public function toString() {
     return nameof($this).'('.$this->cdata.')';
+  }
+
+  /** @return string */
+  public function hashCode() {
+    return 'C'.md5($this->cdata);
+  }
+
+  /**
+   * Compare this tree to a given value
+   *
+   * @param  var $value
+   * @return int
+   */
+  public function compareTo($value) {
+    return $value instanceof self ? strcmp($this->cdata, $value->cdata) : 1;
   }
 }

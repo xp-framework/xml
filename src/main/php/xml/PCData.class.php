@@ -19,10 +19,8 @@
  * Note: The XML passed to PCDatas constructor is not validated!
  * Passing incorrect XML to this class will result in a not-
  * wellformed output document.
- *
- * @purpose  Wrapper
  */
-class PCData {
+class PCData implements \lang\Value {
   public $pcdata= '';
     
   /**
@@ -41,5 +39,20 @@ class PCData {
    */
   public function toString() {
     return nameof($this).'('.$this->pcdata.')';
+  }
+
+  /** @return string */
+  public function hashCode() {
+    return 'C'.md5($this->pcdata);
+  }
+
+  /**
+   * Compare this tree to a given value
+   *
+   * @param  var $value
+   * @return int
+   */
+  public function compareTo($value) {
+    return $value instanceof self ? strcmp($this->pcdata, $value->pcdata) : 1;
   }
 }
