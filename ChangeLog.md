@@ -3,6 +3,12 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.0 / 2017-05-29
+
+* Merged PR #3: XP9 Compat. **Heads up:** xml.Tree, xml.Node, xml.CData and
+  xml.PCData now implement `lang.Value` instead of extending `lang.Object`.
+  (@thekid)
+
 ## 8.0.2 / 2017-05-20
 
 * Refactored code to use `typeof()` instead of `xp::typeOf()`, see
