@@ -90,17 +90,19 @@ class Node implements Value {
    * @return  xml.Node
    */
   public static function fromObject($obj, $name= null) {
-    if (!method_exists($obj, '__sleep')) {
-      $vars= get_object_vars($obj);
-    } else {
+    if (method_exists($obj, '__sleep')) {
       $vars= [];
       foreach ($obj->__sleep() as $var) $vars[$var]= $obj->{$var};
+    } else {
+      $vars= get_object_vars($obj);
     }
 
-    if (null !== $name) return self::fromArray($vars, $name);
+    if (null === $name) {
+      $class= get_class($obj);
+      $name= (false !== ($p= strrpos($class, '\\'))) ? substr($class, $p+ 1) : $class;
+    }
 
-    $class= get_class($obj);
-    return self::fromArray($vars, (false !== ($p= strrpos($class, '\\'))) ? substr($class, $p+ 1): $class);
+    return self::fromArray($vars, $name);
   }
 
   /**
@@ -124,21 +126,22 @@ class Node implements Value {
   /**
    * Set content
    *
-   * @param   string content
-   * @throws  xml.XMLFormatException in case content contains illegal characters
+   * @param  string|xml.PCData|xml.CData $content
+   * @throws xml.XMLFormatException in case content contains illegal characters
+   * @return void
    */
   public function setContent($content) {
-
-    // Scan the given string for illegal characters.
-    if (is_string($content)) {  
-      if (strlen($content) > ($p= strcspn($content, XML_ILLEGAL_CHARS))) {
-        throw new XMLFormatException(
-          'Content contains illegal character at position '.$p. ' / chr('.ord($content{$p}).')'
-        );
+    if (null === $content) {
+      $this->content= null;
+    } else if ($content instanceof PCData || $content instanceof CData) {
+      $this->content= $content;
+    } else {
+      $c= (string)$content;
+      if (strlen($c) > ($p= strcspn($c, XML_ILLEGAL_CHARS))) {
+        throw new XMLFormatException('Content contains illegal character at position '.$p. ' / chr('.ord($c{$p}).')');
       }
+      $this->content= $c;
     }
-    
-    $this->content= $content;
   }
   
   /**
@@ -266,8 +269,6 @@ class Node implements Value {
         ? iconv(\xp::ENCODING, $encoding, $this->content->cdata)
         : $this->content->cdata
       ).']]>';
-    } else if ($this->content instanceof \lang\types\String) {
-      $content= htmlspecialchars($this->content->getBytes($encoding), ENT_COMPAT, $encoding);
     } else {
       $content= $this->content; 
     }
