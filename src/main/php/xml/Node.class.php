@@ -59,16 +59,18 @@ class Node implements Value {
   public static function fromArray($a, $name= 'array') {
     $n= new self($name);
     $sname= rtrim($name, 's');
-    foreach (array_keys($a) as $field) {
+    foreach ($a as $field => $value) {
       $nname= is_numeric($field) || '' == $field ? $sname : $field;
-      if (is_array($a[$field])) {
-        $n->addChild(self::fromArray($a[$field], $nname));
-      } else if ($a[$field] instanceof \lang\types\String) {
-        $n->addChild(new self($nname, $a[$field]));
-      } else if (is_object($a[$field])) {
-        $n->addChild(self::fromObject($a[$field], $nname));
+      if (is_array($value)) {
+        $n->addChild(self::fromArray($value, $nname));
+      } else if (is_object($value)) {
+        if (method_exists($value, '__toString')) {
+          $n->addChild(new self($nname, $value->__toString()));
+        } else {
+          $n->addChild(self::fromObject($value, $nname));
+        }
       } else {
-        $n->addChild(new self($nname, $a[$field]));
+        $n->addChild(new self($nname, $value));
       }
     }
     return $n;  
