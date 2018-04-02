@@ -3,6 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.1 / 2018-04-02
+
+* Fixed compatiblity with PHP 7.2 - @thekid
+
 ## 9.0.0 / 2017-05-29
 
 * Merged PR #3: XP9 Compat. **Heads up:** xml.Tree, xml.Node, xml.CData and
