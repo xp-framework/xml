@@ -38,8 +38,8 @@ class MarshallerTest extends TestCase {
 
   #[@test]
   public function marshalToReturnsGivenNode() {
-    $n= new \xml\Node('node');
-    $this->assertEquals($n, $this->fixture->marshalTo($n, new \lang\Object()));
+    $n= new Node('node');
+    $this->assertEquals($n, $this->fixture->marshalTo($n, new Some()));
   }
 
   #[@test]
@@ -51,18 +51,18 @@ class MarshallerTest extends TestCase {
         <flags/>
         <options/>
       </dialogtype>',
-      $this->fixture->marshalTo(new \xml\Node('dialogtype'), $dialog)
+      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)
     );
   }
 
   #[@test]
   public function marshalToCreatesNewNodeWhenNoneGiven() {
-    $this->assertEquals(new \xml\Node('object'), $this->fixture->marshalTo(null, new \lang\Object()));
+    $this->assertEquals(new Node('some'), $this->fixture->marshalTo(null, new Some()));
   }
 
   #[@test]
   public function classAnnotationSuppliesName() {
-    $this->assertEquals(new \xml\Node('scroll'), $this->fixture->marshalTo(null, new ScrollBarType()));
+    $this->assertEquals(new Node('scroll'), $this->fixture->marshalTo(null, new ScrollBarType()));
   }
 
   #[@test]
@@ -76,7 +76,7 @@ class MarshallerTest extends TestCase {
         <flags/>
         <options/>
       </dialogtype>', 
-      $this->fixture->marshalTo(new \xml\Node('dialogtype'), $dialog)
+      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)
     );
   }
   
@@ -91,7 +91,7 @@ class MarshallerTest extends TestCase {
         <flags/>
         <options/>
       </dialogtype>', 
-      $this->fixture->marshalTo(new \xml\Node('dialogtype'), $dialog)
+      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)
     );
   }
 
@@ -117,7 +117,7 @@ class MarshallerTest extends TestCase {
         <flags/>
         <options/>
       </dialogtype>', 
-      $this->fixture->marshalTo(new \xml\Node('dialogtype'), $dialog)
+      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)
     );
   }
   
@@ -130,7 +130,7 @@ class MarshallerTest extends TestCase {
         <flags/>
         <options/>
       </dialogtype>', 
-      $this->fixture->marshalTo(new \xml\Node('dialogtype'), $dialog)
+      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)
     );
   }
 
@@ -139,7 +139,7 @@ class MarshallerTest extends TestCase {
     $dialog= new DialogType();
     $dialog->setId('file.open');
 
-    $node= $this->fixture->marshalTo(new \xml\Node('dialog'), $dialog);
+    $node= $this->fixture->marshalTo(new Node('dialog'), $dialog);
     $this->assertInstanceOf(Node::class, $node);
     $this->assertEquals('dialog', $node->getName());
     $this->assertEquals('file.open', $node->getAttribute('id'));
@@ -150,7 +150,7 @@ class MarshallerTest extends TestCase {
     $dialog= new DialogType();
     $this->assertEquals(
       Marshaller::marshal($dialog),
-      $this->fixture->marshalTo(new \xml\Node('dialogtype'), $dialog)->getSource(INDENT_DEFAULT)
+      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)->getSource(INDENT_DEFAULT)
     );
   }
 
@@ -159,7 +159,7 @@ class MarshallerTest extends TestCase {
     $app= new ApplicationType();
     $this->assertEquals(
       Marshaller::marshal($app),
-      $this->fixture->marshalTo(new \xml\Node('ApplicationType'), $app)->getSource(INDENT_DEFAULT)
+      $this->fixture->marshalTo(new Node('ApplicationType'), $app)->getSource(INDENT_DEFAULT)
     );
   }
 
@@ -168,7 +168,7 @@ class MarshallerTest extends TestCase {
     $window= (new WindowType())->withOwnerWindow(1);
     $this->assertMarshalled(
       '<window owner-window="main"/>',
-      $this->fixture->marshalTo(new \xml\Node('window'), $window, ['windows' => [
+      $this->fixture->marshalTo(new Node('window'), $window, ['windows' => [
         'main'     => 1,
         'desktop'  => 0
       ]])
@@ -178,14 +178,14 @@ class MarshallerTest extends TestCase {
   #[@test, @expect(IllegalArgumentException::class)]
   public function injectionFails() {
     $window= (new WindowType())->withOwnerWindow(1);
-    $this->fixture->marshalTo(new \xml\Node('window'), $window);
+    $this->fixture->marshalTo(new Node('window'), $window);
   }
 
   #[@test]
   public function namespaces() {
     $this->assertMarshalled(
       '<app:application xmlns:app="http://projects.xp-framework.net/xmlns/app"/>',
-      $this->fixture->marshalTo(new \xml\Node('application'), new ApplicationType())
+      $this->fixture->marshalTo(new Node('application'), new ApplicationType())
     );
   }
 
@@ -197,7 +197,7 @@ class MarshallerTest extends TestCase {
 
     $this->assertMarshalled(
       '<input id="name" disabled="true"/>',
-      $this->fixture->marshalTo(new \xml\Node('input'), $t)
+      $this->fixture->marshalTo(new Node('input'), $t)
     );
   }
 }

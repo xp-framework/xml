@@ -30,7 +30,7 @@ class XSLCallback {
    * Register new instance
    *
    * @param   string name
-   * @param   lang.Object instance
+   * @param   object instance
    */
   public function registerInstance($name, $instance) {
     $this->instances[$name]= $instance;

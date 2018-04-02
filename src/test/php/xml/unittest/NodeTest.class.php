@@ -3,7 +3,6 @@
 use xml\XMLFormatException;
 use lang\IllegalArgumentException;
 use lang\Error;
-use lang\Object;
 use xml\Node;
 use unittest\actions\RuntimeVersion;
 
@@ -182,9 +181,8 @@ class NodeTest extends \unittest\TestCase {
       "  <id>1549</id>\n".
       "  <color>green</color>\n".
       "  <name>Name goes here</name>\n".
-      "  <__id/>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(newinstance(Object::class, [], [
+      $this->sourceOf(Node::fromObject(newinstance(Some::class, [], [
         'id'          => 1549,
         'color'       => 'green',
         'name'        => null,
@@ -198,10 +196,8 @@ class NodeTest extends \unittest\TestCase {
   #[@test]
   public function fromObjectShortName() {
     $this->assertEquals(
-      "<Object>\n".
-      "  <__id/>\n".
-      "</Object>",
-      $this->sourceOf(Node::fromObject(new Object(), null))
+      '<Some/>',
+      $this->sourceOf(Node::fromObject(new Some(), null))
     );
   }
 

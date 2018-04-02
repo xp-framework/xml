@@ -248,7 +248,7 @@ class DomXSLProcessor implements IXSLProcessor {
    * for access from XSL callbacks.
    *
    * @param   string name
-   * @param   lang.Object instance
+   * @param   object instance
    */
   function registerInstance($name, $instance) {
     $this->_instances[$name]= $instance;

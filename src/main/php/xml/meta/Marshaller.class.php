@@ -23,7 +23,7 @@ class Marshaller {
   /**
    * Iterate over class methods with @xmlfactory annotation
    *
-   * @param   lang.Object instance
+   * @param   object instance
    * @param   lang.XPClass class
    * @param   xml.Node node
    * @param   [:var] inject
@@ -125,7 +125,7 @@ class Marshaller {
   /**
    * Marshal an object to xml
    *
-   * @param   lang.Object instance
+   * @param   object instance
    * @param   xml.QName qname default NULL
    * @return  string xml
    * @deprecated  Use marshalTo() instead
