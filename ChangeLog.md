@@ -3,6 +3,14 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.2 / 2019-08-20
+
+* Made compatible with PHP 7.4 - refrain using `{}` for string offsets
+  (@thekid)
+* Replaced all calls to the deprecated `xp::stringOf()` to use the method
+  from `util.Objects`.
+  (@thekid)
+
 ## 9.0.1 / 2018-04-02
 
 * Fixed compatiblity with PHP 7.2 - @thekid
