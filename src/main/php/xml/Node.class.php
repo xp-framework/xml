@@ -138,7 +138,7 @@ class Node implements Value {
     } else {
       $c= (string)$content;
       if (strlen($c) > ($p= strcspn($c, XML_ILLEGAL_CHARS))) {
-        throw new XMLFormatException('Content contains illegal character at position '.$p. ' / chr('.ord($c{$p}).')');
+        throw new XMLFormatException('Content contains illegal character at position '.$p. ' / chr('.ord($c[$p]).')');
       }
       $this->content= $c;
     }

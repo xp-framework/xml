@@ -1,7 +1,7 @@
 <?php namespace xml\meta;
 
-use xml\Tree;
 use xml\QName;
+use xml\Tree;
 use xml\XMLFormatException;
 
 /**
@@ -77,7 +77,7 @@ class Marshaller {
       }
       
       // Attributes = "@<name>", Node content= ".", Name = "name()"
-      if ('@' === $element{0}) {
+      if ('@' === $element[0]) {
         $node->setAttribute(substr($element, 1), $result);
         continue;
       } else if ('.' === $element) {
@@ -138,7 +138,7 @@ class Marshaller {
     // lowercased) name otherwise.
     $tree= new Tree();
     if ($qname) {
-      $prefix= $qname->prefix ? $qname->prefix : $qname->localpart{0};
+      $prefix= $qname->prefix ? $qname->prefix : $qname->localpart[0];
       $tree->root()->setName($prefix.':'.$qname->localpart);
       $tree->root()->setAttribute('xmlns:'.$prefix, $qname->namespace);
     } else if ($class->hasAnnotation('xmlns')) {

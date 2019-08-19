@@ -296,7 +296,7 @@ class DomXSLProcessor implements IXSLProcessor {
     foreach ($root->getElementsByTagNameNS($xsltNs, 'include') as $include) {
       $dom= new \DOMDocument();
       $href= $include->getAttribute('href');
-      if (!('/' === $href{0} || strstr($href, '://') || ':/' === substr($href, 1, 2))) {
+      if (!('/' === $href[0] || strstr($href, '://') || ':/' === substr($href, 1, 2))) {
         $href= $baseDir.'/'.$href;    // Relative
       }
       if (!($dom->load(urldecode($href)))) {
@@ -309,7 +309,7 @@ class DomXSLProcessor implements IXSLProcessor {
     foreach ($root->getElementsByTagNameNS($xsltNs, 'import') as $import) {
       $dom= new \DOMDocument();
       $href= $import->getAttribute('href');
-      if (!('/' === $href{0} || strstr($href, '://') || ':/' === substr($href, 1, 2))) {
+      if (!('/' === $href[0] || strstr($href, '://') || ':/' === substr($href, 1, 2))) {
         $href= $baseDir.'/'.$href;    // Relative
       }
       if (!($dom->load(urldecode($href)))) {
