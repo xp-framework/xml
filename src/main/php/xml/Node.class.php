@@ -408,16 +408,16 @@ class Node implements Value {
   public function toString() {
     $a= '';
     foreach ($this->attribute as $name => $value) {
-      $a.= ' @'.$name.'= '.\xp::stringOf($value);
+      $a.= ' @'.$name.'= '.Objects::stringOf($value);
     }
     $s= nameof($this).'('.$this->name.$a.') {';
     if ($this->children) {
-      $s.= null === $this->content ? "\n" : "\n  ".\xp::stringOf($this->content)."\n";
+      $s.= null === $this->content ? "\n" : "\n  ".Objects::stringOf($this->content)."\n";
       foreach ($this->children as $child) {
         $s.= '  '.str_replace("\n", "\n  ", $child->toString())."\n";
       }
     } else {
-      $s.= null === $this->content ? ' ' : ' '.\xp::stringOf($this->content).' ';
+      $s.= null === $this->content ? ' ' : ' '.Objects::stringOf($this->content).' ';
     }
     return $s.'}';
   }

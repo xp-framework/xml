@@ -1,6 +1,7 @@
 <?php namespace xml;
 
 use io\FileNotFoundException;
+use util\Objects;
 use xml\xslt\XSLDateCallback;
 use xml\xslt\XSLStringCallback;
 
@@ -399,7 +400,7 @@ class DomXSLProcessor implements IXSLProcessor {
           "  #%d: %s\n  at %s, line %d, column %d\n",
           $error->code,
           trim($error->message, " \n"),
-          strlen($error->file) ? $error->file : \xp::stringOf($source),
+          strlen($error->file) ? $error->file : Objects::stringOf($source),
           $error->line,
           $error->column
         );
