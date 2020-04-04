@@ -1,9 +1,9 @@
 <?php namespace xml\unittest;
 
-/**
- * Type factory
- */
-#[@xmlmapping(factory= 'forName')]
+use lang\IllegalArgumentException;
+use lang\XPClass;
+
+#[@xmlmapping(['factory' => 'forName'])]
 class NameBasedTypeFactory {
   
   /**
@@ -15,9 +15,9 @@ class NameBasedTypeFactory {
    */
   public static function forName($name) {
     switch ($name) {
-      case 'dialog': return \lang\XPClass::forName('xml.unittest.DialogType');
-      case 'button': return \lang\XPClass::forName('xml.unittest.ButtonType');
-      default: throw new \lang\IllegalArgumentException('Unknown tag "'.$name.'"');
+      case 'dialog': return XPClass::forName('xml.unittest.DialogType');
+      case 'button': return XPClass::forName('xml.unittest.ButtonType');
+      default: throw new IllegalArgumentException('Unknown tag "'.$name.'"');
     }
   }
 }

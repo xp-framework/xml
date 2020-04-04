@@ -39,7 +39,7 @@ class TextInputType {
    *
    * @param   string $id
    */
-  #[@xmlmapping(element= '@id')]
+  #[@xmlmapping(['element' => '@id'])]
   public function setId($id) {
     $this->id= $id;
   }
@@ -49,7 +49,7 @@ class TextInputType {
    *
    * @return  string id
    */
-  #[@xmlfactory(element= '@id')]
+  #[@xmlfactory(['element' => '@id'])]
   public function getId() {
     return $this->id;
   }
@@ -59,7 +59,7 @@ class TextInputType {
    *
    * @param   bool $disabled
    */
-  #[@xmlmapping(element= '@disabled', cast= 'asBool')]
+  #[@xmlmapping(['element' => '@disabled', 'cast' => 'asBool'])]
   public function setDisabled($disabled) {
     $this->disabled= $disabled;
   }
@@ -69,7 +69,7 @@ class TextInputType {
    *
    * @return  bool disabled
    */
-  #[@xmlfactory(element= '@disabled', cast= 'toBool')]
+  #[@xmlfactory(['element' => '@disabled', 'cast' => 'toBool'])]
   public function getDisabled() {
     return $this->disabled;
   }

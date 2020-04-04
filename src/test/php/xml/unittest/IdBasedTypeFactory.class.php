@@ -1,9 +1,9 @@
 <?php namespace xml\unittest;
 
-/**
- * Type factory
- */
-#[@xmlmapping(factory= 'forName', pass= ['@id'])]
+use lang\IllegalArgumentException;
+use lang\XPClass;
+
+#[@xmlmapping(['factory' => 'forName', 'pass' => ['@id']])]
 class IdBasedTypeFactory {
   
   /**
@@ -15,9 +15,9 @@ class IdBasedTypeFactory {
    */
   public static function forName($id) {
     switch ($id) {
-      case 'dialog': return \lang\XPClass::forName('xml.unittest.DialogType');
-      case 'button': return \lang\XPClass::forName('xml.unittest.ButtonType');
-      default: throw new \lang\IllegalArgumentException('Unknown attribute "'.$id.'"');
+      case 'dialog': return XPClass::forName('xml.unittest.DialogType');
+      case 'button': return XPClass::forName('xml.unittest.ButtonType');
+      default: throw new IllegalArgumentException('Unknown attribute "'.$id.'"');
     }
   }
 }

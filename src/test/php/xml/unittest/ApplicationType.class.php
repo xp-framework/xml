@@ -6,7 +6,7 @@
  * @see  xp://xml.unittest.UnmarshallerTest
  * @see  xp://xml.unittest.MarshallerTest
  */
-#[@xmlns(app = 'http://projects.xp-framework.net/xmlns/app')]
+#[@xmlns(['app' => 'http://projects.xp-framework.net/xmlns/app'])]
 class ApplicationType {
 
 }

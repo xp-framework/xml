@@ -6,7 +6,7 @@
  * @see  xp://xml.unittest.MarshallerTest
  * @see  rfc://0040
  */
-#[@xmlfactory(element = 'scroll')]
+#[@xmlfactory(['element' => 'scroll'])]
 class ScrollBarType {
 
 }

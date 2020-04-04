@@ -27,7 +27,7 @@ class DialogType {
    *
    * @param   string $id
    */
-  #[@xmlmapping(element= '@id')]
+  #[@xmlmapping(['element' => '@id'])]
   public function setId($id) {
     $this->id= $id;
   }
@@ -37,7 +37,7 @@ class DialogType {
    *
    * @return  string id
    */
-  #[@xmlfactory(element= '@id')]
+  #[@xmlfactory(['element' => '@id'])]
   public function getId() {
     return $this->id;
   }
@@ -47,7 +47,7 @@ class DialogType {
    *
    * @param   string $caption
    */
-  #[@xmlmapping(element= 'caption')]
+  #[@xmlmapping(['element' => 'caption'])]
   public function setCaption($caption) {
     $this->caption= $caption;
   }
@@ -57,7 +57,7 @@ class DialogType {
    *
    * @return  string caption
    */
-  #[@xmlfactory(element= 'caption')]
+  #[@xmlfactory(['element' => 'caption'])]
   public function getCaption() {
     return $this->caption;
   }
@@ -68,7 +68,7 @@ class DialogType {
    * @param   xml.unittest.ButtonType $button
    * @return  xml.unittest.ButtonType the added button
    */
-  #[@xmlmapping(element= 'button', class= 'xml.unittest.ButtonType')]
+  #[@xmlmapping(['element' => 'button', 'class' => 'xml.unittest.ButtonType'])]
   public function addButton($button) {
     $this->buttons->add($button);
     return $button;
@@ -107,7 +107,7 @@ class DialogType {
    *
    * @return  util.collections.Vector<xml.unittest.ButtonType>
    */
-  #[@xmlfactory(element= 'button')]
+  #[@xmlfactory(['element' => 'button'])]
   public function getButtons() {
     return $this->buttons;
   }
@@ -118,7 +118,7 @@ class DialogType {
    * @param   string $flag1
    * @param   string $flag2
    */
-  #[@xmlmapping(element= 'flags', pass= ['substring-before(., "|")', 'substring-after(., "|")'])]
+  #[@xmlmapping(['element' => 'flags', 'pass' => ['substring-before(., "|")', 'substring-after(., "|")']])]
   public function setFlags($flag1, $flag2) {
     $this->flags= [$flag1, $flag2];
   }
@@ -128,7 +128,7 @@ class DialogType {
    *
    * @return string[]
    */
-  #[@xmlfactory(element= 'flags')]
+  #[@xmlfactory(['element' => 'flags'])]
   public function getFlags() {
     return $this->flags;
   }
@@ -139,7 +139,7 @@ class DialogType {
    * @param   string $name
    * @param   string $value
    */
-  #[@xmlmapping(element= 'options/option', pass= ['@name', '@value'])]
+  #[@xmlmapping(['element' => 'options/option', 'pass' => ['@name', '@value']])]
   public function setOptions($name, $value) {
     $this->options[$name]= $value;
   }
@@ -149,7 +149,7 @@ class DialogType {
    *
    * @return [:string]
    */
-  #[@xmlfactory(element= 'options')]
+  #[@xmlfactory(['element' => 'options'])]
   public function getOptions() {
     return $this->options;
   }
