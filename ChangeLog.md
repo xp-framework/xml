@@ -3,6 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.3 / 2020-04-04
+
+* Made compatible with XP 10 - @thekid
+
 ## 9.0.2 / 2019-08-20
 
 * Made compatible with PHP 7.4 - refrain using `{}` for string offsets
