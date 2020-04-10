@@ -1,9 +1,8 @@
 <?php namespace xml\meta;
 
-use xml\XPath;
-use xml\XMLFormatException;
-use xml\parser\InputSource;
 use io\streams\Streams;
+use xml\{XMLFormatException, XPath};
+use xml\parser\InputSource;
 
 /**
  * Creates objects from XML by using annotations.

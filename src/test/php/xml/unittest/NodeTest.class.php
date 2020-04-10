@@ -1,10 +1,8 @@
 <?php namespace xml\unittest;
  
-use xml\XMLFormatException;
-use lang\IllegalArgumentException;
-use lang\Error;
-use xml\Node;
+use lang\{Error, IllegalArgumentException};
 use unittest\actions\RuntimeVersion;
+use xml\{Node, XMLFormatException};
 
 /**
  * Test XML Node class

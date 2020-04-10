@@ -1,10 +1,8 @@
 <?php namespace xml\unittest;
 
-use xml\DomXSLProcessor;
-use xml\TransformerException;
-use lang\ElementNotFoundException;
-use lang\IllegalArgumentException;
 use io\FileNotFoundException;
+use lang\{ElementNotFoundException, IllegalArgumentException};
+use xml\{DomXSLProcessor, TransformerException};
 new import('lang.ResourceProvider');
  
 /**

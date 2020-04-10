@@ -1,16 +1,13 @@
 <?php namespace xml\unittest;
  
-use xml\unittest\DialogType;
-use xml\unittest\ButtonType;
-use xml\XMLFormatException;
-use lang\reflect\TargetInvocationException;
-use lang\IllegalArgumentException;
-use xml\unittest\ApplicationType;
-use xml\unittest\TextInputType;
-use unittest\TestCase;
-use xml\meta\Unmarshaller;
 use io\streams\MemoryInputStream;
+use lang\IllegalArgumentException;
+use lang\reflect\TargetInvocationException;
+use unittest\TestCase;
+use xml\XMLFormatException;
+use xml\meta\Unmarshaller;
 use xml\parser\StreamInputSource;
+use xml\unittest\{ApplicationType, ButtonType, DialogType, TextInputType};
 
 /**
  * Test Unmarshaller API

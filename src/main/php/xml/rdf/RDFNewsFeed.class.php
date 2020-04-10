@@ -1,7 +1,7 @@
 <?php namespace xml\rdf;
  
-use xml\Tree;
 use util\Date;
+use xml\Tree;
 
 
 define('RDF_NEWS_RDF',        0x0000);

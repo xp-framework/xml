@@ -1,8 +1,8 @@
 <?php namespace xml\unittest;
 
-use xml\parser\StreamInputSource;
 use io\streams\MemoryInputStream;
 use unittest\actions\VerifyThat;
+use xml\parser\StreamInputSource;
 
 /**
  * Tests XML parser API with io.streams.InputStream source

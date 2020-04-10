@@ -1,15 +1,17 @@
 <?php namespace xml\unittest;
 
 use io\FileNotFoundException;
-use xml\TransformerException;
+use lang\Runtime;
 use unittest\actions\VerifyThat;
+use unittest\{PrerequisitesNotMetError, TestCase};
+use xml\{TransformerException, Tree};
 
 /**
  * Test XSL processor
  *
  * @see    xp://xml.IXSLProcessor
  */
-abstract class AbstractProcessorTest extends \unittest\TestCase {
+abstract class AbstractProcessorTest extends TestCase {
   public $processor= null;
   public $xmlDeclaration= '';
     
@@ -84,7 +86,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
   public function setUp() {
     foreach ((array)$this->neededExtension() as $ext) {
       if (!extension_loaded($ext)) {
-        throw new \unittest\PrerequisitesNotMetError($ext.' extension not loaded');
+        throw new PrerequisitesNotMetError($ext.' extension not loaded');
       }
     }
     $this->processor= $this->processorInstance();
@@ -113,12 +115,12 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function setXMLTree() {
-    $this->processor->setXMLTree(new \xml\Tree('document'));
+    $this->processor->setXMLTree(new Tree('document'));
   }
 
   #[@test, @expect(TransformerException::class)]
   public function setMalformedXMLTree() {
-    $this->processor->setXMLTree(new \xml\Tree('<!>'));    // xml.Tree does not check this!
+    $this->processor->setXMLTree(new Tree('<!>'));    // xml.Tree does not check this!
   }
 
   #[@test, @expect(TransformerException::class)]
@@ -153,14 +155,14 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function setXSLTree() {
-    $t= new \xml\Tree('xsl:stylesheet');
+    $t= new Tree('xsl:stylesheet');
     $t->root()->setAttribute('xmlns:xsl', 'http://www.w3.org/1999/XSL/Transform');
     $this->processor->setXSLTree($t);
   }
 
   #[@test, @expect(TransformerException::class)]
   public function setMalformedXSLTree() {
-    $this->processor->setXSLTree(new \xml\Tree('<!>'));    // xml.Tree does not check this!
+    $this->processor->setXSLTree(new Tree('<!>'));    // xml.Tree does not check this!
   }
 
   #[@test]
@@ -171,7 +173,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function baseAccessors() {
-    $file= \lang\Runtime::getInstance()->getExecutable()->getFilename();
+    $file= Runtime::getInstance()->getExecutable()->getFilename();
     $path= rtrim(realpath(dirname($file)), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
     $this->processor->setBase($path);
     $this->assertEquals($path, $this->processor->getBase());
@@ -179,7 +181,7 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function setBaseAddsTrailingDirectorySeparator() {
-    $file= \lang\Runtime::getInstance()->getExecutable()->getFilename();
+    $file= Runtime::getInstance()->getExecutable()->getFilename();
     $path= rtrim(realpath(dirname($file)), DIRECTORY_SEPARATOR);
     $this->processor->setBase($path);
     $this->assertEquals($path.DIRECTORY_SEPARATOR, $this->processor->getBase());
@@ -216,16 +218,13 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
       <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <xsl:output method="text"/>
         <xsl:template match="/">
-          <xsl:text>Hällo</xsl:text>
+          <xsl:text>'."\xfcbercoder".'</xsl:text>
         </xsl:template>
       </xsl:stylesheet>
     ');
     $this->processor->run();
     $this->assertEquals($this->processorCharset(), $this->processor->outputEncoding());
-    $this->assertEquals(
-      iconv('iso-8859-1', $this->processorCharset(), 'Hällo'), 
-      $this->processor->output()
-    );
+    $this->assertEquals('Ã¼bercoder', $this->processor->output());
   }
 
   #[@test]
@@ -235,13 +234,13 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
       <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <xsl:output method="text" encoding="utf-8"/>
         <xsl:template match="/">
-          <xsl:text>Hällo</xsl:text>
+          <xsl:text>'."\xfcbercoder".'</xsl:text>
         </xsl:template>
       </xsl:stylesheet>
     ');
     $this->processor->run();
     $this->assertEquals('utf-8', $this->processor->outputEncoding());
-    $this->assertEquals('HÃ¤llo', $this->processor->output());
+    $this->assertEquals('Ã¼bercoder', $this->processor->output());
   }
 
   #[@test]
@@ -251,16 +250,13 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
       <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <xsl:output method="text"/>
         <xsl:template match="/">
-          <xsl:text>HÃ¤llo</xsl:text>
+          <xsl:text>Ã¼bercoder</xsl:text>
         </xsl:template>
       </xsl:stylesheet>
     ');
     $this->processor->run();
     $this->assertEquals($this->processorCharset(), $this->processor->outputEncoding());
-    $this->assertEquals(
-      iconv('iso-8859-1', $this->processorCharset(), 'Hällo'), 
-      $this->processor->output()
-    );
+    $this->assertEquals('Ã¼bercoder', $this->processor->output());
   }
 
   #[@test]
@@ -270,13 +266,13 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
       <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <xsl:output method="text" encoding="utf-8"/>
         <xsl:template match="/">
-          <xsl:text>HÃ¤llo</xsl:text>
+          <xsl:text>Ã¼bercoder</xsl:text>
         </xsl:template>
       </xsl:stylesheet>
     ');
     $this->processor->run();
     $this->assertEquals('utf-8', $this->processor->outputEncoding());
-    $this->assertEquals('HÃ¤llo', $this->processor->output());
+    $this->assertEquals('Ã¼bercoder', $this->processor->output());
   }
 
   #[@test]
@@ -286,13 +282,13 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
       <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <xsl:output method="text" encoding="iso-8859-1"/>
         <xsl:template match="/">
-          <xsl:text>HÃ¤llo</xsl:text>
+          <xsl:text>Ã¼bercoder</xsl:text>
         </xsl:template>
       </xsl:stylesheet>
     ');
     $this->processor->run();
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
-    $this->assertEquals('Hällo', $this->processor->output());
+    $this->assertEquals("\xfcbercoder", $this->processor->output());
   }
 
   #[@test]
@@ -302,13 +298,13 @@ abstract class AbstractProcessorTest extends \unittest\TestCase {
       <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <xsl:output method="text" encoding="iso-8859-1"/>
         <xsl:template match="/">
-          <xsl:text>Hällo</xsl:text>
+          <xsl:text>'."\xfcbercoder".'</xsl:text>
         </xsl:template>
       </xsl:stylesheet>
     ');
     $this->processor->run();
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
-    $this->assertEquals('Hällo', $this->processor->output());
+    $this->assertEquals("\xfcbercoder", $this->processor->output());
   }
 
   #[@test]

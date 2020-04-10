@@ -3,8 +3,7 @@
 use io\FileUtil;
 use lang\Value;
 use util\Objects;
-use xml\parser\ParserCallback;
-use xml\parser\XMLParser;
+use xml\parser\{ParserCallback, XMLParser};
 
 /**
  * The Tree class represents a tree which can be exported

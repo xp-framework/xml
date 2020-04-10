@@ -1,12 +1,8 @@
 <?php namespace xml\unittest;
 
 use lang\IllegalArgumentException;
-use xml\XMLFormatException;
-use xml\XPathException;
-use xml\Tree;
-use xml\XPath;
-use xml\Node;
 use unittest\actions\RuntimeVersion;
+use xml\{Node, Tree, XMLFormatException, XPath, XPathException};
 
 /**
  * TestCase for XPath class

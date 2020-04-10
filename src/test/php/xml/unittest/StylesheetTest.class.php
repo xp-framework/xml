@@ -1,7 +1,7 @@
 <?php namespace xml\unittest;
 
-use xml\Stylesheet;
 use util\collections\Vector;
+use xml\Stylesheet;
 
 /**
  * TestCase for Stylesheet class

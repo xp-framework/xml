@@ -2,8 +2,7 @@
 
 use io\FileNotFoundException;
 use util\Objects;
-use xml\xslt\XSLDateCallback;
-use xml\xslt\XSLStringCallback;
+use xml\xslt\{XSLDateCallback, XSLStringCallback};
 
 /**
  * XSL Processor using DomXML

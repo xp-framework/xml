@@ -1,11 +1,7 @@
 <?php namespace xml\xslt;
 
-use util\Date;
-use util\DateMath;
-use util\TimeInterval;
-use util\TimeZone;
-use lang\Enum;
-use lang\XPClass;
+use lang\{Enum, XPClass};
+use util\{Date, DateMath, TimeInterval, TimeZone};
 
 /**
  * XSL callbacks for Date operations

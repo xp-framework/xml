@@ -1,8 +1,8 @@
 <?php namespace xml\unittest;
  
-use xml\Node;
 use lang\IllegalArgumentException;
 use unittest\TestCase;
+use xml\Node;
 use xml\meta\Marshaller;
 
 /**

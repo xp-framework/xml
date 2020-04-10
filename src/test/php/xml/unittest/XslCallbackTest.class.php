@@ -1,11 +1,8 @@
 <?php namespace xml\unittest;
 
-use lang\IllegalArgumentException;
-use lang\ElementNotFoundException;
-use xml\XSLCallback;
-use xml\DomXSLProcessor;
-use xml\Node;
+use lang\{ElementNotFoundException, IllegalArgumentException};
 use util\Date;
+use xml\{DomXSLProcessor, Node, XSLCallback};
 
 /**
  * TestCase for XSL callbacks

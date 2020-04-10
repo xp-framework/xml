@@ -1,10 +1,8 @@
 <?php namespace xml\unittest;
  
-use xml\XMLFormatException;
-use xml\Tree;
-use xml\Node;
-use xml\parser\XMLParser;
 use unittest\actions\RuntimeVersion;
+use xml\{Node, Tree, XMLFormatException};
+use xml\parser\XMLParser;
 
 /**
  * Test XML Tree class

@@ -1,8 +1,6 @@
 <?php namespace xml\meta;
 
-use xml\QName;
-use xml\Tree;
-use xml\XMLFormatException;
+use xml\{QName, Tree, XMLFormatException};
 
 /**
  * Marshalls XML from objects by using annotations.

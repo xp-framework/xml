@@ -1,7 +1,6 @@
 <?php namespace xml\unittest;
 
-use lang\IllegalArgumentException;
-use lang\XPClass;
+use lang\{IllegalArgumentException, XPClass};
 
 #[@xmlmapping(['factory' => 'forName', 'pass' => ['@id']])]
 class IdBasedTypeFactory {

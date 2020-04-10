@@ -1,10 +1,8 @@
 <?php namespace xml\unittest;
 
-use xml\XMLFormatException;
 use unittest\TestCase;
-use xml\parser\XMLParser;
-use xml\parser\ParserCallback;
-use xml\parser\InputSource;
+use xml\XMLFormatException;
+use xml\parser\{InputSource, ParserCallback, XMLParser};
 
 /**
  * TestCase

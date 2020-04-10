@@ -1,9 +1,8 @@
 <?php namespace xml\unittest;
 
-use lang\IllegalArgumentException;
-use lang\Error;
-use xml\rdf\RDFNewsFeed;
+use lang\{Error, IllegalArgumentException};
 use unittest\actions\RuntimeVersion;
+use xml\rdf\RDFNewsFeed;
 
 /**
  * TestCase
