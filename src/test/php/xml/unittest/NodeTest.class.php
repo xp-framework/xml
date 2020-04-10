@@ -180,14 +180,15 @@ class NodeTest extends \unittest\TestCase {
       "  <color>green</color>\n".
       "  <name>Name goes here</name>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(newinstance(Some::class, [], [
-        'id'          => 1549,
-        'color'       => 'green',
-        'name'        => null,
-        '__construct' => function() {
+      $this->sourceOf(Node::fromObject(new class() extends Some {
+        public $id= 1549;
+        public $color= 'green';
+        public $name= null;
+
+        public function __construct() {
           $this->name= 'Name goes here';
         }
-      ]), 'node'))
+      }, 'node'))
     );
   }
 
