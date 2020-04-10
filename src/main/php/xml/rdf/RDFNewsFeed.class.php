@@ -189,7 +189,7 @@ class RDFNewsFeed extends Tree {
    */
   public function addItem($title, $link, $description= '', Date $date= null) {
     if (null === $date) {
-      $date= isset($this->channel->date) ? $this->channel->date : Date::now();
+      $date= $this->channel->date ?? Date::now();
     }
     
     $item= new \stdClass();

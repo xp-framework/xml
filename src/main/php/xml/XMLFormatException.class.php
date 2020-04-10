@@ -125,7 +125,7 @@ class XMLFormatException extends FormatException {
       XML_ERROR_UNCLOSED_CDATA_SECTION         => 'UNCLOSED_CDATA_SECTION',
       XML_ERROR_EXTERNAL_ENTITY_HANDLING       => 'EXTERNAL_ENTITY_HANDLING',
     ];
-    return isset($types[$this->type]) ? $types[$this->type] : 'UNKNOWN_ERROR';
+    return $types[$this->type] ?? 'UNKNOWN_ERROR';
   }
 
   /**
