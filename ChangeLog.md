@@ -3,6 +3,11 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.4 / 2020-04-09
+
+* Implemented RFC #335: Remove deprecated key/value pair annotation syntax
+  (@thekid)
+
 ## 9.0.3 / 2020-04-04
 
 * Made compatible with XP 10 - @thekid
@@ -94,7 +99,7 @@ XML APIs for the XP Framework ChangeLog
 
 ## 6.0.1 / 2015-02-12
 
-* Changed dependency to use XP ~6.0 (instead of dev-master) - @thekid
+* Changed dependency to use XP 6.0 (instead of dev-master) - @thekid
 
 ## 6.0.0 / 2015-10-01
 

@@ -1,20 +1,15 @@
 <?php namespace xml\unittest\io;
 
-use xml\io\XmlStreamWriter;
 use io\streams\MemoryOutputStream;
+use lang\IllegalStateException;
+use unittest\TestCase;
+use xml\io\XmlStreamWriter;
 
-/**
- * TestCase
- *
- * @see   xp://xml.io.XmlStreamWriter
- */
-class XmlStreamWriterTest extends \unittest\TestCase {
+class XmlStreamWriterTest extends TestCase {
   protected $out= null;
   protected $writer= null;
 
-  /**
-   * Sets up test case
-   */
+  /** @return void */
   public function setUp() {
     $this->out= new MemoryOutputStream();
     $this->writer= new XmlStreamWriter($this->out);
@@ -289,7 +284,7 @@ class XmlStreamWriterTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect(class= 'lang.IllegalStateException', withMessage= '/Incorrect nesting/')]
+  #[@test, @expect(['class' => IllegalStateException::class, 'withMessage' => '/Incorrect nesting/'])]
   public function incorrectNesting() {
     $this->writer->startElement('books');
     $this->writer->startComment();
