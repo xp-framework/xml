@@ -1,6 +1,6 @@
 <?php namespace xml\unittest;
 
-use unittest\TestCase;
+use unittest\{Test, TestCase};
 use xml\dom\Document;
 
 /**
@@ -10,7 +10,7 @@ use xml\dom\Document;
  */
 class DocumentTest extends TestCase {
 
-  #[@test]
+  #[Test]
   public function elementsByTagName() {
     $dom= Document::fromString('<list>
       <person id="1549">Timm</person>
@@ -23,7 +23,7 @@ class DocumentTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function elementById() {
     $dom= Document::fromString('<list>
       <person id="1549">Timm</person>
@@ -36,7 +36,7 @@ class DocumentTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function elementsByName() {
     $dom= Document::fromString('<wizard>
       <step>
@@ -52,7 +52,7 @@ class DocumentTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function nestedElementById() {
     $dom= Document::fromString('<html>
       <head>
@@ -73,7 +73,7 @@ class DocumentTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function noSuchElementById() {
     $this->assertEquals(
       null,

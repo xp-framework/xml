@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
 
+use xml\{Xmlfactory, Xmlmapping};
+
 /**
  * Test class for Marshaller / Unmarshaller tests.
  *
@@ -39,7 +41,7 @@ class TextInputType {
    *
    * @param   string $id
    */
-  #[@xmlmapping(['element' => '@id'])]
+  #[Xmlmapping(['element' => '@id'])]
   public function setId($id) {
     $this->id= $id;
   }
@@ -49,7 +51,7 @@ class TextInputType {
    *
    * @return  string id
    */
-  #[@xmlfactory(['element' => '@id'])]
+  #[Xmlfactory(['element' => '@id'])]
   public function getId() {
     return $this->id;
   }
@@ -59,7 +61,7 @@ class TextInputType {
    *
    * @param   bool $disabled
    */
-  #[@xmlmapping(['element' => '@disabled', 'cast' => 'asBool'])]
+  #[Xmlmapping(['element' => '@disabled', 'cast' => 'asBool'])]
   public function setDisabled($disabled) {
     $this->disabled= $disabled;
   }
@@ -69,7 +71,7 @@ class TextInputType {
    *
    * @return  bool disabled
    */
-  #[@xmlfactory(['element' => '@disabled', 'cast' => 'toBool'])]
+  #[Xmlfactory(['element' => '@disabled', 'cast' => 'toBool'])]
   public function getDisabled() {
     return $this->disabled;
   }

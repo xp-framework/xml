@@ -1,7 +1,7 @@
 <?php namespace xml\unittest;
  
 use lang\IllegalArgumentException;
-use unittest\TestCase;
+use unittest\{Expect, Test, TestCase};
 use xml\Node;
 use xml\meta\Marshaller;
 
@@ -36,13 +36,13 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function marshalToReturnsGivenNode() {
     $n= new Node('node');
     $this->assertEquals($n, $this->fixture->marshalTo($n, new Some()));
   }
 
-  #[@test]
+  #[Test]
   public function nameOfNodeUsed() {
     $dialog= new DialogType();
     $this->assertMarshalled('
@@ -55,17 +55,17 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function marshalToCreatesNewNodeWhenNoneGiven() {
     $this->assertEquals(new Node('some'), $this->fixture->marshalTo(null, new Some()));
   }
 
-  #[@test]
+  #[Test]
   public function classAnnotationSuppliesName() {
     $this->assertEquals(new Node('scroll'), $this->fixture->marshalTo(null, new ScrollBarType()));
   }
 
-  #[@test]
+  #[Test]
   public function idAttribute() {
     $dialog= new DialogType();
     $dialog->setId('file.open');
@@ -80,7 +80,7 @@ class MarshallerTest extends TestCase {
     );
   }
   
-  #[@test]
+  #[Test]
   public function captionNode() {
     $dialog= new DialogType();
     $dialog->setCaption('Open a file > Choose');
@@ -95,7 +95,7 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function buttonsNodeSet() {
     $dialog= new DialogType();
     $dialog->setCaption('Really delete the file "Ü"?');
@@ -121,7 +121,7 @@ class MarshallerTest extends TestCase {
     );
   }
   
-  #[@test]
+  #[Test]
   public function emptyMembers() {
     $dialog= new DialogType();
     $this->assertMarshalled('
@@ -134,7 +134,7 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function asTree() {
     $dialog= new DialogType();
     $dialog->setId('file.open');
@@ -145,7 +145,7 @@ class MarshallerTest extends TestCase {
     $this->assertEquals('file.open', $node->getAttribute('id'));
   }
 
-  #[@test]
+  #[Test]
   public function deprecatedUsage() {
     $dialog= new DialogType();
     $this->assertEquals(
@@ -154,7 +154,7 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function deprecatedUsageWithNamespace() {
     $app= new ApplicationType();
     $this->assertEquals(
@@ -163,7 +163,7 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function inject() {
     $window= (new WindowType())->withOwnerWindow(1);
     $this->assertMarshalled(
@@ -175,13 +175,13 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function injectionFails() {
     $window= (new WindowType())->withOwnerWindow(1);
     $this->fixture->marshalTo(new Node('window'), $window);
   }
 
-  #[@test]
+  #[Test]
   public function namespaces() {
     $this->assertMarshalled(
       '<app:application xmlns:app="http://projects.xp-framework.net/xmlns/app"/>',
@@ -189,7 +189,7 @@ class MarshallerTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function casting() {
     $t= new TextInputType();
     $t->setId('name');

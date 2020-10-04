@@ -1,7 +1,7 @@
 <?php namespace xml\unittest;
 
 use lang\{Error, IllegalArgumentException};
-use unittest\actions\RuntimeVersion;
+use unittest\{AfterClass, BeforeClass, Expect, TestCase, Test};
 use xml\rdf\RDFNewsFeed;
 
 /**
@@ -9,28 +9,28 @@ use xml\rdf\RDFNewsFeed;
  *
  * @see  xp://xml.rdf.RDFNewsFeed
  */
-class RDFNewsFeedTest extends \unittest\TestCase {
+class RDFNewsFeedTest extends TestCase {
   private static $TZ;
 
   /** @return void */
-  #[@beforeClass]
+  #[BeforeClass]
   public static function saveTZ() {
     self::$TZ= date_default_timezone_get();
     date_default_timezone_set('Europe/Berlin');
   }
 
   /** @return void */
-  #[@afterClass]
+  #[AfterClass]
   public static function restoreTZ() {
     date_default_timezone_set(self::$TZ);
   }
 
-  #[@test]
+  #[Test]
   public function can_create() {
     new RDFNewsFeed();
   }
 
-  #[@test]
+  #[Test]
   public function source_of_new_newsfeed() {
     $f= new RDFNewsFeed();
     $this->assertEquals(
@@ -43,7 +43,7 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function source_of_newsfeed_with_channel() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://example.com/channel', 'Description', new \util\Date('2013-02-27 10:37:12 +01:00'));
@@ -68,7 +68,7 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function source_of_newsfeed_with_channel_and_item() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://example.com/channel', 'Description', new \util\Date('2013-02-27 10:37:12 +01:00'));
@@ -104,7 +104,7 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function source_of_newsfeed_with_channel_and_two_items() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://example.com/channel', 'Description', new \util\Date('2013-02-27 10:37:12 +01:00'));
@@ -148,19 +148,13 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[Test, Expect(Error::class)]
   public function setChannel_only_accepts_a_date() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', '/', 'Description', 'I am not a date');
   }
 
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function setChannel_only_accepts_a_date7() {
-    $f= new RDFNewsFeed();
-    $f->setChannel('Channel', '/', 'Description', 'I am not a date');
-  }
-
-  #[@test]
+  #[Test]
   public function setChannel_accepting_date() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://localhost/', 'Channel description', new \util\Date('1980-05-28'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
@@ -186,21 +180,14 @@ class RDFNewsFeedTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[Test, Expect(Error::class)]
   public function addItem_only_accepts_a_date() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', '/', 'Channel desc');
     $f->addItem('Item', '/', 'Desc', 'I am not a date');
   }
 
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function addItem_only_accepts_a_date7() {
-    $f= new RDFNewsFeed();
-    $f->setChannel('Channel', '/', 'Channel desc');
-    $f->addItem('Item', '/', 'Desc', 'I am not a date');
-  }
-
-  #[@test]
+  #[Test]
   public function addItem_accepting_date() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://localhost/', 'Channel description', new \util\Date('1980-05-28'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');

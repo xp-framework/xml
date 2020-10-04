@@ -2,6 +2,7 @@
 
 use lang\IllegalArgumentException;
 use unittest\actions\RuntimeVersion;
+use unittest\{Expect, Test};
 use xml\{Node, Tree, XMLFormatException, XPath, XPathException};
 
 /**
@@ -26,39 +27,39 @@ class XPathTest extends \unittest\TestCase {
     return $t;
   }
 
-  #[@test]
+  #[Test]
   public function constructWithString() {
     new XPath('<document/>');
   }
 
-  #[@test]
+  #[Test]
   public function constructWithDomDocument() {
     $d= new \DOMDocument();
     $d->appendChild($d->createElement('document'));
     new XPath($d);
   }
 
-  #[@test]
+  #[Test]
   public function constructWithTree() {
     new XPath(new Tree('document'));
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function constructWithNull() {
     new XPath(null);
   }
 
-  #[@test, @expect(XMLFormatException::class)]
+  #[Test, Expect(XMLFormatException::class)]
   public function constructWithUnclosedTag() {
     new XPath('<unclosed-tag>');
   }
 
-  #[@test, @expect(XMLFormatException::class)]
+  #[Test, Expect(XMLFormatException::class)]
   public function constructWithSyntaxErrorInAttribute() {
     new XPath('<hello attribute="/>');
   }
   
-  #[@test]
+  #[Test]
   public function queryReturnsNodeList() {
     $this->assertInstanceOf(
       'DOMNodeList',
@@ -66,7 +67,7 @@ class XPathTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function slashQueryReturnsDocument() {
     $this->assertInstanceOf(
       'DOMDocument',
@@ -74,7 +75,7 @@ class XPathTest extends \unittest\TestCase {
     );
   }
   
-  #[@test]
+  #[Test]
   public function attributeQuery() {
     $this->assertEquals('1549', (new XPath($this->personTree()))
       ->query('/person/@id')
@@ -83,14 +84,14 @@ class XPathTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function attributeName() {
     $this->assertEquals('id', (new XPath($this->personTree()))
       ->query('name(/person/@id)')
     );
   }
 
-  #[@test]
+  #[Test]
   public function textQuery() {
     $this->assertEquals('Timm', (new XPath($this->personTree()))
       ->query('/person/firstName/text()')
@@ -99,21 +100,21 @@ class XPathTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function nameQuery() {
     $this->assertEquals('firstName', (new XPath($this->personTree()))
       ->query('name(/person/firstName)')
     );
   }
 
-  #[@test]
+  #[Test]
   public function stringQuery() {
     $this->assertEquals('Timm', (new XPath($this->personTree()))
       ->query('string(/person/firstName)')
     );
   }
 
-  #[@test]
+  #[Test]
   public function multipleQuery() {
     $locations= (new XPath($this->personTree()))->query('/person/location');
     
@@ -121,25 +122,25 @@ class XPathTest extends \unittest\TestCase {
     $this->assertEquals('Germany', $locations->item(1)->nodeValue);
   }
 
-  #[@test]
+  #[Test]
   public function offsetQuery() {
     $this->assertEquals('Karlsruhe', (new XPath($this->personTree()))
       ->query('string(/person/location[1])')
     );
   }
 
-  #[@test, @expect(XPathException::class)]
+  #[Test, Expect(XPathException::class)]
   public function invalidQuery() {
     (new XPath('<document/>'))->query(',INVALID,');
   }
   
-  #[@test]
+  #[Test]
   public function queryTree() {
     $xpath= new XPath(Tree::fromString('<document><node>value</node></document>'));
     $this->assertEquals('value', $xpath->query('string(/document/node)'));
   }
   
-  #[@test]
+  #[Test]
   public function queryTreeWithEncoding() {
     $xpath= new XPath(Tree::fromString(sprintf(
       '<?xml version="1.0" encoding="iso-8859-1"?>'.
@@ -149,7 +150,7 @@ class XPathTest extends \unittest\TestCase {
     $this->assertEquals('öäü', $xpath->query('string(/document/node)'));
   }
   
-  #[@test]
+  #[Test]
   public function queryTreeWithDefaultEncoding() {
     $xpath= new XPath('<document><node>öäü</node></document>');
     $this->assertEquals('öäü', $xpath->query('string(/document/node)'));

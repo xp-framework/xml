@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
 
+use xml\{Xmlfactory, Xmlmapping};
+
 /**
  * Test class for Marshaller / Unmarshaller tests
  *
@@ -15,7 +17,7 @@ class WindowType {
    * @param   string $name
    * @param   [:int] $windows handle lookup
    */
-  #[@xmlmapping(['element' => '@owner-window', 'inject' => ['windows']])]
+  #[Xmlmapping(['element' => '@owner-window', 'inject' => ['windows']])]
   public function setOwnerWindowNamed($name, array $windows) {
     $this->window= $windows[$name];
   }
@@ -26,7 +28,7 @@ class WindowType {
    * @param   [:int] $windows handle lookup
    * @return  string name
    */
-  #[@xmlfactory(['element' => '@owner-window', 'inject' => ['windows']])]
+  #[Xmlfactory(['element' => '@owner-window', 'inject' => ['windows']])]
   public function getOwnerWindowName(array $windows) {
     return array_search($this->window, $windows);
   }

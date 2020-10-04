@@ -2,6 +2,7 @@
 
 use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
+use unittest\{Expect, Test, Xslmethod};
 use xml\{DomXSLProcessor, TransformerException};
 new import('lang.ResourceProvider');
  
@@ -55,12 +56,12 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    *
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function XslMethod() {
     return '@@SUCCESS@@';
   }
   
-  #[@test]
+  #[Test]
   public function callXslHook() {
     $this->processor->registerInstance('proc', $this);
     $this->processor->setXMLBuf('<document/>');
@@ -78,7 +79,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->processor->run();
   }
   
-  #[@test, @expect(ElementNotFoundException::class)]
+  #[Test, Expect(ElementNotFoundException::class)]
   public function callNonXslHook() {
     $this->processor->registerInstance('proc', $this);
     $this->processor->setXMLBuf('<document/>');
@@ -96,7 +97,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->processor->run();
   }
   
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function callNonRegisteredInstance() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXslBuf('<?xml version="1.0"?>
@@ -117,7 +118,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * Test error handling
    *
    */
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function malformedXML() {
     $this->processor->setXMLBuf('@@MALFORMED@@');
   }
@@ -126,7 +127,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * Test error handling
    *
    */
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function malformedXSL() {
     $this->processor->setXSLBuf('@@MALFORMED@@');
   }
@@ -136,7 +137,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * instances created before the error occurs
    *
    */
-  #[@test]
+  #[Test]
   public function errorStackDoesNotAffectProcessorCreatedBefore() {
     $i= $this->processorInstance();
   
@@ -163,7 +164,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * instances created after the error occurs
    *
    */
-  #[@test]
+  #[Test]
   public function errorStackDoesNotAffectProcessorCreatedAfter() {
   
     // Fill up error stack artificially
@@ -190,7 +191,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
    * errors occurring within a transformation
    *
    */
-  #[@test]
+  #[Test]
   public function errorStackDoesNotAffectErrorHandling() {
   
     // Fill up error stack artificially
@@ -207,7 +208,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     }
   }
   
-  #[@test]
+  #[Test]
   public function defaultCallbacks() {
 
     // Should work
@@ -228,7 +229,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->assertXmlEquals('<i>LOWER STRING</i>', $this->processor->output());
   }
   
-  #[@test]
+  #[Test]
   public function setXSLDoc() {
     $doc= new \DOMDocument();
     $doc->loadXML('
@@ -242,14 +243,14 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->processor->setXSLDoc($doc);
   }
   
-  #[@test]
+  #[Test]
   public function setXMLDoc() {
     $doc= new \DOMDocument();
     $doc->loadXML('<document/>');
     $this->processor->setXMLDoc($doc);
   }
   
-  #[@test]
+  #[Test]
   public function processDocuments() {
     $this->setXSLDoc();
     $this->setXMLDoc();
@@ -257,12 +258,12 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->assertEquals('document', $this->processor->output());
   }
   
-  #[@test]
+  #[Test]
   public function loadXSLFromStreamWrapper() {
     $this->processor->setXSLFile('res://xml/unittest/include.xsl');
   }
   
-  #[@test, @expect(FileNotFoundException::class)]
+  #[Test, Expect(FileNotFoundException::class)]
   public function loadNonexistantXSLFromStreamWrapper() {
     $this->processor->setXSLFile('res://nonexistant.xsl');
   }

@@ -1,7 +1,7 @@
 <?php namespace xml\unittest;
  
 use lang\{Error, IllegalArgumentException};
-use unittest\actions\RuntimeVersion;
+use unittest\{Expect, Test};
 use xml\{Node, XMLFormatException};
 
 /**
@@ -22,7 +22,7 @@ class NodeTest extends \unittest\TestCase {
     return rtrim($node->getSource($mode), "\n");
   }
   
-  #[@test]
+  #[Test]
   public function attributeAccessors() {
     $n= new Node('node');
     $n->setAttribute('id', 1);
@@ -31,7 +31,7 @@ class NodeTest extends \unittest\TestCase {
     $this->assertEquals(1, $n->getAttribute('id'));
   }
 
-  #[@test]
+  #[Test]
   public function contentAccessors() {
     $content= '"This is interesting", Tom\'s friend said. "It\'s > 4 but < 2!"';
     $n= new Node('node');
@@ -39,44 +39,39 @@ class NodeTest extends \unittest\TestCase {
     $this->assertEquals($content, $n->getContent());
   }
   
-  #[@test]
+  #[Test]
   public function nameAccessors() {
     $n= new Node('node');
     $n->setName('name');
     $this->assertEquals('name', $n->getName());
   }
   
-  #[@test, @expect(XMLFormatException::class)]
+  #[Test, Expect(XMLFormatException::class)]
   public function illegalContent() {
     $n= new Node('node');
     $n->setContent("\0");
   }
   
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[Test, Expect(Error::class)]
   public function addingNullChild() {
     (new Node('node'))->addChild(null);
   }
 
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function addingNullChild7() {
-    (new Node('node'))->addChild(null);
-  }
-
-  #[@test]
+  #[Test]
   public function addingReturnsChild() {
     $n= new Node('node');
     $child= new Node('node');
     $this->assertEquals($child, $n->addChild($child));
   }
 
-  #[@test]
+  #[Test]
   public function withChildReturnsNode() {
     $n= new Node('node');
     $child= new Node('node');
     $this->assertEquals($n, $n->withChild($child));
   }
   
-  #[@test]
+  #[Test]
   public function fromEmptyArray() {
     $this->assertEquals(
       '<node/>', 
@@ -84,7 +79,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function fromNumberArray() {
     $this->assertEquals(
       '<items><item>1</item><item>2</item></items>', 
@@ -92,7 +87,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function fromCharacterArray() {
     $this->assertEquals(
       '<characters><character>1</character><character>&amp;</character><character>1</character></characters>', 
@@ -100,7 +95,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
   
-  #[@test]
+  #[Test]
   public function sourceOfEmptyNode() {
     $this->assertEquals(
       '<node/>', 
@@ -108,7 +103,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function sourceOfNodeWithOneAttribute() {
     $this->assertEquals(
       '<node id="1"/>', 
@@ -116,7 +111,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function sourceOfNodeWithTwoAttributes() {
     $this->assertEquals(
       '<node id="2" name="&amp;XML"/>', 
@@ -124,7 +119,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function sourceOfNodeWithContent() {
     $this->assertEquals(
       '<expr>eval(\'1 &lt;&gt; 2 &amp;&amp; \') == &quot;Parse Error&quot;</expr>', 
@@ -132,7 +127,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function sourceOfNodeWithCData() {
     $this->assertEquals(
       '<text><![CDATA[Special characters: <>"\'&]]></text>', 
@@ -140,7 +135,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function sourceOfNodeWithPCData() {
     $this->assertEquals(
       '<text>A <a href="http://xp-framework.net/">link</a> to click on</text>', 
@@ -148,7 +143,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
   
-  #[@test]
+  #[Test]
   public function getSourceWithDefaultEncoding() {
     $this->assertEquals(
       "<n>\xc3\x9cbercoder</n>",
@@ -156,7 +151,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function getSourceWithIsoEncoding() {
     $this->assertEquals(
       "<n>\xdcbercoder</n>",
@@ -164,7 +159,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function getSourceWithUtf8Encoding() {
     $this->assertEquals(
       "<n>\xc3\x9cbercoder</n>",
@@ -172,7 +167,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function fromObject() { 
     $this->assertEquals(
       "<node>\n".
@@ -192,7 +187,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function fromObjectShortName() {
     $this->assertEquals(
       '<Some/>',
@@ -200,7 +195,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function as_string() {
     $this->assertEquals(
       'xml.Node(doc) { }',
@@ -208,7 +203,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function as_string_with_content() {
     $this->assertEquals(
       'xml.Node(test) { "Succeeded" }',
@@ -216,7 +211,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function as_string_with_attributes() {
     $this->assertEquals(
       'xml.Node(a @href= "http://example.com") { }',
@@ -224,7 +219,7 @@ class NodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function as_string_with_children() {
     $this->assertEquals(
       "xml.Node(div) {\n".

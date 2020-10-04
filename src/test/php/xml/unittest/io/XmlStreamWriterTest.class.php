@@ -2,7 +2,7 @@
 
 use io\streams\MemoryOutputStream;
 use lang\IllegalStateException;
-use unittest\TestCase;
+use unittest\{Expect, Test, TestCase};
 use xml\io\XmlStreamWriter;
 
 class XmlStreamWriterTest extends TestCase {
@@ -15,7 +15,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer= new XmlStreamWriter($this->out);
   }
   
-  #[@test]
+  #[Test]
   public function startIso88591Document() {
     $this->writer->startDocument('1.0', 'iso-8859-1');
     $this->assertEquals(
@@ -24,7 +24,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startUtf8Document() {
     $this->writer->startDocument('1.0', 'utf-8');
     $this->assertEquals(
@@ -33,7 +33,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function standaloneDocument() {
     $this->writer->startDocument('1.0', 'iso-8859-1', true);
     $this->assertEquals(
@@ -42,7 +42,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startElement() {
     $this->writer->startElement('book');
     $this->assertEquals(
@@ -51,7 +51,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startElementWithAttribute() {
     $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9']);
     $this->assertEquals(
@@ -60,7 +60,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startElementWithAttributes() {
     $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9', 'authors' => 'Timm & Alex']);
     $this->assertEquals(
@@ -69,7 +69,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function closeElement() {
     $this->writer->startElement('book');
     $this->writer->closeElement();
@@ -79,7 +79,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function closeElements() {
     $this->writer->startElement('book');
     $this->writer->startElement('author');
@@ -91,7 +91,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startComment() {
     $this->writer->startComment();
     $this->assertEquals(
@@ -100,7 +100,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function closeComment() {
     $this->writer->startComment();
     $this->writer->closeComment();
@@ -110,7 +110,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startCData() {
     $this->writer->startCData();
     $this->assertEquals(
@@ -119,7 +119,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function closeCData() {
     $this->writer->startCData();
     $this->writer->closeCData();
@@ -129,7 +129,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function startPI() {
     $this->writer->startPI('php');
     $this->assertEquals(
@@ -138,7 +138,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function closePI() {
     $this->writer->startPI('php');
     $this->writer->closePI();
@@ -148,7 +148,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writeText() {
     $this->writer->startElement('book');
     $this->writer->writeText('Hello & World');
@@ -159,7 +159,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writeCData() {
     $this->writer->startElement('book');
     $this->writer->writeCData('Hello & World');
@@ -170,7 +170,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writeComment() {
     $this->writer->startElement('book');
     $this->writer->writeComment('Hello & World');
@@ -181,7 +181,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writeCommentedNode() {
     $this->writer->startElement('book');
     $this->writer->startComment();
@@ -194,7 +194,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writeMarkup() {
     $this->writer->startElement('markup');
     $this->writer->writeText('This is ');
@@ -207,7 +207,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writePI() {
     $this->writer->startElement('code');
     $this->writer->writePI('php', 'echo "Hello World";');
@@ -218,7 +218,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writePIWithAttributes() {
     $this->writer->writePI('xml-stylesheet', ['href' => 'template.xsl']);
     $this->assertEquals(
@@ -227,7 +227,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writeCDataAndText() {
     $this->writer->startElement('book');
     $this->writer->writeText('Hello');
@@ -240,7 +240,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writElement() {
     $this->writer->writeElement('book', 'Hello & World', ['isbn' => '978-3-86680-192-9']);
     $this->assertEquals(
@@ -249,7 +249,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function writElementEmptyContent() {
     $this->writer->writeElement('book');
     $this->assertEquals(
@@ -258,7 +258,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function endDocumentClosesAllElements() {
     $this->writer->startElement('books');
     $this->writer->startElement('book');
@@ -271,7 +271,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function endDocumentClosesComments() {
     $this->writer->startElement('books');
     $this->writer->startComment();
@@ -284,7 +284,7 @@ class XmlStreamWriterTest extends TestCase {
     );
   }
 
-  #[@test, @expect(['class' => IllegalStateException::class, 'withMessage' => '/Incorrect nesting/'])]
+  #[Test, Expect(['class' => IllegalStateException::class, 'withMessage' => '/Incorrect nesting/'])]
   public function incorrectNesting() {
     $this->writer->startElement('books');
     $this->writer->startComment();

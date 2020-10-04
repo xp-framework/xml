@@ -2,8 +2,7 @@
 
 use io\FileNotFoundException;
 use lang\Runtime;
-use unittest\actions\VerifyThat;
-use unittest\{PrerequisitesNotMetError, TestCase};
+use unittest\{Expect, PrerequisitesNotMetError, Test, TestCase};
 use xml\{TransformerException, Tree};
 
 /**
@@ -49,9 +48,9 @@ abstract class AbstractProcessorTest extends TestCase {
       $scheme= 'file';
     } else {
       $scheme= substr($name, 0, $p);
-      $name= substr($name, $p+ 3);
+      $name= substr($name, $p + 3);
     }
-    if (':' === $name{1}) {
+    if (':' === $name[1]) {
       $name= '/'.$name;
     }
     return $scheme.'://'.strtr($name, [DIRECTORY_SEPARATOR => '/', ' ' => '%20', '?' => ';']);
@@ -93,85 +92,85 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->xmlDeclaration= '<?xml version="1.0" encoding="'.$this->processorCharset().'"?>';
   }
 
-  #[@test, @expect(FileNotFoundException::class)]
+  #[Test, Expect(FileNotFoundException::class)]
   public function setNonExistantXMLFile() {
     $this->processor->setXMLFile(':does-no-exist:');
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function setMalformedXMLFile() {
     $this->processor->setXMLFile($this->includeUri('malformed'));
   }
 
-  #[@test]
+  #[Test]
   public function setXMLFile() {
     $this->processor->setXMLFile($this->includeUri('include'));
   }
 
-  #[@test]
+  #[Test]
   public function setXMLBuf() {
     $this->processor->setXMLBuf('<document/>');
   }
 
-  #[@test]
+  #[Test]
   public function setXMLTree() {
     $this->processor->setXMLTree(new Tree('document'));
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function setMalformedXMLTree() {
     $this->processor->setXMLTree(new Tree('<!>'));    // xml.Tree does not check this!
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function setMalformedXMLBuf() {
     $this->processor->setXMLBuf('this-is-not-valid<XML>');
   }
 
-  #[@test, @expect(FileNotFoundException::class)]
+  #[Test, Expect(FileNotFoundException::class)]
   public function setNonExistantXSLFile() {
     $this->processor->setXSLFile(':does-no-exist:');
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function setMalformedXSLFile() {
     $this->processor->setXSLFile($this->includeUri('malformed'));
   }
 
-  #[@test]
+  #[Test]
   public function setXSLFile() {
     $this->processor->setXSLFile($this->includeUri('include'));
   }
 
-  #[@test]
+  #[Test]
   public function setXSLBuf() {
     $this->processor->setXSLBuf('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/>');
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function setMalformedXSLBuf() {
     $this->processor->setXSLBuf('<xsl stylsheet!');
   }
 
-  #[@test]
+  #[Test]
   public function setXSLTree() {
     $t= new Tree('xsl:stylesheet');
     $t->root()->setAttribute('xmlns:xsl', 'http://www.w3.org/1999/XSL/Transform');
     $this->processor->setXSLTree($t);
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function setMalformedXSLTree() {
     $this->processor->setXSLTree(new Tree('<!>'));    // xml.Tree does not check this!
   }
 
-  #[@test]
+  #[Test]
   public function paramAccessors() {
     $this->processor->setParam('a', 'b');
     $this->assertEquals('b', $this->processor->getParam('a'));
   }
 
-  #[@test]
+  #[Test]
   public function baseAccessors() {
     $file= Runtime::getInstance()->getExecutable()->getFilename();
     $path= rtrim(realpath(dirname($file)), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
@@ -179,7 +178,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals($path, $this->processor->getBase());
   }
 
-  #[@test]
+  #[Test]
   public function setBaseAddsTrailingDirectorySeparator() {
     $file= Runtime::getInstance()->getExecutable()->getFilename();
     $path= rtrim(realpath(dirname($file)), DIRECTORY_SEPARATOR);
@@ -187,7 +186,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals($path.DIRECTORY_SEPARATOR, $this->processor->getBase());
   }
 
-  #[@test]
+  #[Test]
   public function setParams() {
     $this->processor->setParams([
       'a'     => 'b',
@@ -199,7 +198,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('two', $this->processor->getParam('right'));
   }
 
-  #[@test]
+  #[Test]
   public function transformationWithEmptyResult() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -211,7 +210,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function iso88591XslWithoutOutputEncoding() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('<?xml version="1.0" encoding="iso-8859-1"?>
@@ -227,7 +226,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('übercoder', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function iso88591XslWithUtf8OutputEncoding() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('<?xml version="1.0" encoding="iso-8859-1"?>
@@ -243,7 +242,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('übercoder', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function utf8XslWithoutOutputEncoding() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('<?xml version="1.0" encoding="utf-8"?>
@@ -259,7 +258,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('übercoder', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function utf8XslWithUtf8OutputEncoding() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('<?xml version="1.0" encoding="utf-8"?>
@@ -275,7 +274,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('übercoder', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function utf8XslWithIso88591OutputEncoding() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('<?xml version="1.0" encoding="utf-8"?>
@@ -291,7 +290,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals("\xfcbercoder", $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function iso88591XslWithIso88591OutputEncoding() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('<?xml version="1.0" encoding="iso-8859-1"?>
@@ -307,7 +306,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals("\xfcbercoder", $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function transformationWithResult() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -322,7 +321,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertXmlEquals('<b>Hello</b>', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function transformationToHtml() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -337,7 +336,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('<b>Hello</b>', trim($this->processor->output()));
   }
 
-  #[@test]
+  #[Test]
   public function javaScriptInCDataSection() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -355,7 +354,7 @@ abstract class AbstractProcessorTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function omitXmlDeclaration() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -370,7 +369,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('<tag>No XML declaration</tag>', trim($this->processor->output()));
   }
 
-  #[@test]
+  #[Test]
   public function transformationWithParameter() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -387,7 +386,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertXmlEquals('<b>Parameter #1</b>', $this->processor->output());
   }
 
-  #[@test]
+  #[Test]
   public function transformationWithParameters() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -408,21 +407,21 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertXmlEquals('<b>3</b>', $this->processor->output());
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function malformedXML() {
     $this->processor->setXMLBuf('@@MALFORMED@@');
     $this->processor->setXSLBuf('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/>');
     $this->processor->run();
   }
 
-  #[@test, @expect(TransformerException::class)]
+  #[Test, Expect(TransformerException::class)]
   public function malformedXSL() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('@@MALFORMED@@');
     $this->processor->run();
   }
 
-  #[@test, @expect(TransformerException::class), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test, Expect(TransformerException::class)]
   public function malformedExpression() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -435,7 +434,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect(TransformerException::class), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test, Expect(TransformerException::class)]
   public function unboundVariable() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -448,7 +447,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect(TransformerException::class), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test, Expect(TransformerException::class)]
   public function includeNotFound() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -459,7 +458,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->processor->run();
   }
 
-  #[@test, @expect(TransformerException::class), @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test, Expect(TransformerException::class)]
   public function importNotFound() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -470,7 +469,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->processor->run();
   }
 
-  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test]
   public function includingAFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -485,7 +484,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('TEST', $this->processor->output());
   }
 
-  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test]
   public function importingAFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -500,7 +499,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('TEST', $this->processor->output());
   }
 
-  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test]
   public function outputEncodingFromIncludedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -512,7 +511,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
   }
 
-  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test]
   public function outputEncodingFromImportedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -524,7 +523,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
   }
 
-  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test]
   public function outputEncodingFromIncludedInImportedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('
@@ -536,7 +535,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
   }
 
-  #[@test, @action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
+  #[Test]
   public function outputEncodingFromIncludedInIncludedFile() {
     $this->processor->setXMLBuf('<document/>');
     $this->processor->setXSLBuf('

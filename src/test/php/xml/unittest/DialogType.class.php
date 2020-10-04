@@ -1,5 +1,7 @@
 <?php namespace xml\unittest;
 
+use xml\{Xmlfactory, Xmlmapping};
+
 /**
  * Test class for Marshaller / Unmarshaller tests
  *
@@ -27,7 +29,7 @@ class DialogType {
    *
    * @param   string $id
    */
-  #[@xmlmapping(['element' => '@id'])]
+  #[Xmlmapping(['element' => '@id'])]
   public function setId($id) {
     $this->id= $id;
   }
@@ -37,7 +39,7 @@ class DialogType {
    *
    * @return  string id
    */
-  #[@xmlfactory(['element' => '@id'])]
+  #[Xmlfactory(['element' => '@id'])]
   public function getId() {
     return $this->id;
   }
@@ -47,7 +49,7 @@ class DialogType {
    *
    * @param   string $caption
    */
-  #[@xmlmapping(['element' => 'caption'])]
+  #[Xmlmapping(['element' => 'caption'])]
   public function setCaption($caption) {
     $this->caption= $caption;
   }
@@ -57,7 +59,7 @@ class DialogType {
    *
    * @return  string caption
    */
-  #[@xmlfactory(['element' => 'caption'])]
+  #[Xmlfactory(['element' => 'caption'])]
   public function getCaption() {
     return $this->caption;
   }
@@ -68,7 +70,7 @@ class DialogType {
    * @param   xml.unittest.ButtonType $button
    * @return  xml.unittest.ButtonType the added button
    */
-  #[@xmlmapping(['element' => 'button', 'class' => 'xml.unittest.ButtonType'])]
+  #[Xmlmapping(['element' => 'button', 'class' => 'xml.unittest.ButtonType'])]
   public function addButton($button) {
     $this->buttons->add($button);
     return $button;
@@ -107,7 +109,7 @@ class DialogType {
    *
    * @return  util.collections.Vector<xml.unittest.ButtonType>
    */
-  #[@xmlfactory(['element' => 'button'])]
+  #[Xmlfactory(['element' => 'button'])]
   public function getButtons() {
     return $this->buttons;
   }
@@ -118,7 +120,7 @@ class DialogType {
    * @param   string $flag1
    * @param   string $flag2
    */
-  #[@xmlmapping(['element' => 'flags', 'pass' => ['substring-before(., "|")', 'substring-after(., "|")']])]
+  #[Xmlmapping(['element' => 'flags', 'pass' => ['substring-before(., "|")', 'substring-after(., "|")']])]
   public function setFlags($flag1, $flag2) {
     $this->flags= [$flag1, $flag2];
   }
@@ -128,7 +130,7 @@ class DialogType {
    *
    * @return string[]
    */
-  #[@xmlfactory(['element' => 'flags'])]
+  #[Xmlfactory(['element' => 'flags'])]
   public function getFlags() {
     return $this->flags;
   }
@@ -139,7 +141,7 @@ class DialogType {
    * @param   string $name
    * @param   string $value
    */
-  #[@xmlmapping(['element' => 'options/option', 'pass' => ['@name', '@value']])]
+  #[Xmlmapping(['element' => 'options/option', 'pass' => ['@name', '@value']])]
   public function setOptions($name, $value) {
     $this->options[$name]= $value;
   }
@@ -149,7 +151,7 @@ class DialogType {
    *
    * @return [:string]
    */
-  #[@xmlfactory(['element' => 'options'])]
+  #[Xmlfactory(['element' => 'options'])]
   public function getOptions() {
     return $this->options;
   }

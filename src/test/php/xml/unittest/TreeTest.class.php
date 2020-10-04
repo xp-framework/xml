@@ -1,8 +1,9 @@
 <?php namespace xml\unittest;
  
 use unittest\actions\RuntimeVersion;
-use xml\{Node, Tree, XMLFormatException};
+use unittest\{Expect, Ignore, Test};
 use xml\parser\XMLParser;
+use xml\{Node, Tree, XMLFormatException};
 
 /**
  * Test XML Tree class
@@ -22,7 +23,7 @@ class TreeTest extends \unittest\TestCase {
     return rtrim($tree->getSource($mode), "\n");
   }
 
-  #[@test]
+  #[Test]
   public function emptyTree() {
     $this->assertEquals(
       '<root/>', 
@@ -30,7 +31,7 @@ class TreeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function rootMember() {
     with ($t= new Tree('formresult'), $r= $t->root()); {
       $this->assertInstanceOf(Node::class, $r);
@@ -40,14 +41,14 @@ class TreeTest extends \unittest\TestCase {
     }
   }
 
-  #[@test]
+  #[Test]
   public function addChild() {
     $t= new Tree('tests');
     $child= new Node('test', 'success', ['name' => 'TreeTest']);
     $this->assertEquals($child, $t->addChild($child));
   }
 
-  #[@test]
+  #[Test]
   public function fromString() {
     $t= Tree::fromString('
       <c:config xmlns:c="http://example.com/cfg/1.0">
@@ -71,7 +72,7 @@ class TreeTest extends \unittest\TestCase {
     }
   }
   
-  #[@test]
+  #[Test]
   public function fromStringEncodingIso88591() {
     $tree= Tree::fromString(utf8_decode('<?xml version="1.0" encoding="ISO-8859-1"?>
       <document><node>Some umlauts: öäü</node></document>
@@ -83,7 +84,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('Some umlauts: öäü', $tree->root()->nodeAt(0)->getContent());
   }
 
-  #[@test]
+  #[Test]
   public function fromStringEncodingUTF8() {
     $tree= Tree::fromString('<?xml version="1.0" encoding="UTF-8"?>
       <document><node>Some umlauts: öäü</node></document>
@@ -95,7 +96,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('Some umlauts: öäü', $tree->root()->nodeAt(0)->getContent());
   }
 
-  #[@test]
+  #[Test]
   public function singleElement() {
     $tree= Tree::fromString('<document empty="false">Content</document>');
     $this->assertEquals(0, sizeof($tree->root()->getChildren()));
@@ -103,12 +104,12 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('false', $tree->root()->getAttribute('empty'));
   }
 
-  #[@test, @expect(XMLFormatException::class)]
+  #[Test, Expect(XMLFormatException::class)]
   public function fromNonXmlString() {
     Tree::fromString('@@NO-XML-HERE@@');
   }
 
-  #[@test]
+  #[Test]
   public function utf8Encoding() {
     $t= (new Tree('unicode'))->withEncoding('UTF-8');
     $t->root()->setContent('Hällo');
@@ -117,7 +118,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('<unicode>Hällo</unicode>', $this->sourceOf($t));
   }
 
-  #[@test]
+  #[Test]
   public function iso88591Encoding() {
     $t= (new Tree('unicode'))->withEncoding('iso-8859-1');
     $t->root()->setContent('Hällo');
@@ -126,7 +127,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals(utf8_decode('<unicode>Hällo</unicode>'), $this->sourceOf($t));
   }
 
-  #[@test, @ignore('Performance testing')]
+  #[Test, Ignore('Performance testing')]
   public function performance() {
     $s= microtime(true);
     $t= new Tree();
@@ -140,7 +141,7 @@ class TreeTest extends \unittest\TestCase {
     printf('%d bytes, %.3f seconds', $l, microtime(true) - $s);
   }
 
-  #[@test]
+  #[Test]
   public function parseIntoUtf8() {
     $tree= new Tree();
     (new XMLParser('utf-8'))->withCallback($tree)->parse(trim('
@@ -154,7 +155,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('Some umlauts: Ã¶Ã¤Ã¼', $tree->root()->nodeAt(0)->getContent());
   }
 
-  #[@test]
+  #[Test]
   public function parseIntoIso() {
     $tree= new Tree();
     (new XMLParser('iso-8859-1'))->withCallback($tree)->parse(trim('
@@ -168,7 +169,7 @@ class TreeTest extends \unittest\TestCase {
     $this->assertEquals('Some umlauts: öäü', $tree->root()->nodeAt(0)->getContent());
   }
 
-  #[@test]
+  #[Test]
   public function as_string() {
     $this->assertEquals(
       "xml.Tree(version=1.0 encoding=utf-8)@{\n".

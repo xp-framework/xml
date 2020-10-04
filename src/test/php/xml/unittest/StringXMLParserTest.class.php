@@ -1,13 +1,10 @@
 <?php namespace xml\unittest;
 
-use unittest\actions\VerifyThat;
-
 /**
  * Tests XML parser API with primitive string source
  *
  * @see  xp://xml.unittest.AbstractXMLParserTest
  */
-#[@action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
 class StringXMLParserTest extends AbstractXMLParserTest {
   
   /**

@@ -1,7 +1,6 @@
 <?php namespace xml\unittest;
 
 use io\streams\MemoryInputStream;
-use unittest\actions\VerifyThat;
 use xml\parser\StreamInputSource;
 
 /**
@@ -9,7 +8,6 @@ use xml\parser\StreamInputSource;
  *
  * @see  xp://xml.unittest.AbstractXMLParserTest
  */
-#[@action(new VerifyThat(function() { return !defined('HHVM_VERSION'); }))]
 class StreamXMLParserTest extends AbstractXMLParserTest {
   
   /**
