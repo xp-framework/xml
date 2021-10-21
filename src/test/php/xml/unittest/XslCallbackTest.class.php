@@ -164,7 +164,7 @@ class XslCallbackTest extends TestCase {
     $this->assertEquals($date->toString('Y-m-d H:i:s T', $tz), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
-      ['string(/date/value)', "'Y-m-d H:i:s T'", "'".$tz->getName()."'"]
+      ['string(/date/value)', "'Y-m-d H:i:s T'", "'".$tz->name()."'"]
     ));
   }
 

@@ -20,7 +20,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startDocument('1.0', 'iso-8859-1');
     $this->assertEquals(
       '<?xml version="1.0" encoding="iso-8859-1"?>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -29,7 +29,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startDocument('1.0', 'utf-8');
     $this->assertEquals(
       '<?xml version="1.0" encoding="utf-8"?>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -38,7 +38,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startDocument('1.0', 'iso-8859-1', true);
     $this->assertEquals(
       '<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -47,7 +47,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startElement('book');
     $this->assertEquals(
       '<book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -56,7 +56,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9']);
     $this->assertEquals(
       '<book isbn="978-3-86680-192-9">', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -65,7 +65,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9', 'authors' => 'Timm & Alex']);
     $this->assertEquals(
       '<book isbn="978-3-86680-192-9" authors="Timm &amp; Alex">', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -75,7 +75,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book></book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -87,7 +87,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book><author></author></book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -96,7 +96,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startComment();
     $this->assertEquals(
       '<!--', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -106,7 +106,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeComment();
     $this->assertEquals(
       '<!---->', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -115,7 +115,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startCData();
     $this->assertEquals(
       '<![CDATA[', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -125,7 +125,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeCData();
     $this->assertEquals(
       '<![CDATA[]]>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -134,7 +134,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->startPI('php');
     $this->assertEquals(
       '<?php ', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -144,7 +144,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closePI();
     $this->assertEquals(
       '<?php ?>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -155,7 +155,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book>Hello &amp; World</book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -166,7 +166,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book><![CDATA[Hello & World]]></book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -177,7 +177,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book><!--Hello & World--></book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -190,7 +190,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book><!--<author>Timm</author>--></book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -203,7 +203,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<markup>This is <b>really</b> important!</markup>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -214,7 +214,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<code><?php echo "Hello World";?></code>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -223,7 +223,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->writePI('xml-stylesheet', ['href' => 'template.xsl']);
     $this->assertEquals(
       '<?xml-stylesheet href="template.xsl"?>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -236,7 +236,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeElement();
     $this->assertEquals(
       '<book>Hello<![CDATA[ & ]]>World</book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -245,7 +245,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->writeElement('book', 'Hello & World', ['isbn' => '978-3-86680-192-9']);
     $this->assertEquals(
       '<book isbn="978-3-86680-192-9">Hello &amp; World</book>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -254,7 +254,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->writeElement('book');
     $this->assertEquals(
       '<book/>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -267,7 +267,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeDocument();
     $this->assertEquals(
       '<books><book><author></author></book></books>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 
@@ -280,7 +280,7 @@ class XmlStreamWriterTest extends TestCase {
     $this->writer->closeDocument();
     $this->assertEquals(
       '<books><!--Nothing here yet--></books>', 
-      $this->out->getBytes()
+      $this->out->bytes()
     );
   }
 

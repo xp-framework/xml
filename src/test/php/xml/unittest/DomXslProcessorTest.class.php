@@ -4,7 +4,6 @@ use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
 use unittest\{Expect, Test, Xslmethod};
 use xml\{DomXSLProcessor, TransformerException};
-new import('lang.ResourceProvider');
  
 /**
  * ProcessorTest implementation that tests the DomXSL processor
@@ -256,15 +255,5 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->setXMLDoc();
     $this->processor->run();
     $this->assertEquals('document', $this->processor->output());
-  }
-  
-  #[Test]
-  public function loadXSLFromStreamWrapper() {
-    $this->processor->setXSLFile('res://xml/unittest/include.xsl');
-  }
-  
-  #[Test, Expect(FileNotFoundException::class)]
-  public function loadNonexistantXSLFromStreamWrapper() {
-    $this->processor->setXSLFile('res://nonexistant.xsl');
   }
 }

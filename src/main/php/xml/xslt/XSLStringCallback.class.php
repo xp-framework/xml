@@ -1,5 +1,7 @@
 <?php namespace xml\xslt;
 
+use xml\Xslmethod;
+
 /**
  * XSL callbacks for string operations
  *
@@ -14,7 +16,7 @@ class XSLStringCallback {
    * @param   string string
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function urlencode($string) {
     return urlencode($string);
   }
@@ -25,7 +27,7 @@ class XSLStringCallback {
    * @param   string string
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function urldecode($string) {
     return urldecode($string);
   }
@@ -36,7 +38,7 @@ class XSLStringCallback {
    * @param   string string
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function strtolower($string) {
     return strtolower($string);
   }    
@@ -47,7 +49,7 @@ class XSLStringCallback {
    * @param   string string
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function strtoupper($string) {
     return strtoupper($string);
   }
@@ -60,7 +62,7 @@ class XSLStringCallback {
    * @param   string replace
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function replace($str, $search, $replace) {
     return str_replace($search, $replace, $str);
   }
@@ -71,7 +73,7 @@ class XSLStringCallback {
    * @param   string string
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function nl2br($string) {
     return nl2br($string);
   }
@@ -85,7 +87,7 @@ class XSLStringCallback {
    * @param   bool cut Do word wrapping within words (defaults to TRUE)
    * @return  string
    */
-  #[@xslmethod]
+  #[Xslmethod]
   public function wordwrap($string, $width, $break= "\n", $cut= true) {
     return wordwrap($string, $width, $break, $cut);
   }
