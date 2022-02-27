@@ -175,7 +175,7 @@ class NodeTest extends \unittest\TestCase {
       "  <color>green</color>\n".
       "  <name>Name goes here</name>\n".
       "</node>",
-      $this->sourceOf(Node::fromObject(new class() extends Some {
+      $this->sourceOf(Node::fromObject(new class() {
         public $id= 1549;
         public $color= 'green';
         public $name= null;
@@ -188,10 +188,24 @@ class NodeTest extends \unittest\TestCase {
   }
 
   #[Test]
-  public function fromObjectShortName() {
+  public function fromObject_uses_short_name_if_omitted() {
     $this->assertEquals(
       '<Some/>',
       $this->sourceOf(Node::fromObject(new Some(), null))
+    );
+  }
+
+  #[Test]
+  public function fromObject_invokes_serialize() {
+    $this->assertEquals(
+      "<node>\n".
+      "  <value>test</value>\n".
+      "</node>",
+      $this->sourceOf(Node::fromObject(new class() {
+        public function __serialize() {
+          return ['value' => 'test'];
+        }
+      }, 'node'))
     );
   }
 

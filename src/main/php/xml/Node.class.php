@@ -90,7 +90,9 @@ class Node implements Value {
    * @return  xml.Node
    */
   public static function fromObject($obj, $name= null) {
-    if (method_exists($obj, '__sleep')) {
+    if (method_exists($obj, '__serialize')) {
+      $vars= $obj->__serialize();
+    } else if (method_exists($obj, '__sleep')) {
       $vars= [];
       foreach ($obj->__sleep() as $var) $vars[$var]= $obj->{$var};
     } else {

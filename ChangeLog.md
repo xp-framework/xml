@@ -3,6 +3,12 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 11.1.0 / 2022-02-27
+
+* Added support for `__serialize()`, which has superseded `__sleep()` in
+  PHP 7.4+, see https://wiki.php.net/rfc/custom_object_serialization
+  (@thekid)
+
 ## 11.0.0 / 2021-10-21
 
 * Made compatible with XP 11 - @thekid
