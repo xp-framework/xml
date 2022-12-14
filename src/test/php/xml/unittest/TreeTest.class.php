@@ -74,7 +74,7 @@ class TreeTest extends \unittest\TestCase {
   
   #[Test]
   public function fromStringEncodingIso88591() {
-    $tree= Tree::fromString(utf8_decode('<?xml version="1.0" encoding="ISO-8859-1"?>
+    $tree= Tree::fromString(iconv(\xp::ENCODING, 'iso-8859-1', '<?xml version="1.0" encoding="ISO-8859-1"?>
       <document><node>Some umlauts: öäü</node></document>
     '));
     
@@ -124,7 +124,7 @@ class TreeTest extends \unittest\TestCase {
     $t->root()->setContent('Hällo');
 
     $this->assertEquals('<?xml version="1.0" encoding="ISO-8859-1"?>', $t->getDeclaration());
-    $this->assertEquals(utf8_decode('<unicode>Hällo</unicode>'), $this->sourceOf($t));
+    $this->assertEquals(iconv(\xp::ENCODING, 'iso-8859-1', '<unicode>Hällo</unicode>'), $this->sourceOf($t));
   }
 
   #[Test, Ignore('Performance testing')]

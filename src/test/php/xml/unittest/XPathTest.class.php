@@ -145,7 +145,7 @@ class XPathTest extends \unittest\TestCase {
     $xpath= new XPath(Tree::fromString(sprintf(
       '<?xml version="1.0" encoding="iso-8859-1"?>'.
       '<document><node>%s</node></document>',
-      utf8_decode('öäü')
+      iconv(\xp::ENCODING, 'iso-8859-1', 'öäü')
     )));
     $this->assertEquals('öäü', $xpath->query('string(/document/node)'));
   }
