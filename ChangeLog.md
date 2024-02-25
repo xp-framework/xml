@@ -3,6 +3,8 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Added PHP 8.4 to the test matrix - @thekid
+
 ## 11.1.0 / 2022-02-27
 
 * Added support for `__serialize()`, which has superseded `__sleep()` in
