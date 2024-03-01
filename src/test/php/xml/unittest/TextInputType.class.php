@@ -2,12 +2,6 @@
 
 use xml\{Xmlfactory, Xmlmapping};
 
-/**
- * Test class for Marshaller / Unmarshaller tests.
- *
- * @see  xp://xml.unittest.UnmarshallerTest
- * @see  xp://xml.unittest.MarshallerTest
- */
 class TextInputType {
   protected $id= '';
   protected $disabled= false;

@@ -2,11 +2,10 @@
 
 use io\streams\OutputStream;
 
-
 /**
  * Outputs XML to an output stream.
  *
- * @test    xp://xml.unittest.io.XmlStreamWriterTest
+ * @test  xml.unittest.io.XmlStreamWriterTest
  */
 class XmlStreamWriter extends XmlWriter {
   protected $stack= [];
@@ -20,6 +19,9 @@ class XmlStreamWriter extends XmlWriter {
   public function __construct(OutputStream $stream) {
     $this->stream= $stream;
   }
+
+  /** @return io.streams.OutputStream */
+  public function out() { return $this->stream; }
 
   /**
    * Start writing a document

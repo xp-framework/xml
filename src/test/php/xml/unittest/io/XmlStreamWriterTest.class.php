@@ -2,293 +2,317 @@
 
 use io\streams\MemoryOutputStream;
 use lang\IllegalStateException;
-use unittest\{Expect, Test, TestCase};
+use unittest\{Assert, Before, Expect, Test, TestCase};
 use xml\io\XmlStreamWriter;
 
-class XmlStreamWriterTest extends TestCase {
-  protected $out= null;
-  protected $writer= null;
+class XmlStreamWriterTest {
 
-  /** @return void */
-  public function setUp() {
-    $this->out= new MemoryOutputStream();
-    $this->writer= new XmlStreamWriter($this->out);
+  /** @return xml.io.XmlStreamWriter */
+  private function newFixture() {
+    return new XmlStreamWriter(new MemoryOutputStream());
   }
   
   #[Test]
   public function startIso88591Document() {
-    $this->writer->startDocument('1.0', 'iso-8859-1');
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startDocument('1.0', 'iso-8859-1');
+    Assert::equals(
       '<?xml version="1.0" encoding="iso-8859-1"?>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startUtf8Document() {
-    $this->writer->startDocument('1.0', 'utf-8');
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startDocument('1.0', 'utf-8');
+    Assert::equals(
       '<?xml version="1.0" encoding="utf-8"?>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function standaloneDocument() {
-    $this->writer->startDocument('1.0', 'iso-8859-1', true);
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startDocument('1.0', 'iso-8859-1', true);
+    Assert::equals(
       '<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startElement() {
-    $this->writer->startElement('book');
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    Assert::equals(
       '<book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startElementWithAttribute() {
-    $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9']);
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book', ['isbn' => '978-3-86680-192-9']);
+    Assert::equals(
       '<book isbn="978-3-86680-192-9">', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startElementWithAttributes() {
-    $this->writer->startElement('book', ['isbn' => '978-3-86680-192-9', 'authors' => 'Timm & Alex']);
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book', ['isbn' => '978-3-86680-192-9', 'authors' => 'Timm & Alex']);
+    Assert::equals(
       '<book isbn="978-3-86680-192-9" authors="Timm &amp; Alex">', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function closeElement() {
-    $this->writer->startElement('book');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->closeElement();
+    Assert::equals(
       '<book></book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function closeElements() {
-    $this->writer->startElement('book');
-    $this->writer->startElement('author');
-    $this->writer->closeElement();
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->startElement('author');
+    $writer->closeElement();
+    $writer->closeElement();
+    Assert::equals(
       '<book><author></author></book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startComment() {
-    $this->writer->startComment();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startComment();
+    Assert::equals(
       '<!--', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function closeComment() {
-    $this->writer->startComment();
-    $this->writer->closeComment();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startComment();
+    $writer->closeComment();
+    Assert::equals(
       '<!---->', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startCData() {
-    $this->writer->startCData();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startCData();
+    Assert::equals(
       '<![CDATA[', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function closeCData() {
-    $this->writer->startCData();
-    $this->writer->closeCData();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startCData();
+    $writer->closeCData();
+    Assert::equals(
       '<![CDATA[]]>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function startPI() {
-    $this->writer->startPI('php');
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startPI('php');
+    Assert::equals(
       '<?php ', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function closePI() {
-    $this->writer->startPI('php');
-    $this->writer->closePI();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startPI('php');
+    $writer->closePI();
+    Assert::equals(
       '<?php ?>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writeText() {
-    $this->writer->startElement('book');
-    $this->writer->writeText('Hello & World');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->writeText('Hello & World');
+    $writer->closeElement();
+    Assert::equals(
       '<book>Hello &amp; World</book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writeCData() {
-    $this->writer->startElement('book');
-    $this->writer->writeCData('Hello & World');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->writeCData('Hello & World');
+    $writer->closeElement();
+    Assert::equals(
       '<book><![CDATA[Hello & World]]></book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writeComment() {
-    $this->writer->startElement('book');
-    $this->writer->writeComment('Hello & World');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->writeComment('Hello & World');
+    $writer->closeElement();
+    Assert::equals(
       '<book><!--Hello & World--></book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writeCommentedNode() {
-    $this->writer->startElement('book');
-    $this->writer->startComment();
-    $this->writer->writeElement('author', 'Timm');
-    $this->writer->closeComment();
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->startComment();
+    $writer->writeElement('author', 'Timm');
+    $writer->closeComment();
+    $writer->closeElement();
+    Assert::equals(
       '<book><!--<author>Timm</author>--></book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writeMarkup() {
-    $this->writer->startElement('markup');
-    $this->writer->writeText('This is ');
-    $this->writer->writeElement('b', 'really');
-    $this->writer->writeText(' important!');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('markup');
+    $writer->writeText('This is ');
+    $writer->writeElement('b', 'really');
+    $writer->writeText(' important!');
+    $writer->closeElement();
+    Assert::equals(
       '<markup>This is <b>really</b> important!</markup>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writePI() {
-    $this->writer->startElement('code');
-    $this->writer->writePI('php', 'echo "Hello World";');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('code');
+    $writer->writePI('php', 'echo "Hello World";');
+    $writer->closeElement();
+    Assert::equals(
       '<code><?php echo "Hello World";?></code>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writePIWithAttributes() {
-    $this->writer->writePI('xml-stylesheet', ['href' => 'template.xsl']);
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->writePI('xml-stylesheet', ['href' => 'template.xsl']);
+    Assert::equals(
       '<?xml-stylesheet href="template.xsl"?>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writeCDataAndText() {
-    $this->writer->startElement('book');
-    $this->writer->writeText('Hello');
-    $this->writer->writeCData(' & ');
-    $this->writer->writeText('World');
-    $this->writer->closeElement();
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->startElement('book');
+    $writer->writeText('Hello');
+    $writer->writeCData(' & ');
+    $writer->writeText('World');
+    $writer->closeElement();
+    Assert::equals(
       '<book>Hello<![CDATA[ & ]]>World</book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writElement() {
-    $this->writer->writeElement('book', 'Hello & World', ['isbn' => '978-3-86680-192-9']);
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->writeElement('book', 'Hello & World', ['isbn' => '978-3-86680-192-9']);
+    Assert::equals(
       '<book isbn="978-3-86680-192-9">Hello &amp; World</book>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function writElementEmptyContent() {
-    $this->writer->writeElement('book');
-    $this->assertEquals(
+    $writer= $this->newFixture();
+    $writer->writeElement('book');
+    Assert::equals(
       '<book/>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function endDocumentClosesAllElements() {
-    $this->writer->startElement('books');
-    $this->writer->startElement('book');
-    $this->writer->startElement('author');
+    $writer= $this->newFixture();
+    $writer->startElement('books');
+    $writer->startElement('book');
+    $writer->startElement('author');
 
-    $this->writer->closeDocument();
-    $this->assertEquals(
+    $writer->closeDocument();
+    Assert::equals(
       '<books><book><author></author></book></books>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test]
   public function endDocumentClosesComments() {
-    $this->writer->startElement('books');
-    $this->writer->startComment();
-    $this->writer->writeText('Nothing here yet');
+    $writer= $this->newFixture();
+    $writer->startElement('books');
+    $writer->startComment();
+    $writer->writeText('Nothing here yet');
 
-    $this->writer->closeDocument();
-    $this->assertEquals(
+    $writer->closeDocument();
+    Assert::equals(
       '<books><!--Nothing here yet--></books>', 
-      $this->out->bytes()
+      $writer->out()->bytes()
     );
   }
 
   #[Test, Expect(['class' => IllegalStateException::class, 'withMessage' => '/Incorrect nesting/'])]
   public function incorrectNesting() {
-    $this->writer->startElement('books');
-    $this->writer->startComment();
-    $this->writer->writeText('Nothing here yet');
-    $this->writer->closeElement();
+    $writer= $this->newFixture();
+    $writer->startElement('books');
+    $writer->startComment();
+    $writer->writeText('Nothing here yet');
+    $writer->closeElement();
   }
 }

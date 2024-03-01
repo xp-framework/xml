@@ -3,11 +3,6 @@
 use io\streams\MemoryInputStream;
 use xml\parser\StreamInputSource;
 
-/**
- * Tests XML parser API with io.streams.InputStream source
- *
- * @see  xp://xml.unittest.AbstractXMLParserTest
- */
 class StreamXMLParserTest extends AbstractXMLParserTest {
   
   /**
@@ -21,7 +16,7 @@ class StreamXMLParserTest extends AbstractXMLParserTest {
   protected function source($str, $decl= true) {
     return new StreamInputSource(
       new MemoryInputStream(($decl ? '<?xml version="1.0" encoding="utf-8"?>' : '').$str),
-      $this->name.' test'
+      nameof($this).' test'
     );
   }
 }

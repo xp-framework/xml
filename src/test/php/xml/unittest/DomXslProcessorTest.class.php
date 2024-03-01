@@ -2,16 +2,10 @@
 
 use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
+use unittest\Assert;
 use unittest\{Expect, Test, Xslmethod};
 use xml\{DomXSLProcessor, TransformerException};
  
-/**
- * ProcessorTest implementation that tests the DomXSL processor
- *
- * @see   xp://xml.DomXSLProcessor
- * @ext   dom
- * @ext   xsl
- */
 class DomXslProcessorTest extends AbstractProcessorTest {
 
   /**
@@ -203,7 +197,7 @@ class DomXslProcessorTest extends AbstractProcessorTest {
       $i->setXMLBuf('<document>&nbsp;</document>');
       $this->fail('Malformed XML did not trigger exception');
     } catch (\xml\TransformerException $e) {
-      $this->assertTrue((bool)strstr($e->getMessage(), "Entity 'nbsp' not defined"));
+      Assert::true((bool)strstr($e->getMessage(), "Entity 'nbsp' not defined"));
     }
   }
   
@@ -254,6 +248,6 @@ class DomXslProcessorTest extends AbstractProcessorTest {
     $this->setXSLDoc();
     $this->setXMLDoc();
     $this->processor->run();
-    $this->assertEquals('document', $this->processor->output());
+    Assert::equals('document', $this->processor->output());
   }
 }

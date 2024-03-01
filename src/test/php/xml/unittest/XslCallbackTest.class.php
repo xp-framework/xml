@@ -1,20 +1,14 @@
 <?php namespace xml\unittest;
 
 use lang\{ElementNotFoundException, IllegalArgumentException};
+use unittest\Assert;
 use unittest\actions\ExtensionAvailable;
-use unittest\{Expect, Action, Test, TestCase};
+use unittest\{Action, Expect, Test, TestCase};
 use util\Date;
 use xml\{DomXSLProcessor, Node, XSLCallback, Xslmethod};
 
-/**
- * TestCase for XSL callbacks
- *
- * @see   xp://xml.XSLCallback
- * @see   xp://xml.xslt.XSLDateCallback
- * @see   xp://xml.xslt.XSLStringCallback
- */
 #[Action(eval: '[new ExtensionAvailable("dom"), new ExtensionAvailable("xsl")]')]
-class XslCallbackTest extends TestCase {
+class XslCallbackTest {
 
   /**
    * Runs a transformation
@@ -76,7 +70,7 @@ class XslCallbackTest extends TestCase {
   
   #[Test]
   public function callSayHello() {
-    $this->assertEquals('Hello Test', $this->runTransformation(
+    Assert::equals('Hello Test', $this->runTransformation(
       '<document/>', 
       'this::sayHello',
       ["'Test'"]
@@ -85,7 +79,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function callUberCoderFromUtf8XmlAndUtf8Xsl() {
-    $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
+    Assert::equals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="utf-8"?><document/>', 
       'this::uberCoder',
       ["'Übercoder'"],
@@ -95,7 +89,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function callUberCoderFromIso88591XmlAndUtf8Xsl() {
-    $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
+    Assert::equals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="iso-8859-1"?><document/>', 
       'this::uberCoder',
       ["'Übercoder'"],
@@ -105,7 +99,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function callUberCoderFromUtf8XmlAndIso88591Xsl() {
-    $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
+    Assert::equals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="utf-8"?><document/>', 
       'this::uberCoder',
       [iconv(\xp::ENCODING, 'iso-8859-1', "'Übercoder'")],
@@ -115,7 +109,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function callUberCoderFromIso88591XmlAndIso88591Xsl() {
-    $this->assertEquals('Übercoder=Übercoder', $this->runTransformation(
+    Assert::equals('Übercoder=Übercoder', $this->runTransformation(
       '<?xml version="1.0" encoding="iso-8859-1"?><document/>', 
       'this::uberCoder',
       [iconv(\xp::ENCODING, 'iso-8859-1', "'Übercoder'")],
@@ -125,7 +119,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function callSayHelloOmittingOptionalParameter() {
-    $this->assertEquals('Hello World', $this->runTransformation(
+    Assert::equals('Hello World', $this->runTransformation(
       '<document/>', 
       'this::sayHello',
       []
@@ -150,7 +144,7 @@ class XslCallbackTest extends TestCase {
   #[Test]
   public function dateFormatCallback() {
     $date= new Date('2009-09-20 21:33:00');
-    $this->assertEquals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
+    Assert::equals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
       ['string(/date/value)', "'Y-m-d H:i:s T'"]
@@ -161,7 +155,7 @@ class XslCallbackTest extends TestCase {
   public function dateFormatCallbackWithTZ() {
     $date= new Date('2009-09-20 21:33:00');
     $tz= new \util\TimeZone('Australia/Sydney');
-    $this->assertEquals($date->toString('Y-m-d H:i:s T', $tz), $this->runTransformation(
+    Assert::equals($date->toString('Y-m-d H:i:s T', $tz), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
       ['string(/date/value)', "'Y-m-d H:i:s T'", "'".$tz->name()."'"]
@@ -171,7 +165,7 @@ class XslCallbackTest extends TestCase {
   #[Test]
   public function dateFormatCallbackWithEmptyTZ() {
     $date= new Date('2009-09-20 21:33:00');
-    $this->assertEquals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
+    Assert::equals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
       ['string(/date/value)', "'Y-m-d H:i:s T'", "''"]
@@ -181,7 +175,7 @@ class XslCallbackTest extends TestCase {
   #[Test]
   public function dateFormatCallbackWithoutTZ() {
     $date= new Date('2009-09-20 21:33:00');
-    $this->assertEquals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
+    Assert::equals($date->toString('Y-m-d H:i:s T'), $this->runTransformation(
       Node::fromObject($date, 'date')->getSource(),
       'xp.date::format',
       ['string(/date/value)', "'Y-m-d H:i:s T'"]
@@ -190,7 +184,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function stringUrlencodeCallback() {
-    $this->assertEquals('a+%26+b%3F', $this->runTransformation(
+    Assert::equals('a+%26+b%3F', $this->runTransformation(
       '<url>a &amp; b?</url>',
       'xp.string::urlencode',
       ['string(/)']
@@ -199,7 +193,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function stringUrldecodeCallback() {
-    $this->assertEquals('a & b?', $this->runTransformation(
+    Assert::equals('a & b?', $this->runTransformation(
       '<url>a+%26+b%3F</url>',
       'xp.string::urldecode',
       ['string(/)']
@@ -208,7 +202,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function stringReplaceCallback() {
-    $this->assertEquals('Hello World!', $this->runTransformation(
+    Assert::equals('Hello World!', $this->runTransformation(
       '<string>Hello Test!</string>',
       'xp.string::replace',
       ['string(/)', "'Test'", "'World'"]
@@ -217,7 +211,7 @@ class XslCallbackTest extends TestCase {
 
   #[Test]
   public function stringNl2BrCallback() {
-    $this->assertEquals("Line 1<br />\nLine 2", $this->runTransformation(
+    Assert::equals("Line 1<br />\nLine 2", $this->runTransformation(
       "<string>Line 1\nLine 2</string>",
       'xp.string::nl2br',
       ['string(/)']

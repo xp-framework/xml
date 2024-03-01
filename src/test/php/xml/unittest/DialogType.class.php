@@ -2,13 +2,6 @@
 
 use xml\{Xmlfactory, Xmlmapping};
 
-/**
- * Test class for Marshaller / Unmarshaller tests
- *
- * @see  xp://xml.unittest.UnmarshallerTest
- * @see  xp://xml.unittest.MarshallerTest
- * @see  rfc://0040
- */
 class DialogType {
   public
     $id       = '',

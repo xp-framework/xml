@@ -2,15 +2,10 @@
 
 use io\FileNotFoundException;
 use lang\Runtime;
-use unittest\{Expect, PrerequisitesNotMetError, Test, TestCase};
+use unittest\{Assert, Expect, PrerequisitesNotMetError, Test, TestCase};
 use xml\{TransformerException, Tree};
 
-/**
- * Test XSL processor
- *
- * @see    xp://xml.IXSLProcessor
- */
-abstract class AbstractProcessorTest extends TestCase {
+abstract class AbstractProcessorTest {
   public $processor= null;
   public $xmlDeclaration= '';
     
@@ -24,7 +19,7 @@ abstract class AbstractProcessorTest extends TestCase {
    * @throws  unittest.AssertionFailedError
    */
   public function assertXmlEquals($expect, $actual) {
-    $this->assertEquals(
+    Assert::equals(
       $this->xmlDeclaration.preg_replace('#>[\s\r\n]+<#', '><', trim($expect)),
       preg_replace('#>[\s\r\n]+<#', '><', trim($actual))
     );
@@ -82,6 +77,7 @@ abstract class AbstractProcessorTest extends TestCase {
    *
    * @throws  unittest.PrerequisitesNotMetError
    */
+  #[Before]
   public function setUp() {
     foreach ((array)$this->neededExtension() as $ext) {
       if (!extension_loaded($ext)) {
@@ -167,7 +163,7 @@ abstract class AbstractProcessorTest extends TestCase {
   #[Test]
   public function paramAccessors() {
     $this->processor->setParam('a', 'b');
-    $this->assertEquals('b', $this->processor->getParam('a'));
+    Assert::equals('b', $this->processor->getParam('a'));
   }
 
   #[Test]
@@ -175,7 +171,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $file= Runtime::getInstance()->getExecutable()->getFilename();
     $path= rtrim(realpath(dirname($file)), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
     $this->processor->setBase($path);
-    $this->assertEquals($path, $this->processor->getBase());
+    Assert::equals($path, $this->processor->getBase());
   }
 
   #[Test]
@@ -183,7 +179,7 @@ abstract class AbstractProcessorTest extends TestCase {
     $file= Runtime::getInstance()->getExecutable()->getFilename();
     $path= rtrim(realpath(dirname($file)), DIRECTORY_SEPARATOR);
     $this->processor->setBase($path);
-    $this->assertEquals($path.DIRECTORY_SEPARATOR, $this->processor->getBase());
+    Assert::equals($path.DIRECTORY_SEPARATOR, $this->processor->getBase());
   }
 
   #[Test]
@@ -193,9 +189,9 @@ abstract class AbstractProcessorTest extends TestCase {
       'left'  => 'one',
       'right' => 'two'
     ]);
-    $this->assertEquals('b', $this->processor->getParam('a')) &&
-    $this->assertEquals('one', $this->processor->getParam('left')) &&
-    $this->assertEquals('two', $this->processor->getParam('right'));
+    Assert::equals('b', $this->processor->getParam('a')) &&
+    Assert::equals('one', $this->processor->getParam('left')) &&
+    Assert::equals('two', $this->processor->getParam('right'));
   }
 
   #[Test]
@@ -207,7 +203,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('', $this->processor->output());
+    Assert::equals('', $this->processor->output());
   }
 
   #[Test]
@@ -222,8 +218,8 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals($this->processorCharset(), $this->processor->outputEncoding());
-    $this->assertEquals('übercoder', $this->processor->output());
+    Assert::equals($this->processorCharset(), $this->processor->outputEncoding());
+    Assert::equals('übercoder', $this->processor->output());
   }
 
   #[Test]
@@ -238,8 +234,8 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('utf-8', $this->processor->outputEncoding());
-    $this->assertEquals('übercoder', $this->processor->output());
+    Assert::equals('utf-8', $this->processor->outputEncoding());
+    Assert::equals('übercoder', $this->processor->output());
   }
 
   #[Test]
@@ -254,8 +250,8 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals($this->processorCharset(), $this->processor->outputEncoding());
-    $this->assertEquals('übercoder', $this->processor->output());
+    Assert::equals($this->processorCharset(), $this->processor->outputEncoding());
+    Assert::equals('übercoder', $this->processor->output());
   }
 
   #[Test]
@@ -270,8 +266,8 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('utf-8', $this->processor->outputEncoding());
-    $this->assertEquals('übercoder', $this->processor->output());
+    Assert::equals('utf-8', $this->processor->outputEncoding());
+    Assert::equals('übercoder', $this->processor->output());
   }
 
   #[Test]
@@ -286,8 +282,8 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
-    $this->assertEquals("\xfcbercoder", $this->processor->output());
+    Assert::equals('iso-8859-1', $this->processor->outputEncoding());
+    Assert::equals("\xfcbercoder", $this->processor->output());
   }
 
   #[Test]
@@ -302,8 +298,8 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
-    $this->assertEquals("\xfcbercoder", $this->processor->output());
+    Assert::equals('iso-8859-1', $this->processor->outputEncoding());
+    Assert::equals("\xfcbercoder", $this->processor->output());
   }
 
   #[Test]
@@ -333,7 +329,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('<b>Hello</b>', trim($this->processor->output()));
+    Assert::equals('<b>Hello</b>', trim($this->processor->output()));
   }
 
   #[Test]
@@ -348,7 +344,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals(
+    Assert::equals(
       '<script language="JavaScript"> alert(1 && 2); </script>', 
       trim($this->processor->output())
     );
@@ -366,7 +362,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('<tag>No XML declaration</tag>', trim($this->processor->output()));
+    Assert::equals('<tag>No XML declaration</tag>', trim($this->processor->output()));
   }
 
   #[Test]
@@ -481,7 +477,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('TEST', $this->processor->output());
+    Assert::equals('TEST', $this->processor->output());
   }
 
   #[Test]
@@ -496,7 +492,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('TEST', $this->processor->output());
+    Assert::equals('TEST', $this->processor->output());
   }
 
   #[Test]
@@ -508,7 +504,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
+    Assert::equals('iso-8859-1', $this->processor->outputEncoding());
   }
 
   #[Test]
@@ -520,7 +516,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
+    Assert::equals('iso-8859-1', $this->processor->outputEncoding());
   }
 
   #[Test]
@@ -532,7 +528,7 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
+    Assert::equals('iso-8859-1', $this->processor->outputEncoding());
   }
 
   #[Test]
@@ -544,6 +540,6 @@ abstract class AbstractProcessorTest extends TestCase {
       </xsl:stylesheet>
     ');
     $this->processor->run();
-    $this->assertEquals('iso-8859-1', $this->processor->outputEncoding());
+    Assert::equals('iso-8859-1', $this->processor->outputEncoding());
   }
 }

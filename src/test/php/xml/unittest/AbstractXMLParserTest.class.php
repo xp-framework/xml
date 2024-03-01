@@ -1,16 +1,11 @@
 <?php namespace xml\unittest;
 
+use unittest\Assert;
 use unittest\{Expect, Test, TestCase};
 use xml\XMLFormatException;
 use xml\parser\{InputSource, ParserCallback, XMLParser};
 
-/**
- * TestCase
- *
- * @see      xp://xml.parser.ParserCallback
- * @see      xp://xml.parser.XMLParser
- */
-abstract class AbstractXMLParserTest extends TestCase {
+abstract class AbstractXMLParserTest {
   const NAME = 0;
   const ATTR = 1;
   const CHLD = 2;
@@ -20,6 +15,7 @@ abstract class AbstractXMLParserTest extends TestCase {
   /**
    * Sets up test case
    */
+  #[Before]
   public function setUp() {
     $this->parser= new XMLParser();
   }
@@ -27,6 +23,7 @@ abstract class AbstractXMLParserTest extends TestCase {
   /**
    * Tears down test case
    */
+  #[After]
   public function tearDown() {
     unset($this->parser);
   }
@@ -92,7 +89,7 @@ abstract class AbstractXMLParserTest extends TestCase {
 
   #[Test]
   public function withoutDeclaration() {
-    $this->assertTrue($this->parser->parse($this->source('<root/>', true)));
+    Assert::true($this->parser->parse($this->source('<root/>', true)));
   }
 
   #[Test, Expect(XMLFormatException::class)]
@@ -102,7 +99,7 @@ abstract class AbstractXMLParserTest extends TestCase {
   
   #[Test]
   public function withDeclaration() {
-    $this->assertTrue($this->parser->parse($this->source('<root/>')));
+    Assert::true($this->parser->parse($this->source('<root/>')));
   }
 
   #[Test]
@@ -118,34 +115,34 @@ abstract class AbstractXMLParserTest extends TestCase {
         </paragraph>
       </chapter>
     </book>'));
-    $this->assertEquals('book', $callback->tree[self::NAME]);
-    $this->assertEquals([], $callback->tree[self::ATTR]);
+    Assert::equals('book', $callback->tree[self::NAME]);
+    Assert::equals([], $callback->tree[self::ATTR]);
     
     with ($author= $callback->tree[self::CHLD][1]); {
-      $this->assertEquals('author', $author[self::NAME]);
-      $this->assertEquals([], $author[self::ATTR]);
+      Assert::equals('author', $author[self::NAME]);
+      Assert::equals([], $author[self::ATTR]);
     
       with ($name= $author[self::CHLD][0]); {
-        $this->assertEquals('name', $name[self::NAME]);
-        $this->assertEquals([], $name[self::ATTR]);
-        $this->assertEquals(['Timm'], $name[self::CHLD]);
+        Assert::equals('name', $name[self::NAME]);
+        Assert::equals([], $name[self::ATTR]);
+        Assert::equals(['Timm'], $name[self::CHLD]);
       }
     }
 
     with ($chapter= $callback->tree[self::CHLD][3]); {
-      $this->assertEquals('chapter', $chapter[self::NAME]);
-      $this->assertEquals(['id' => '1'], $chapter[self::ATTR]);
+      Assert::equals('chapter', $chapter[self::NAME]);
+      Assert::equals(['id' => '1'], $chapter[self::ATTR]);
 
       with ($title= $chapter[self::CHLD][1]); {
-        $this->assertEquals('title', $title[self::NAME]);
-        $this->assertEquals([], $title[self::ATTR]);
-        $this->assertEquals(['Introduction'], $title[self::CHLD]);
+        Assert::equals('title', $title[self::NAME]);
+        Assert::equals([], $title[self::ATTR]);
+        Assert::equals(['Introduction'], $title[self::CHLD]);
       }
 
       with ($paragraph= $chapter[self::CHLD][3]); {
-        $this->assertEquals('paragraph', $paragraph[self::NAME]);
-        $this->assertEquals([], $paragraph[self::ATTR]);
-        $this->assertEquals(['This is where it all started.'], $paragraph[self::CHLD]);
+        Assert::equals('paragraph', $paragraph[self::NAME]);
+        Assert::equals([], $paragraph[self::ATTR]);
+        Assert::equals(['This is where it all started.'], $paragraph[self::CHLD]);
       }
     }
   }
@@ -156,7 +153,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       $callback= $this->newCallback();
       $this->parser->setCallback($callback);
       $this->parser->parse($this->source('<run id="'.$i.'"/>'));
-      $this->assertEquals(
+      Assert::equals(
         ['run', ['id' => (string)$i], []], 
         $callback->tree, 
         'Run #'.$i
@@ -172,13 +169,13 @@ abstract class AbstractXMLParserTest extends TestCase {
       $this->parser->parse($this->source('<doc><h1>Title</h1><p>Text</p><img></doc>'));
       $this->fail('Parsed without problems', null, 'xml.XMLFormatException');
     } catch (\xml\XMLFormatException $expected) {
-      $this->assertEquals(null, $callback->tree, 'Tree only set if entire doc parsed');
+      Assert::equals(null, $callback->tree, 'Tree only set if entire doc parsed');
 
-      $this->assertEquals(4, sizeof($callback->elements));
-      $this->assertEquals('doc', $callback->elements[0]);
-      $this->assertEquals('h1', $callback->elements[1]);
-      $this->assertEquals('p', $callback->elements[2]);
-      $this->assertEquals('img', $callback->elements[3]);
+      Assert::equals(4, sizeof($callback->elements));
+      Assert::equals('doc', $callback->elements[0]);
+      Assert::equals('h1', $callback->elements[1]);
+      Assert::equals('p', $callback->elements[2]);
+      Assert::equals('img', $callback->elements[3]);
     }
   }
 
@@ -227,7 +224,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $callback= $this->newCallback();
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<n id="\'1\'" t=\'"_new"\' q="&apos;&quot;"/>'));
-    $this->assertEquals(
+    Assert::equals(
       ['n', ['id' => "'1'", 't' => '"_new"', 'q' => '\'"'], []],
       $callback->tree
     );
@@ -238,7 +235,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $callback= $this->newCallback();
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<a id=">"/>'));
-    $this->assertEquals(
+    Assert::equals(
       ['a', ['id' => '>'], []],
       $callback->tree
     );
@@ -256,7 +253,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->parse($this->source('
       <doc>CDATA [<![CDATA[ <&> ]]>]</doc>
     '));
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         'CDATA [', '<&>', ']'
       ]
@@ -269,7 +266,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<doc><?php echo "1"; ?></doc>'));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         '<?php echo "1"; ?>'
       ]
@@ -282,7 +279,7 @@ abstract class AbstractXMLParserTest extends TestCase {
     $this->parser->setCallback($callback);
     $this->parser->parse($this->source('<doc><!-- Comment --></doc>'));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         '<!-- Comment -->'
       ]
@@ -306,7 +303,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>&quot;3 &lt; 5 &apos;&amp;&apos; 5 &gt; 3&quot;</doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         '"', '3', '<', '5', "'", '&', "'", '5', '>', '3', '"'
       ]
@@ -321,7 +318,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>&#169; 2001-2009 the XP team</doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         '©', '2001-2009 the XP team'
       ]
@@ -337,8 +334,8 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>The Ã¼bercoder returns</doc>
     '));
 
-    $this->assertEquals('iso-8859-1', $callback->encoding);
-    $this->assertEquals([
+    Assert::equals('iso-8859-1', $callback->encoding);
+    Assert::equals([
       'doc', [], [
         'The', 'übercoder returns'
       ]
@@ -354,8 +351,8 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>The Ã¼bercoder returns</doc>
     '));
     
-    $this->assertEquals('utf-8', $callback->encoding);
-    $this->assertEquals([
+    Assert::equals('utf-8', $callback->encoding);
+    Assert::equals([
       'doc', [], [
         'The', 'Ã¼bercoder returns'
       ]
@@ -391,7 +388,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>Copyright: &copy;</doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         'Copyright:', '&copy;'
       ]
@@ -407,7 +404,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>Copyright: &copyright;</doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         'Copyright:', '&copyright;'
       ]
@@ -423,7 +420,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc><book copyright="Copyright &copyright;"/></doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         ['book', ['copyright' => 'Copyright 2009 The XP team'], []],
       ]
@@ -442,7 +439,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc><book copyright="Copyright &copyright;"/></doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], [
         ['book', ['copyright' => 'Copyright 2009 The XP team'], []],
       ]
@@ -458,7 +455,7 @@ abstract class AbstractXMLParserTest extends TestCase {
       <doc>Copyright: &copyright;</doc>
     '));
 
-    $this->assertEquals([
+    Assert::equals([
       'doc', [], ['Copyright:'],
     ], $callback->tree);
   }

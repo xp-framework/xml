@@ -2,12 +2,6 @@
 
 use xml\{Xmlfactory, Xmlmapping};
 
-/**
- * Test class for Marshaller / Unmarshaller tests. Used by
- * DialogType.
- *
- * @see  xp://xml.unittest.DialogType
- */
 class ButtonType {
   public $id= '';
   public $caption= '';

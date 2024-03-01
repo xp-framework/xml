@@ -1,11 +1,12 @@
 <?php namespace xml\unittest;
 
 use lang\{Error, IllegalArgumentException};
-use unittest\{Expect, TestCase, Test};
+use unittest\Assert;
+use unittest\{Expect, Test, TestCase};
 use util\Date;
 use xml\rdf\RDFNewsFeed;
 
-class RDFNewsFeedTest extends TestCase {
+class RDFNewsFeedTest {
 
   #[Test]
   public function can_create() {
@@ -15,7 +16,7 @@ class RDFNewsFeedTest extends TestCase {
   #[Test]
   public function source_of_new_newsfeed() {
     $f= new RDFNewsFeed();
-    $this->assertEquals(
+    Assert::equals(
       '<rdf:RDF'.
       ' xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.
       ' xmlns:dc="http://purl.org/dc/elements/1.1/"'.
@@ -29,7 +30,7 @@ class RDFNewsFeedTest extends TestCase {
   public function source_of_newsfeed_with_channel() {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://example.com/channel', 'Description', new \util\Date('2013-02-27 10:37:12 +01:00'));
-    $this->assertEquals(
+    Assert::equals(
       '<rdf:RDF'.
       ' xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.
       ' xmlns:dc="http://purl.org/dc/elements/1.1/"'.
@@ -55,7 +56,7 @@ class RDFNewsFeedTest extends TestCase {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://example.com/channel', 'Description', new \util\Date('2013-02-27 10:37:12 +01:00'));
     $f->addItem('Item', 'http://example.com/channel/item/1', 'Description', new \util\Date('2013-02-28 14:12:36 +01:00'));
-    $this->assertEquals(
+    Assert::equals(
       '<rdf:RDF'.
       ' xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.
       ' xmlns:dc="http://purl.org/dc/elements/1.1/"'.
@@ -92,7 +93,7 @@ class RDFNewsFeedTest extends TestCase {
     $f->setChannel('Channel', 'http://example.com/channel', 'Description', new \util\Date('2013-02-27 10:37:12 +01:00'));
     $f->addItem('Item 1', 'http://example.com/channel/item/1', 'Description 1', new \util\Date('2013-02-28 14:12:36 +01:00'));
     $f->addItem('Item 2', 'http://example.com/channel/item/2', 'Description 2', new \util\Date('2013-02-28 14:12:37 +01:00'));
-    $this->assertEquals(
+    Assert::equals(
       '<rdf:RDF'.
       ' xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.
       ' xmlns:dc="http://purl.org/dc/elements/1.1/"'.
@@ -141,7 +142,7 @@ class RDFNewsFeedTest extends TestCase {
     $f= new RDFNewsFeed();
     $f->setChannel('Channel', 'http://localhost/', 'Channel description', new Date('1980-05-28 00:00:00+0200'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
 
-    $this->assertEquals(
+    Assert::equals(
       '<rdf:RDF'.
       ' xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.
       ' xmlns:dc="http://purl.org/dc/elements/1.1/"'.
@@ -175,7 +176,7 @@ class RDFNewsFeedTest extends TestCase {
     $f->setChannel('Channel', 'http://localhost/', 'Channel description', new Date('1980-05-28 00:00:00+0200'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
     $f->addItem('Item 1', 'http://localhost/item/1', 'Item description', new Date('2013-04-03 00:00:00+0200'));
 
-    $this->assertEquals(
+    Assert::equals(
       '<rdf:RDF'.
       ' xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.
       ' xmlns:dc="http://purl.org/dc/elements/1.1/"'.

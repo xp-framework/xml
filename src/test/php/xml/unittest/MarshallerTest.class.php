@@ -1,21 +1,18 @@
 <?php namespace xml\unittest;
- 
+
 use lang\IllegalArgumentException;
+use unittest\Assert;
 use unittest\{Expect, Test, TestCase};
 use xml\Node;
 use xml\meta\Marshaller;
 
-/**
- * Test Marshaller API
- *
- * @see   xp://xml.meta.Marshaller
- */
-class MarshallerTest extends TestCase {
+class MarshallerTest {
   protected $fixture= null;
 
   /**
    * Creates fixture
    */
+  #[Before]
   public function setUp() {
     $this->fixture= new Marshaller();
   }
@@ -30,7 +27,7 @@ class MarshallerTest extends TestCase {
    * @throws  unittest.AssertionFailedError
    */
   public function assertMarshalled($expect, $node) {
-    $this->assertEquals(
+    Assert::equals(
       preg_replace('#>[\s\r\n]+<#', '><', trim($expect)),
       preg_replace('#>[\s\r\n]+<#', '><', trim($node->getSource(INDENT_DEFAULT)))
     );
@@ -39,7 +36,7 @@ class MarshallerTest extends TestCase {
   #[Test]
   public function marshalToReturnsGivenNode() {
     $n= new Node('node');
-    $this->assertEquals($n, $this->fixture->marshalTo($n, new Some()));
+    Assert::equals($n, $this->fixture->marshalTo($n, new Some()));
   }
 
   #[Test]
@@ -57,12 +54,12 @@ class MarshallerTest extends TestCase {
 
   #[Test]
   public function marshalToCreatesNewNodeWhenNoneGiven() {
-    $this->assertEquals(new Node('some'), $this->fixture->marshalTo(null, new Some()));
+    Assert::equals(new Node('some'), $this->fixture->marshalTo(null, new Some()));
   }
 
   #[Test]
   public function classAnnotationSuppliesName() {
-    $this->assertEquals(new Node('scroll'), $this->fixture->marshalTo(null, new ScrollBarType()));
+    Assert::equals(new Node('scroll'), $this->fixture->marshalTo(null, new ScrollBarType()));
   }
 
   #[Test]
@@ -140,15 +137,15 @@ class MarshallerTest extends TestCase {
     $dialog->setId('file.open');
 
     $node= $this->fixture->marshalTo(new Node('dialog'), $dialog);
-    $this->assertInstanceOf(Node::class, $node);
-    $this->assertEquals('dialog', $node->getName());
-    $this->assertEquals('file.open', $node->getAttribute('id'));
+    Assert::instance(Node::class, $node);
+    Assert::equals('dialog', $node->getName());
+    Assert::equals('file.open', $node->getAttribute('id'));
   }
 
   #[Test]
   public function deprecatedUsage() {
     $dialog= new DialogType();
-    $this->assertEquals(
+    Assert::equals(
       Marshaller::marshal($dialog),
       $this->fixture->marshalTo(new Node('dialogtype'), $dialog)->getSource(INDENT_DEFAULT)
     );
@@ -157,7 +154,7 @@ class MarshallerTest extends TestCase {
   #[Test]
   public function deprecatedUsageWithNamespace() {
     $app= new ApplicationType();
-    $this->assertEquals(
+    Assert::equals(
       Marshaller::marshal($app),
       $this->fixture->marshalTo(new Node('ApplicationType'), $app)->getSource(INDENT_DEFAULT)
     );

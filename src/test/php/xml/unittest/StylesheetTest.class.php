@@ -1,15 +1,11 @@
 <?php namespace xml\unittest;
 
+use unittest\Assert;
 use unittest\Test;
 use util\collections\Vector;
 use xml\Stylesheet;
 
-/**
- * TestCase for Stylesheet class
- *
- * @see  xp://xml.Stylesheet
- */
-class StylesheetTest extends \unittest\TestCase {
+class StylesheetTest {
 
   /**
    * Helper method
@@ -36,7 +32,7 @@ class StylesheetTest extends \unittest\TestCase {
 
   #[Test]
   public function emptyStylesheet() {
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/>',
       trim((new Stylesheet())->getSource(INDENT_DEFAULT))
     );
@@ -47,7 +43,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->setOutputMethod('text', false, 'utf-8');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:output method="text" encoding="utf-8" indent="no"></xsl:output>',
       trim($this->getElementsByTagName($s->root, 'xsl:output')->get(0)->getSource(INDENT_NONE))
     );
@@ -57,7 +53,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withOutputMethod() {
     $s= (new Stylesheet())->withOutputMethod('text', false, 'utf-8');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:output method="text" encoding="utf-8" indent="no"></xsl:output>',
       trim($this->getElementsByTagName($s->root, 'xsl:output')->get(0)->getSource(INDENT_NONE))
     );
@@ -68,7 +64,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->addImport('portlets/welcome.portlet.xsl');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:import href="portlets/welcome.portlet.xsl"></xsl:import>',
       trim($this->getElementsByTagName($s->root, 'xsl:import')->get(0)->getSource(INDENT_NONE))
     );
@@ -78,7 +74,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withImport() {
     $s= (new Stylesheet())->withImport('portlets/welcome.portlet.xsl');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:import href="portlets/welcome.portlet.xsl"></xsl:import>',
       trim($this->getElementsByTagName($s->root, 'xsl:import')->get(0)->getSource(INDENT_NONE))
     );
@@ -89,7 +85,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->addInclude('portlets/welcome.portlet.xsl');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:include href="portlets/welcome.portlet.xsl"></xsl:include>',
       trim($this->getElementsByTagName($s->root, 'xsl:include')->get(0)->getSource(INDENT_NONE))
     );
@@ -99,7 +95,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withInclude() {
     $s= (new Stylesheet())->withInclude('portlets/welcome.portlet.xsl');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:include href="portlets/welcome.portlet.xsl"></xsl:include>',
       trim($this->getElementsByTagName($s->root, 'xsl:include')->get(0)->getSource(INDENT_NONE))
     );
@@ -110,7 +106,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->addParam('session');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:param name="session"></xsl:param>',
       trim($this->getElementsByTagName($s->root, 'xsl:param')->get(0)->getSource(INDENT_NONE))
     );
@@ -120,7 +116,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withParam() {
     $s= (new Stylesheet())->withParam('session');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:param name="session"></xsl:param>',
       trim($this->getElementsByTagName($s->root, 'xsl:param')->get(0)->getSource(INDENT_NONE))
     );
@@ -131,7 +127,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->addVariable('session');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:variable name="session"></xsl:variable>',
       trim($this->getElementsByTagName($s->root, 'xsl:variable')->get(0)->getSource(INDENT_NONE))
     );
@@ -144,11 +140,11 @@ class StylesheetTest extends \unittest\TestCase {
     $s->addVariable('language');
     
     $variables= $this->getElementsByTagName($s->root, 'xsl:variable');
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:variable name="session"></xsl:variable>',
       trim($variables->get(0)->getSource(INDENT_NONE))
     );
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:variable name="language"></xsl:variable>',
       trim($variables->get(1)->getSource(INDENT_NONE))
     );
@@ -158,7 +154,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withVariable() {
     $s= (new Stylesheet())->withVariable('session');
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:variable name="session"></xsl:variable>',
       trim($this->getElementsByTagName($s->root, 'xsl:variable')->get(0)->getSource(INDENT_NONE))
     );
@@ -169,7 +165,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->addTemplate((new \xml\XslTemplate())->matching('/'));
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:template match="/"></xsl:template>',
       trim($this->getElementsByTagName($s->root, 'xsl:template')->get(0)->getSource(INDENT_NONE))
     );
@@ -179,7 +175,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withMatchTemplate() {
     $s= (new Stylesheet())->withTemplate((new \xml\XslTemplate())->matching('/'));
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:template match="/"></xsl:template>',
       trim($this->getElementsByTagName($s->root, 'xsl:template')->get(0)->getSource(INDENT_NONE))
     );
@@ -190,7 +186,7 @@ class StylesheetTest extends \unittest\TestCase {
     $s= new Stylesheet();
     $s->addTemplate((new \xml\XslTemplate())->named('sitemap'));
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:template name="sitemap"></xsl:template>',
       trim($this->getElementsByTagName($s->root, 'xsl:template')->get(0)->getSource(INDENT_NONE))
     );
@@ -200,7 +196,7 @@ class StylesheetTest extends \unittest\TestCase {
   public function withNamedTemplate() {
     $s= (new Stylesheet())->withTemplate((new \xml\XslTemplate())->named('sitemap'));
     
-    $this->assertEquals(
+    Assert::equals(
       '<xsl:template name="sitemap"></xsl:template>',
       trim($this->getElementsByTagName($s->root, 'xsl:template')->get(0)->getSource(INDENT_NONE))
     );

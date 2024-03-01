@@ -1,14 +1,9 @@
 <?php namespace xml\unittest;
 
-use unittest\{Test, TestCase};
+use unittest\{Assert, Test, TestCase};
 use xml\dom\Document;
 
-/**
- * TestCase for Document class
- *
- * @see      xp://xml.dom.Document
- */
-class DocumentTest extends TestCase {
+class DocumentTest {
 
   #[Test]
   public function elementsByTagName() {
@@ -17,7 +12,7 @@ class DocumentTest extends TestCase {
       <person id="1552">Alex</person>
     </list>');
     
-    $this->assertEquals(
+    Assert::equals(
       $dom->getDocumentElement()->getChildren(),
       $dom->getElementsByTagName('person')
     );
@@ -30,7 +25,7 @@ class DocumentTest extends TestCase {
       <person id="1552">Alex</person>
     </list>');
     
-    $this->assertEquals(
+    Assert::equals(
       $dom->getDocumentElement()->nodeAt(0),
       $dom->getElementById('1549')
     );
@@ -46,7 +41,7 @@ class DocumentTest extends TestCase {
       </step>
     </wizard>');
     
-    $this->assertEquals(
+    Assert::equals(
       [$dom->getDocumentElement()->nodeAt(0)->nodeAt(0)],
       $dom->getElementsByName('package')
     );
@@ -67,7 +62,7 @@ class DocumentTest extends TestCase {
       </body>
     </html>');
     
-    $this->assertEquals(
+    Assert::equals(
       $dom->getDocumentElement()->nodeAt(1)->nodeAt(0)->nodeAt(0)->nodeAt(0),
       $dom->getElementById('home')
     );
@@ -75,7 +70,7 @@ class DocumentTest extends TestCase {
 
   #[Test]
   public function noSuchElementById() {
-    $this->assertEquals(
+    Assert::equals(
       null,
       Document::fromString('<list/>')->getElementById('1777')
     );

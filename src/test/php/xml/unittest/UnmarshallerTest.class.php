@@ -1,25 +1,21 @@
 <?php namespace xml\unittest;
- 
+
 use io\streams\MemoryInputStream;
 use lang\IllegalArgumentException;
 use lang\reflect\TargetInvocationException;
-use unittest\{Expect, Test, TestCase};
+use unittest\{Assert, Before, Expect, Test, TestCase};
 use xml\XMLFormatException;
 use xml\meta\Unmarshaller;
 use xml\parser\StreamInputSource;
 use xml\unittest\{ApplicationType, ButtonType, DialogType, TextInputType};
 
-/**
- * Test Unmarshaller API
- *
- * @see    xp://xml.meta.Unmarshaller
- */
-class UnmarshallerTest extends TestCase {
+class UnmarshallerTest {
   protected $fixture= null;
 
   /**
    * Creates fixture
    */
+  #[Before]
   public function setUp() {
     $this->fixture= new Unmarshaller();
   }
@@ -32,8 +28,8 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')),
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf(DialogType::class, $dialog);
-    $this->assertEquals('file.open', $dialog->getId());
+    Assert::instance(DialogType::class, $dialog);
+    Assert::equals('file.open', $dialog->getId());
   }
 
   #[Test]
@@ -44,8 +40,8 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')),
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf(DialogType::class, $dialog);
-    $this->assertEquals('Open a file > Choose', $dialog->getCaption());
+    Assert::instance(DialogType::class, $dialog);
+    Assert::equals('Open a file > Choose', $dialog->getCaption());
   }
   
   #[Test]
@@ -58,17 +54,17 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf(DialogType::class, $dialog);
-    $this->assertTrue($dialog->hasButtons());
-    $this->assertEquals(2, $dialog->numButtons());
+    Assert::instance(DialogType::class, $dialog);
+    Assert::true($dialog->hasButtons());
+    Assert::equals(2, $dialog->numButtons());
 
     with ($ok= $dialog->buttonAt(0), $cancel= $dialog->buttonAt(1)); {
-      $this->assertInstanceOf(ButtonType::class, $ok);
-      $this->assertInstanceOf(ButtonType::class, $cancel);
-      $this->assertEquals('ok', $ok->getId());
-      $this->assertEquals('cancel', $cancel->getId());
-      $this->assertEquals('Yes, go ahead', $ok->getCaption());
-      $this->assertEquals('No, please don\'t!', $cancel->getCaption());
+      Assert::instance(ButtonType::class, $ok);
+      Assert::instance(ButtonType::class, $cancel);
+      Assert::equals('ok', $ok->getId());
+      Assert::equals('cancel', $cancel->getId());
+      Assert::equals('Yes, go ahead', $ok->getCaption());
+      Assert::equals('No, please don\'t!', $cancel->getCaption());
     }
   }
   
@@ -80,8 +76,8 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf(DialogType::class, $dialog);
-    $this->assertEquals(['ON_TOP', 'MODAL'], $dialog->getFlags());
+    Assert::instance(DialogType::class, $dialog);
+    Assert::equals(['ON_TOP', 'MODAL'], $dialog->getFlags());
   }
   
   #[Test]
@@ -95,8 +91,8 @@ class UnmarshallerTest extends TestCase {
       </dialogtype>')), 
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf(DialogType::class, $dialog);
-    $this->assertEquals([
+    Assert::instance(DialogType::class, $dialog);
+    Assert::equals([
       'width' => '100',
       'height' => '100'
     ], $dialog->getOptions());
@@ -108,8 +104,8 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<dialogtype id="stream.select"/>'), 'memory'),
       'xml.unittest.DialogType'
     );
-    $this->assertInstanceOf(DialogType::class, $dialog);
-    $this->assertEquals('stream.select', $dialog->getId());
+    Assert::instance(DialogType::class, $dialog);
+    Assert::equals('stream.select', $dialog->getId());
   }
 
   #[Test, Expect(XMLFormatException::class)]
@@ -132,7 +128,7 @@ class UnmarshallerTest extends TestCase {
   public function deprecatedUsage() {
     $xml= '<dialogtype id="file.open"/>';
     $type= 'xml.unittest.DialogType';
-    $this->assertEquals(
+    Assert::equals(
       Unmarshaller::unmarshal($xml, $type),
       $this->fixture->unmarshalFrom(new StreamInputSource(new MemoryInputStream($xml)), $type)
     );
@@ -160,7 +156,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<dialog/>')),
       'xml.unittest.NameBasedTypeFactory'
     );
-    $this->assertInstanceOf(DialogType::class, $object);
+    Assert::instance(DialogType::class, $object);
   }
 
   #[Test]
@@ -169,7 +165,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<button/>')),
       'xml.unittest.NameBasedTypeFactory'
     );
-    $this->assertInstanceOf(ButtonType::class, $object);
+    Assert::instance(ButtonType::class, $object);
   }
 
   #[Test, Expect(TargetInvocationException::class)]
@@ -186,7 +182,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<object id="dialog"/>')),
       'xml.unittest.IdBasedTypeFactory'
     );
-    $this->assertInstanceOf(DialogType::class, $object);
+    Assert::instance(DialogType::class, $object);
   }
 
   #[Test]
@@ -195,7 +191,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<object id="button"/>')),
       'xml.unittest.IdBasedTypeFactory'
     );
-    $this->assertInstanceOf(ButtonType::class, $object);
+    Assert::instance(ButtonType::class, $object);
   }
 
   #[Test, Expect(TargetInvocationException::class)]
@@ -216,7 +212,7 @@ class UnmarshallerTest extends TestCase {
         'desktop'  => 0
       ]]
     );
-    $this->assertEquals(1, $window->getOwnerWindow());
+    Assert::equals(1, $window->getOwnerWindow());
   }
 
   #[Test, Expect(IllegalArgumentException::class)]
@@ -233,7 +229,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<app:application xmlns:app="http://projects.xp-framework.net/xmlns/app"/>')),
       'xml.unittest.ApplicationType'
     );
-    $this->assertInstanceOf(ApplicationType::class, $app);
+    Assert::instance(ApplicationType::class, $app);
   }
 
   #[Test]
@@ -242,7 +238,7 @@ class UnmarshallerTest extends TestCase {
       new StreamInputSource(new MemoryInputStream('<input id="name" disabled="true"/>')),
       'xml.unittest.TextInputType'
     );
-    $this->assertInstanceOf(TextInputType::class, $t);
-    $this->assertTrue($t->getDisabled());
+    Assert::instance(TextInputType::class, $t);
+    Assert::true($t->getDisabled());
   }
 }
