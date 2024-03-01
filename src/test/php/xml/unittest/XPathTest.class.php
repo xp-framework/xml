@@ -1,9 +1,9 @@
 <?php namespace xml\unittest;
 
 use lang\IllegalArgumentException;
-use unittest\Assert;
-use unittest\actions\RuntimeVersion;
-use unittest\{Expect, Test};
+use test\Assert;
+use test\verify\Runtime;
+use test\{Expect, Test};
 use xml\{Node, Tree, XMLFormatException, XPath, XPathException};
 
 class XPathTest {

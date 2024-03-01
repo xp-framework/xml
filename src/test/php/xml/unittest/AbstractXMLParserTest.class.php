@@ -1,7 +1,6 @@
 <?php namespace xml\unittest;
 
-use unittest\Assert;
-use unittest\{Expect, Test, TestCase};
+use test\{Assert, Before, Expect, Test};
 use xml\XMLFormatException;
 use xml\parser\{InputSource, ParserCallback, XMLParser};
 

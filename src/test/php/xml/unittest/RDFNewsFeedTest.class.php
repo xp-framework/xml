@@ -1,8 +1,8 @@
 <?php namespace xml\unittest;
 
 use lang\{Error, IllegalArgumentException};
-use unittest\Assert;
-use unittest\{Expect, Test, TestCase};
+use test\Assert;
+use test\{Expect, Test, TestCase};
 use util\Date;
 use xml\rdf\RDFNewsFeed;
 

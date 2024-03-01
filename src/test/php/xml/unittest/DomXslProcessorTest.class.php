@@ -2,8 +2,8 @@
 
 use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
-use unittest\Assert;
-use unittest\{Expect, Test, Xslmethod};
+use test\Assert;
+use test\{Expect, Test, Xslmethod};
 use xml\{DomXSLProcessor, TransformerException};
  
 class DomXslProcessorTest extends AbstractProcessorTest {

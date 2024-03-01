@@ -3,7 +3,7 @@
 use io\streams\MemoryInputStream;
 use lang\IllegalArgumentException;
 use lang\reflect\TargetInvocationException;
-use unittest\{Assert, Before, Expect, Test, TestCase};
+use test\{Assert, Before, Expect, Test, TestCase};
 use xml\XMLFormatException;
 use xml\meta\Unmarshaller;
 use xml\parser\StreamInputSource;

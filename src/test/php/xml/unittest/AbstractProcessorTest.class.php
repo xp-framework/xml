@@ -2,12 +2,12 @@
 
 use io\FileNotFoundException;
 use lang\Runtime;
-use unittest\{Assert, Expect, PrerequisitesNotMetError, Test, TestCase};
+use test\{Assert, Before, Expect, Test};
 use xml\{TransformerException, Tree};
 
 abstract class AbstractProcessorTest {
-  public $processor= null;
-  public $xmlDeclaration= '';
+  protected $processor= null;
+  protected $xmlDeclaration= '';
     
   /**
    * Compares XML after stripping all whitespace between tags of both 
@@ -52,13 +52,6 @@ abstract class AbstractProcessorTest {
   }
 
   /**
-   * Returns the PHP extension needed for this processor test to work
-   *
-   * @return  string
-   */
-  public function neededExtension() { }
-
-  /**
    * Returns the XSL processor instance to be used
    *
    * @return  xml.IXSLProcessor
@@ -72,18 +65,8 @@ abstract class AbstractProcessorTest {
    */
   public function processorCharset() { }
 
-  /**
-   * Tests 
-   *
-   * @throws  unittest.PrerequisitesNotMetError
-   */
   #[Before]
   public function setUp() {
-    foreach ((array)$this->neededExtension() as $ext) {
-      if (!extension_loaded($ext)) {
-        throw new PrerequisitesNotMetError($ext.' extension not loaded');
-      }
-    }
     $this->processor= $this->processorInstance();
     $this->xmlDeclaration= '<?xml version="1.0" encoding="'.$this->processorCharset().'"?>';
   }

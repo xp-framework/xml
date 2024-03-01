@@ -3,6 +3,7 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Implemented xp-framework/rfc#344: New testing library - @thekid
 * Added PHP 8.4 to the test matrix - @thekid
 
 ## 11.1.0 / 2022-02-27

@@ -2,7 +2,7 @@
 
 use io\streams\MemoryOutputStream;
 use lang\IllegalStateException;
-use unittest\{Assert, Before, Expect, Test, TestCase};
+use test\{Assert, Before, Expect, Test, TestCase};
 use xml\io\XmlStreamWriter;
 
 class XmlStreamWriterTest {
@@ -307,7 +307,7 @@ class XmlStreamWriterTest {
     );
   }
 
-  #[Test, Expect(['class' => IllegalStateException::class, 'withMessage' => '/Incorrect nesting/'])]
+  #[Test, Expect(class: IllegalStateException::class, message: '/Incorrect nesting/')]
   public function incorrectNesting() {
     $writer= $this->newFixture();
     $writer->startElement('books');

@@ -1,8 +1,8 @@
 <?php namespace xml\unittest;
 
 use lang\{Error, IllegalArgumentException};
-use unittest\Assert;
-use unittest\{Expect, Test};
+use test\Assert;
+use test\{Expect, Test};
 use xml\{Node, XMLFormatException};
 
 class NodeTest {

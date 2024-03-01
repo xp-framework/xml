@@ -1,7 +1,7 @@
 <?php namespace xml\unittest;
 
-use unittest\Assert;
-use unittest\Test;
+use test\Assert;
+use test\Test;
 use util\collections\Vector;
 use xml\Stylesheet;
 

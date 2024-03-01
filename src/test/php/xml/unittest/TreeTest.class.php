@@ -1,8 +1,8 @@
 <?php namespace xml\unittest;
 
-use unittest\Assert;
-use unittest\actions\RuntimeVersion;
-use unittest\{Expect, Ignore, Test};
+use test\Assert;
+use test\verify\Runtime;
+use test\{Expect, Ignore, Test};
 use xml\parser\XMLParser;
 use xml\{Node, Tree, XMLFormatException};
 

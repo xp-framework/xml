@@ -1,17 +1,13 @@
 <?php namespace xml\unittest;
 
 use lang\IllegalArgumentException;
-use unittest\Assert;
-use unittest\{Expect, Test, TestCase};
+use test\{Assert, Before, Expect, Test};
 use xml\Node;
 use xml\meta\Marshaller;
 
 class MarshallerTest {
   protected $fixture= null;
 
-  /**
-   * Creates fixture
-   */
   #[Before]
   public function setUp() {
     $this->fixture= new Marshaller();

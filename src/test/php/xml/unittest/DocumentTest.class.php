@@ -1,6 +1,6 @@
 <?php namespace xml\unittest;
 
-use unittest\{Assert, Test, TestCase};
+use test\{Assert, Test, TestCase};
 use xml\dom\Document;
 
 class DocumentTest {

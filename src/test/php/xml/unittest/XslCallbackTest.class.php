@@ -1,13 +1,12 @@
 <?php namespace xml\unittest;
 
 use lang\{ElementNotFoundException, IllegalArgumentException};
-use unittest\Assert;
-use unittest\actions\ExtensionAvailable;
-use unittest\{Action, Expect, Test, TestCase};
+use test\verify\Runtime;
+use test\{Assert, Expect, Test};
 use util\Date;
 use xml\{DomXSLProcessor, Node, XSLCallback, Xslmethod};
 
-#[Action(eval: '[new ExtensionAvailable("dom"), new ExtensionAvailable("xsl")]')]
+#[Runtime(extensions: ['dom', 'xsl'])]
 class XslCallbackTest {
 
   /**

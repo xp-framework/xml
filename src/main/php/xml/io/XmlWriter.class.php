@@ -1,11 +1,6 @@
 <?php namespace xml\io;
 
-
-
-/**
- * Outputs XML.
- *
- */
+/** Outputs XML */
 abstract class XmlWriter {
 
   /**
