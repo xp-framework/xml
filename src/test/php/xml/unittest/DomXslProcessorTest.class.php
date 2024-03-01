@@ -2,20 +2,12 @@
 
 use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
-use test\Assert;
-use test\{Expect, Test, Xslmethod};
+use test\verify\Runtime;
+use test\{Assert, Expect, Test, Xslmethod};
 use xml\{DomXSLProcessor, TransformerException};
- 
-class DomXslProcessorTest extends AbstractProcessorTest {
 
-  /**
-   * Returns the PHP extension needed for this processor test to work
-   *
-   * @return  string[]
-   */
-  public function neededExtension() { 
-    return ['dom', 'xsl'];
-  }
+#[Runtime(extensions: ['dom', 'xsl'])]
+class DomXslProcessorTest extends AbstractProcessorTest {
 
   /**
    * Returns the XSL processor instance to be used
