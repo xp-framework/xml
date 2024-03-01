@@ -1,29 +1,11 @@
 <?php namespace xml\unittest;
 
 use lang\{Error, IllegalArgumentException};
-use unittest\{AfterClass, BeforeClass, Expect, TestCase, Test};
+use unittest\{Expect, TestCase, Test};
+use util\Date;
 use xml\rdf\RDFNewsFeed;
 
-/**
- * TestCase
- *
- * @see  xp://xml.rdf.RDFNewsFeed
- */
 class RDFNewsFeedTest extends TestCase {
-  private static $TZ;
-
-  /** @return void */
-  #[BeforeClass]
-  public static function saveTZ() {
-    self::$TZ= date_default_timezone_get();
-    date_default_timezone_set('Europe/Berlin');
-  }
-
-  /** @return void */
-  #[AfterClass]
-  public static function restoreTZ() {
-    date_default_timezone_set(self::$TZ);
-  }
 
   #[Test]
   public function can_create() {
@@ -157,7 +139,7 @@ class RDFNewsFeedTest extends TestCase {
   #[Test]
   public function setChannel_accepting_date() {
     $f= new RDFNewsFeed();
-    $f->setChannel('Channel', 'http://localhost/', 'Channel description', new \util\Date('1980-05-28'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
+    $f->setChannel('Channel', 'http://localhost/', 'Channel description', new Date('1980-05-28 00:00:00+0200'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
 
     $this->assertEquals(
       '<rdf:RDF'.
@@ -190,8 +172,8 @@ class RDFNewsFeedTest extends TestCase {
   #[Test]
   public function addItem_accepting_date() {
     $f= new RDFNewsFeed();
-    $f->setChannel('Channel', 'http://localhost/', 'Channel description', new \util\Date('1980-05-28'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
-    $f->addItem('Item 1', 'http://localhost/item/1', 'Item description', new \util\Date('2013-04-03'));
+    $f->setChannel('Channel', 'http://localhost/', 'Channel description', new Date('1980-05-28 00:00:00+0200'), 'english', 'Alex Kiesel', 'Alex Kiesel', 'rights');
+    $f->addItem('Item 1', 'http://localhost/item/1', 'Item description', new Date('2013-04-03 00:00:00+0200'));
 
     $this->assertEquals(
       '<rdf:RDF'.
