@@ -3,6 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 11.3.0 / 2024-03-24
+
+* Made compatible with XP 12 - @thekid
+
 ## 11.2.0 / 2024-03-01
 
 * Implemented xp-framework/rfc#344: New testing library - @thekid
