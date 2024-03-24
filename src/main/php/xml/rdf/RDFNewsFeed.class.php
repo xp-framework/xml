@@ -1,8 +1,7 @@
 <?php namespace xml\rdf;
  
 use util\Date;
-use xml\Tree;
-
+use xml\{Tree, Node};
 
 define('RDF_NEWS_RDF',        0x0000);
 define('RDF_NEWS_RSS',        0x0001);
@@ -89,7 +88,7 @@ class RDFNewsFeed extends Tree {
    * @param   string title
    * @param   string link
    * @param   string description default ''
-   * @param   string util.Date default NULL date defaulting to the current time
+   * @param   ?util.Date default NULL date defaulting to the current time
    * @param   string language default '' e.g. en_US, de_DE, fr_FR, ...
    * @param   string creator default ''
    * @param   string publisher default ''
@@ -99,13 +98,13 @@ class RDFNewsFeed extends Tree {
     $title, 
     $link, 
     $description= '', 
-    Date $date= null,
+    $date= null,
     $language= '',
     $creator= '', 
     $publisher= '', 
     $rights= ''
   ) {
-    if (null === $date) $date= Date::now();
+    $date ?? $date= Date::now();
 
     $this->channel->title= $title;
     $this->channel->link= $link;
@@ -116,22 +115,22 @@ class RDFNewsFeed extends Tree {
     $this->channel->publisher= $publisher;
     $this->channel->copyright= $rights;
    
-    $node= (new \xml\Node('channel'))
-      ->withChild(new \xml\Node('title', $title))
-      ->withChild(new \xml\Node('link', $link))
-      ->withChild(new \xml\Node('description', $description))
-      ->withChild(new \xml\Node('dc:language', $language))
-      ->withChild(new \xml\Node('dc:date', $date->toString(DATE_ATOM)))
-      ->withChild(new \xml\Node('dc:creator', $creator))
-      ->withChild(new \xml\Node('dc:publisher', $publisher))
-      ->withChild(new \xml\Node('dc:rights', $rights))
+    $node= (new Node('channel'))
+      ->withChild(new Node('title', $title))
+      ->withChild(new Node('link', $link))
+      ->withChild(new Node('description', $description))
+      ->withChild(new Node('dc:language', $language))
+      ->withChild(new Node('dc:date', $date->toString(DATE_ATOM)))
+      ->withChild(new Node('dc:creator', $creator))
+      ->withChild(new Node('dc:publisher', $publisher))
+      ->withChild(new Node('dc:rights', $rights))
     ;
 
     $node->setAttribute('rdf:about', $link);
-    $items= $node->addChild(new \xml\Node('items'));;
+    $items= $node->addChild(new Node('items'));;
 
     $this->channel->node= $node;
-    $this->channel->sequence= $items->addChild(new \xml\Node('rdf:Seq'));
+    $this->channel->sequence= $items->addChild(new Node('rdf:Seq'));
 
     $this->root()->clearChildren();
     $this->root()->addChild($node);
@@ -149,10 +148,10 @@ class RDFNewsFeed extends Tree {
     $this->image->url= $url;
     $this->image->title= $title;
 
-    $node= (new \xml\Node('image'))
-      ->withChild(new \xml\Node('title', $title))
-      ->withChild(new \xml\Node('url', $url))
-      ->withChild(new \xml\Node('link', $link))
+    $node= (new Node('image'))
+      ->withChild(new Node('title', $title))
+      ->withChild(new Node('url', $url))
+      ->withChild(new Node('link', $link))
     ;
     if (!isset($this->image->node)) $node= $this->root()->addChild($node);
     $this->image->node= $node;
@@ -184,10 +183,10 @@ class RDFNewsFeed extends Tree {
    * @param   string title
    * @param   string link
    * @param   string description default ''
-   * @param   string util.Date default NULL date defaulting to current date/time
+   * @param   ?util.Date default NULL date defaulting to current date/time
    * @return  object the added item
    */
-  public function addItem($title, $link, $description= '', Date $date= null) {
+  public function addItem($title, $link, $description= '', $date= null) {
     if (null === $date) {
       $date= $this->channel->date ?? Date::now();
     }
@@ -197,16 +196,16 @@ class RDFNewsFeed extends Tree {
     $item->link= $link;
     $item->description= $description;
     
-    $node= (new \xml\Node('item'))
-      ->withChild(new \xml\Node('title', $title))
-      ->withChild(new \xml\Node('link', $link))
-      ->withChild(new \xml\Node('description', $description))
-      ->withChild(new \xml\Node('dc:date', $date->toString(DATE_ATOM)))
+    $node= (new Node('item'))
+      ->withChild(new Node('title', $title))
+      ->withChild(new Node('link', $link))
+      ->withChild(new Node('description', $description))
+      ->withChild(new Node('dc:date', $date->toString(DATE_ATOM)))
     ;
     $node->setAttribute('rdf:about', $link);
     $item->node= $this->root()->addChild($node);
     $this->items[]= $item;
-    $this->channel->sequence->addChild(new \xml\Node('rdf:li', null, ['rdf:resource' => $link]));
+    $this->channel->sequence->addChild(new Node('rdf:li', null, ['rdf:resource' => $link]));
     
     return $item;
   }
