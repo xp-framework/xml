@@ -7,15 +7,8 @@ use xml\{QName, Tree, Node, XMLFormatException, Xmlfactory, Xmlns};
 /**
  * Marshalls XML from objects by using annotations.
  *
- * Example:
- * ```php
- * // [...create transmission object...]
- *
- * $xml= Marshaller::marshal($transmission);
- * ```
- *
- * @test  xml.unittest.MarshallerTest
  * @ext   dom
+ * @test  xml.unittest.MarshallerTest
  * @see   http://castor.org/xml-mapping.html
  */
 class Marshaller {
@@ -121,35 +114,6 @@ class Marshaller {
     }
   }
 
-  /**
-   * Marshal an object to xml
-   *
-   * @param   object instance
-   * @param   xml.QName qname default NULL
-   * @return  string xml
-   * @deprecated  Use marshalTo() instead
-   */
-  public static function marshal($instance, $qname= null) {
-    $type= Reflection::type($instance);
-
-    // Create XML tree and root node. Use the information provided by the
-    // qname argument if existant, use the class` non-qualified (and 
-    // lowercased) name otherwise.
-    $tree= new Tree();
-    if ($qname) {
-      $prefix= $qname->prefix ? $qname->prefix : $qname->localpart[0];
-      $tree->root()->setName($prefix.':'.$qname->localpart);
-      $tree->root()->setAttribute('xmlns:'.$prefix, $qname->namespace);
-    } else if ($type->annotation(Xmlns::class)) {
-      $tree->root()->setName($type->class()->getSimpleName());
-    } else {
-      $tree->root()->setName(strtolower($type->class()->getSimpleName()));
-    }
-    
-    self::recurse($instance, $type, $tree->root(), []);
-    return $tree->getSource(INDENT_DEFAULT);
-  }
- 
   /**
    * Marshal an object to xml
    *
