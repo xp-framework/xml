@@ -3,6 +3,9 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Dropped support for PHP 7.0 - 7.3, see xp-framework/rfc#343. Minimum
+  required PHP version is now 7.4!
+  (@thekid)
 * Merged PR #5: Remove deprecated static Marshaller / Unmarshaller usage
   (@thekid)
 * Merged PR #4: Refactor to use reflection library, xp-framework/rfc#338
