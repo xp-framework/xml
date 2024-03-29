@@ -3,7 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
-* Merged PR #4: Refactor to use new reflection library - @thekid
+* Merged PR #5: Remove deprecated static Marshaller / Unmarshaller usage
+  (@thekid)
+* Merged PR #4: Refactor to use reflection library, xp-framework/rfc#338
+  (@thekid)
 
 ## 11.3.0 / 2024-03-24
 
