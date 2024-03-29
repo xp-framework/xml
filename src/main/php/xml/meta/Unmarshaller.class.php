@@ -9,15 +9,8 @@ use xml\{XMLFormatException, XPath, Xmlmapping, Xmlns};
 /**
  * Creates objects from XML by using annotations.
  *
- * Example:
- * ```php
- * // [...load $xml from a file or a stream...]
- *
- * $transmission= Unmarshaller::unmarshal($xml, 'com.1and1.qf.xml.types.TransmissionType');
- * ```
- *
- * @test  xp://xml.unittest.UnmarshallerTest
  * @ext   dom
+ * @test  xp://xml.unittest.UnmarshallerTest
  * @see   http://castor.org/xml-mapping.html
  */
 class Unmarshaller {
@@ -158,30 +151,6 @@ class Unmarshaller {
     }
 
     return $instance;
-  }
-
-  /**
-   * Unmarshal XML to an object
-   *
-   * @param   string xml
-   * @param   string classname
-   * @return  object
-   * @throws  lang.ClassNotFoundException
-   * @throws  xml.XMLFormatException
-   * @deprecated  Use unmarshalFrom() instead
-   */
-  public static function unmarshal($xml, $classname) {
-    libxml_clear_errors();
-    $doc= new DOMDocument();
-    $source= '(string)';
-    if ('' === (string)$xml) {    // Handle empty string, raise XML_IO_NO_INPUT
-      throw new XMLFormatException('Empty string supplied as input', 1547, $source, 0, 0);
-    }
-    if (!$doc->loadXML($xml)) {
-      $e= libxml_get_last_error();
-      throw new XMLFormatException(trim($e->message), $e->code, $source, $e->line, $e->column);
-    }
-    return self::recurse(new XPath($doc), $doc->documentElement, Reflection::type($classname), []);
   }
 
   /**

@@ -124,28 +124,10 @@ class UnmarshallerTest {
     );
   }
 
-  #[Test]
-  public function deprecatedUsage() {
-    $xml= '<dialogtype id="file.open"/>';
-    $type= 'xml.unittest.DialogType';
-    Assert::equals(
-      Unmarshaller::unmarshal($xml, $type),
-      $this->fixture->unmarshalFrom(new StreamInputSource(new MemoryInputStream($xml)), $type)
-    );
-  }
-
   #[Test, Expect(XMLFormatException::class)]
   public function malformedString() {
-    Unmarshaller::unmarshal(
-      '<not-valid-xml', 
-      'xml.unittest.DialogType'
-    );
-  }
-
-  #[Test, Expect(XMLFormatException::class)]
-  public function emptyString() {
-    Unmarshaller::unmarshal(
-      '', 
+    $this->fixture->unmarshalFrom(
+      new StreamInputSource(new MemoryInputStream('<not-valid-xml'), 'memory'), 
       'xml.unittest.DialogType'
     );
   }

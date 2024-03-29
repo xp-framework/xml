@@ -139,24 +139,6 @@ class MarshallerTest {
   }
 
   #[Test]
-  public function deprecatedUsage() {
-    $dialog= new DialogType();
-    Assert::equals(
-      Marshaller::marshal($dialog),
-      $this->fixture->marshalTo(new Node('dialogtype'), $dialog)->getSource(INDENT_DEFAULT)
-    );
-  }
-
-  #[Test]
-  public function deprecatedUsageWithNamespace() {
-    $app= new ApplicationType();
-    Assert::equals(
-      Marshaller::marshal($app),
-      $this->fixture->marshalTo(new Node('ApplicationType'), $app)->getSource(INDENT_DEFAULT)
-    );
-  }
-
-  #[Test]
   public function inject() {
     $window= (new WindowType())->withOwnerWindow(1);
     $this->assertMarshalled(
