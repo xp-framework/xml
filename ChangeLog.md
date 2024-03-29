@@ -3,6 +3,8 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 12.0.0 / 2024-03-29
+
 * Dropped support for PHP 7.0 - 7.3, see xp-framework/rfc#343. Minimum
   required PHP version is now 7.4!
   (@thekid)
