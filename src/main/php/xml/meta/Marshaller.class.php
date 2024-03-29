@@ -1,5 +1,6 @@
 <?php namespace xml\meta;
 
+use Traversable;
 use lang\{Reflection, IllegalArgumentException};
 use xml\{QName, Tree, Node, XMLFormatException, Xmlfactory, Xmlns};
 
@@ -106,7 +107,7 @@ class Marshaller {
         foreach ($result as $key => $val) {
           $child->addChild(new Node($key, $val));
         }
-      } else if ($result instanceof \Traversable) {
+      } else if ($result instanceof Traversable) {
         foreach ($result as $value) {
           if (is_object($value)) {
             self::recurse($value, Reflection::type($value), $node->addChild(new Node($element)), $inject);

@@ -1,5 +1,6 @@
 <?php namespace xml\meta;
 
+use DOMDocument, DOMNode, DOMNodeList;
 use io\streams\Streams;
 use lang\{Reflection, IllegalArgumentException};
 use xml\parser\InputSource;
@@ -32,25 +33,24 @@ class Unmarshaller {
    * @return  string
    */
   protected static function contentOf($element) {
-    if ($element instanceof \DOMNodeList) {
-      return $element->length ? iconv('utf-8', \xp::ENCODING, $element->item(0)->textContent) : null;
-    
+    if ($element instanceof DOMNodeList) {
+      return $element->length ? $element->item(0)->textContent : null;
     } else if (is_scalar($element)) {
       return $element;
-      
-    } else if ($element instanceof \DOMNode) {
+    } else if ($element instanceof DOMNode) {
       switch ($element->nodeType) {
         case 1:   // DOMElement
-          return iconv('utf-8', \xp::ENCODING, $element->textContent);
+          return $element->textContent;
 
         case 2:   // DOMAttr
-          return iconv('utf-8', \xp::ENCODING, $element->value);
+          return $element->value;
 
         case 3:   // DOMText
         case 4:   // DOMCharacterData
-          return iconv('utf-8', \xp::ENCODING, $element->data);
+          return $element->data;
       }
-    } else return null;
+    }
+    return null;
   }
 
   /**
@@ -129,18 +129,18 @@ class Unmarshaller {
 
           // * If the xmlmapping annotation contains a key "cast", cast the node's
           //   contents using the given callback method before passing it to the method.
-          $arguments= [$target(iconv('utf-8', \xp::ENCODING, $node->textContent))];
+          $arguments= [$target($node->textContent)];
         } else if ($type= $annotation->argument('type')) {
 
           // * If the xmlmapping annotation contains a key "type", cast the node's
           //   contents to the specified type before passing it to the method.
-          $value= iconv('utf-8', \xp::ENCODING, $node->textContent);
+          $value= $node->textContent;
           settype($value, $type);
           $arguments= [$value];
         } else {
 
           // * Otherwise, pass the node's content to the method
-          $arguments= [iconv('utf-8', \xp::ENCODING, $node->textContent)];
+          $arguments= [$node->textContent];
         }
         
         // Pass injection parameters at end of list
@@ -172,7 +172,7 @@ class Unmarshaller {
    */
   public static function unmarshal($xml, $classname) {
     libxml_clear_errors();
-    $doc= new \DOMDocument();
+    $doc= new DOMDocument();
     $source= '(string)';
     if ('' === (string)$xml) {    // Handle empty string, raise XML_IO_NO_INPUT
       throw new XMLFormatException('Empty string supplied as input', 1547, $source, 0, 0);
@@ -198,7 +198,7 @@ class Unmarshaller {
    */
   public function unmarshalFrom(InputSource $input, $classname, $inject= []) {
     libxml_clear_errors();
-    $doc= new \DOMDocument();
+    $doc= new DOMDocument();
     if (!$doc->load(Streams::readableUri($input->getStream()))) {
       $e= libxml_get_last_error();
       throw new XMLFormatException(trim($e->message), $e->code, $input->getSource(), $e->line, $e->column);
