@@ -12,10 +12,10 @@ class XslCallbackTest {
   /**
    * Runs a transformation
    *
-   * @param   string xml
-   * @param   string callback
-   * @param   string[] arguments
-   * @param   string xslEncoding default 'utf-8'
+   * @param   string $xml
+   * @param   string $callback
+   * @param   string[] $arguments
+   * @param   string $xslEncoding default 'utf-8'
    * @return  string
    */
   protected function runTransformation($xml, $callback, $arguments, $xslEncoding= 'utf-8') {

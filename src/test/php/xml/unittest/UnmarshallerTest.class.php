@@ -2,7 +2,7 @@
 
 use io\streams\MemoryInputStream;
 use lang\IllegalArgumentException;
-use lang\reflect\TargetInvocationException;
+use lang\reflection\InvocationFailed;
 use test\{Assert, Before, Expect, Test, TestCase};
 use xml\XMLFormatException;
 use xml\meta\Unmarshaller;
@@ -168,7 +168,7 @@ class UnmarshallerTest {
     Assert::instance(ButtonType::class, $object);
   }
 
-  #[Test, Expect(TargetInvocationException::class)]
+  #[Test, Expect(InvocationFailed::class)]
   public function nameBasedFactoryToUnknown() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<unknown/>')),
@@ -194,7 +194,7 @@ class UnmarshallerTest {
     Assert::instance(ButtonType::class, $object);
   }
 
-  #[Test, Expect(TargetInvocationException::class)]
+  #[Test, Expect(InvocationFailed::class)]
   public function idBasedFactoryToUnknown() {
     $this->fixture->unmarshalFrom(
       new StreamInputSource(new MemoryInputStream('<object id="unknown"/>')),
