@@ -11,7 +11,7 @@ class ButtonType {
    *
    * @param   string $id
    */
-  #[Xmlmapping(['element' => '@id'])]
+  #[Xmlmapping(element: '@id')]
   public function setId($id) {
     $this->id= $id;
   }
@@ -21,7 +21,7 @@ class ButtonType {
    *
    * @return  string id
    */
-  #[Xmlfactory(['element' => '@id'])]
+  #[Xmlfactory(element: '@id')]
   public function getId() {
     return $this->id;
   }
@@ -31,7 +31,7 @@ class ButtonType {
    *
    * @param   string $caption
    */
-  #[Xmlmapping(['element' => '.'])]
+  #[Xmlmapping(element: '.')]
   public function setCaption($caption) {
     $this->caption= $caption;
   }
@@ -41,7 +41,7 @@ class ButtonType {
    *
    * @return  string caption
    */
-  #[Xmlfactory(['element' => '.'])]
+  #[Xmlfactory(element: '.')]
   public function getCaption() {
     return $this->caption;
   }  

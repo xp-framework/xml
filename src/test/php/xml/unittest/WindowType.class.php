@@ -11,7 +11,7 @@ class WindowType {
    * @param   string $name
    * @param   [:int] $windows handle lookup
    */
-  #[Xmlmapping(['element' => '@owner-window', 'inject' => ['windows']])]
+  #[Xmlmapping(element: '@owner-window', inject: ['windows'])]
   public function setOwnerWindowNamed($name, array $windows) {
     $this->window= $windows[$name];
   }
@@ -22,7 +22,7 @@ class WindowType {
    * @param   [:int] $windows handle lookup
    * @return  string name
    */
-  #[Xmlfactory(['element' => '@owner-window', 'inject' => ['windows']])]
+  #[Xmlfactory(element: '@owner-window', inject: ['windows'])]
   public function getOwnerWindowName(array $windows) {
     return array_search($this->window, $windows);
   }

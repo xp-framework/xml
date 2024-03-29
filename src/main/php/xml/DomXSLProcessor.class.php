@@ -250,7 +250,7 @@ class DomXSLProcessor implements IXSLProcessor {
    * @param   string name
    * @param   object instance
    */
-  function registerInstance($name, $instance) {
+  public function registerInstance($name, $instance) {
     $this->_instances[$name]= $instance;
   }
   

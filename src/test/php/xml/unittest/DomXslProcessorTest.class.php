@@ -3,8 +3,8 @@
 use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
 use test\verify\Runtime;
-use test\{Assert, Expect, Test, Xslmethod};
-use xml\{DomXSLProcessor, TransformerException};
+use test\{Assert, Expect, Test};
+use xml\{DomXSLProcessor, TransformerException, Xslmethod};
 
 #[Runtime(extensions: ['dom', 'xsl'])]
 class DomXslProcessorTest extends AbstractProcessorTest {

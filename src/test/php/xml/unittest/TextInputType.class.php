@@ -1,5 +1,6 @@
 <?php namespace xml\unittest;
 
+use lang\IllegalArgumentException;
 use xml\{Xmlfactory, Xmlmapping};
 
 class TextInputType {
@@ -16,7 +17,7 @@ class TextInputType {
     switch ($string) {
       case 'true': return true;
       case 'false': return false;
-      default: throw new \lang\IllegalArgumentException('Unrecognized boolean value '.$value);
+      default: throw new IllegalArgumentException('Unrecognized boolean value '.$value);
     }
   }
 
@@ -35,7 +36,7 @@ class TextInputType {
    *
    * @param   string $id
    */
-  #[Xmlmapping(['element' => '@id'])]
+  #[Xmlmapping(element: '@id')]
   public function setId($id) {
     $this->id= $id;
   }
@@ -45,7 +46,7 @@ class TextInputType {
    *
    * @return  string id
    */
-  #[Xmlfactory(['element' => '@id'])]
+  #[Xmlfactory(element: '@id')]
   public function getId() {
     return $this->id;
   }
@@ -55,7 +56,7 @@ class TextInputType {
    *
    * @param   bool $disabled
    */
-  #[Xmlmapping(['element' => '@disabled', 'cast' => 'asBool'])]
+  #[Xmlmapping(element: '@disabled', cast: 'asBool')]
   public function setDisabled($disabled) {
     $this->disabled= $disabled;
   }
@@ -65,7 +66,7 @@ class TextInputType {
    *
    * @return  bool disabled
    */
-  #[Xmlfactory(['element' => '@disabled', 'cast' => 'toBool'])]
+  #[Xmlfactory(element: '@disabled', cast: 'toBool')]
   public function getDisabled() {
     return $this->disabled;
   }
