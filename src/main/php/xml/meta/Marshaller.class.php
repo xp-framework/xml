@@ -28,7 +28,7 @@ class Marshaller {
       if (($factory= $type->annotation(Xmlfactory::class)) && ($element= $factory->argument('element'))) {
         $node->setName($element);
       } else {
-        $node->setName(strtolower($type->class()->getSimpleName()));
+        $node->setName(strtolower($type->declaredName()));
       }
     }
 
