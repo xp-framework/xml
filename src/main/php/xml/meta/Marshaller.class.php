@@ -34,7 +34,7 @@ class Marshaller {
       if (($factory= $type->annotation(Xmlfactory::class)) && ($element= $factory->argument('element'))) {
         $node->setName($element);
       } else {
-        $node->setName(strtolower($type->declaredName()));
+        $node->setName(strtolower($type->class()->getSimpleName()));
       }
     }
 
@@ -140,9 +140,9 @@ class Marshaller {
       $tree->root()->setName($prefix.':'.$qname->localpart);
       $tree->root()->setAttribute('xmlns:'.$prefix, $qname->namespace);
     } else if ($type->annotation(Xmlns::class)) {
-      $tree->root()->setName($type->declaredName());
+      $tree->root()->setName($type->class()->getSimpleName());
     } else {
-      $tree->root()->setName(strtolower($type->declaredName()));
+      $tree->root()->setName(strtolower($type->class()->getSimpleName()));
     }
     
     self::recurse($instance, $type, $tree->root(), []);

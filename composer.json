@@ -8,7 +8,7 @@
   "require" : {
     "xp-framework/core": "^12.0 | ^11.0 | ^10.0",
     "xp-framework/collections": "^10.0 | ^9.0 | ^8.0",
-    "xp-framework/reflection": "^3.1",
+    "xp-framework/reflection": "^3.0 | ^2.0",
     "php" : ">=7.0.0"
   },
   "require-dev" : {
