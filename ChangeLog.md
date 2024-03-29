@@ -3,6 +3,8 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Merged PR #4: Refactor to use new reflection library - @thekid
+
 ## 11.3.0 / 2024-03-24
 
 * Made compatible with XP 12 - @thekid
