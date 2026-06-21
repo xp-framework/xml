@@ -149,15 +149,15 @@ class Tree implements ParserCallback, Value {
   /**
    * Construct an XML tree from a file.
    *
-   * <code>
-   *   $tree= Tree::fromFile(new File('foo.xml'));
-   * </code>
+   * ```php
+   * $tree= Tree::fromFile(new File('foo.xml'));
+   * ```
    *
    * @param   io.File file
    * @param   string c default __CLASS__ class name
    * @return  xml.Tree
    * @throws  xml.XMLFormatException in case of a parser error
-   * @throws  io.IOException in case reading the file fails
+   * @throws  io.OperationFailed in case reading the file fails
    */ 
   public static function fromFile($file, $c= __CLASS__) {
     $parser= new XMLParser();
