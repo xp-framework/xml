@@ -3,8 +3,14 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 12.1.0 / 2026-06-21
+
+* Merged PR #7: Refactor I/O exceptions, dropping XP 10 support in the
+  doing. See xp-framework/core#363 for a write-up on the reason behind
+  this and the plan to move forward.
+  (@thekid)
 * Added compatibility with PHP 8.5 and PHP 8.6 by suppressing calls to
-  the deprecated *imagedestroy()* functionality.
+  the deprecated *xml_parser_free()* functionality.
   (@thekid)
 
 ## 12.0.0 / 2024-03-29
