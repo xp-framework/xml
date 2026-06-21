@@ -1,6 +1,6 @@
 <?php namespace xml;
 
-use io\FileNotFoundException;
+use io\NotFound;
 use util\Objects;
 use xml\xslt\{XSLDateCallback, XSLStringCallback};
 
@@ -94,11 +94,11 @@ class DomXSLProcessor implements IXSLProcessor {
    * Set XSL file
    *
    * @param   string file file name
-   * @throws  io.FileNotFoundException
+   * @throws  io.NotFound
    */
   public function setXSLFile($file) {
     if (!file_exists($this->_base.urldecode($file)))
-      throw new FileNotFoundException($this->_base.$file.' not found');
+      throw new NotFound($this->_base.$file.' not found');
 
     libxml_get_last_error() && libxml_clear_errors();
 
@@ -157,7 +157,7 @@ class DomXSLProcessor implements IXSLProcessor {
    */
   public function setXMLFile($file) {
     if (!file_exists($this->_base.urldecode($file))) {
-      throw new FileNotFoundException($this->_base.$file.' not found');
+      throw new NotFound($this->_base.$file.' not found');
     }
     
     libxml_get_last_error() && libxml_clear_errors();

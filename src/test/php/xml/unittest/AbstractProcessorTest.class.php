@@ -1,6 +1,6 @@
 <?php namespace xml\unittest;
 
-use io\FileNotFoundException;
+use io\NotFound;
 use lang\Runtime;
 use test\{Assert, Before, Expect, Test};
 use xml\{TransformerException, Tree};
@@ -71,7 +71,7 @@ abstract class AbstractProcessorTest {
     $this->xmlDeclaration= '<?xml version="1.0" encoding="'.$this->processorCharset().'"?>';
   }
 
-  #[Test, Expect(FileNotFoundException::class)]
+  #[Test, Expect(NotFound::class)]
   public function setNonExistantXMLFile() {
     $this->processor->setXMLFile(':does-no-exist:');
   }
@@ -106,7 +106,7 @@ abstract class AbstractProcessorTest {
     $this->processor->setXMLBuf('this-is-not-valid<XML>');
   }
 
-  #[Test, Expect(FileNotFoundException::class)]
+  #[Test, Expect(NotFound::class)]
   public function setNonExistantXSLFile() {
     $this->processor->setXSLFile(':does-no-exist:');
   }

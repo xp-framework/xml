@@ -1,6 +1,5 @@
 <?php namespace xml\unittest;
 
-use io\FileNotFoundException;
 use lang\{ElementNotFoundException, IllegalArgumentException};
 use test\verify\Runtime;
 use test\{Assert, Expect, Test};
