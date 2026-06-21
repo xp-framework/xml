@@ -106,11 +106,10 @@ class XMLParser {
       
       // Register callback
       if ($this->callback) {
-        xml_set_object($parser, $this->callback);
         $this->callback->onBegin($this);
-        xml_set_element_handler($parser, 'onStartElement', 'onEndElement');
-        xml_set_character_data_handler($parser, 'onCData');
-        xml_set_default_handler($parser, 'onDefault');
+        xml_set_element_handler($parser, [$this->callback, 'onStartElement'], [$this->callback, 'onEndElement']);
+        xml_set_character_data_handler($parser, [$this->callback, 'onCData']);
+        xml_set_default_handler($parser, [$this->callback, 'onDefault']);
       }
       
       // Parse streams while reading data
@@ -135,14 +134,15 @@ class XMLParser {
         $line= xml_get_current_line_number($parser);
         $column= xml_get_current_column_number($parser);
         $message= xml_error_string($type);
-        xml_parser_free($parser);
+        PHP_VERSION_ID < 80000 && xml_parser_free($parser);
         libxml_clear_errors();
 
         $e= new XMLFormatException($message, $type, $source, $line, $column);
         $this->callback && $this->callback->onError($this, $e);
         throw $e;
       }
-      xml_parser_free($parser);
+
+      PHP_VERSION_ID < 80000 && xml_parser_free($parser);
       $r= true;
       $this->callback && $r= $this->callback->onFinish($this);
       return $r;
