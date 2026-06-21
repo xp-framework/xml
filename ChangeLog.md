@@ -3,6 +3,10 @@ XML APIs for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Added compatibility with PHP 8.5 and PHP 8.6 by suppressing calls to
+  the deprecated *imagedestroy()* functionality.
+  (@thekid)
+
 ## 12.0.0 / 2024-03-29
 
 * Dropped support for PHP 7.0 - 7.3, see xp-framework/rfc#343. Minimum
